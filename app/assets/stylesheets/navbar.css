@@ -1,0 +1,38 @@
+.navbar {
+  height: 72px;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  width: 100vw;
+  letter-spacing: 1.25px;
+}
+
+.nav-elements {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+}
+
+.navbar-buttons {
+  display: flex;
+  text-decoration: none;
+  justify-content: space-between;
+}
+
+.navbar-links {
+  display: flex;
+  margin-right: auto;
+}
+
+.navbar-links a, .navbar-session-buttons a {
+  margin: 0 10px;
+  font-weight: 900;
+}
+
+.navbar-session-buttons a:last-child {
+  border: 1px solid #20ce9a;
+  background: #20ce9a;
+  padding: 15px;
+  border-radius: 36px;
+  color: white;
+}

@@ -9,9 +9,17 @@ const Navbar = ({ currentUser, logout }) => {
       </div>
     );
     const loggedOut = () => (
-      <div>
-        <Link to="/login">Log In</Link>
-        <Link to="/signup">Sign Up</Link>
+      <div className="navbar-buttons">
+        <div className="navbar-links">
+          <Link to="/">Investing</Link>
+          <Link to="/">Cash Management</Link>
+          <Link to="/">Learn</Link>
+          <Link to="/">More</Link>
+        </div>
+        <div className="navbar-session-buttons">
+          <Link to="/login">Log In</Link>
+          <Link to="/signup">Sign Up</Link>
+        </div>
       </div>
     );
     return currentUser ? loggedIn() : loggedOut();

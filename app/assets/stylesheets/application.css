@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+
+
+@import "reset.css";
+@import "global.css";
+@import "navbar.css";
