@@ -5,6 +5,8 @@
   align-items: center;
   width: 100vw;
   letter-spacing: 1.25px;
+  justify-content: center;
+  top: 0;
 }
 
 .nav-elements {
@@ -21,7 +23,7 @@
 
 .navbar-links {
   display: flex;
-  margin-right: auto;
+  margin-right: 150px;
 }
 
 .navbar-links a, .navbar-session-buttons a {

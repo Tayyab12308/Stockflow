@@ -1,15 +1,18 @@
 import React from 'react';
 import NavbarContainer from './navbar/navbar_container'
-import { Link} from 'react-router-dom';
+import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import SignUpContainer from '../components/session/signup/signup_form_container';
+import LoginContainer from '../components/session/login_form_container';
 
 const App = () => (
   <div>
     <header className="navbar">
       <nav className="nav-elements">
-        <Link to="/" className="navbar-logo"><h1>stockflow</h1></Link>
         <NavbarContainer />
       </nav>
     </header>
+    <AuthRoute path="/signup" component={SignUpContainer} />
+    <AuthRoute path="/login" component={LoginContainer}/>
   </div>
 );
 
