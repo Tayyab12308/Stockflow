@@ -9,6 +9,7 @@ const msp = ({ errors }) => {
 const mdp = dispatch => {
   return {
     login: user => dispatch(login(user)),
+    demoUser: ({email_address: "", password: ""})
   };
 };
 

@@ -5,10 +5,10 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: left;
-  width: 800px;
+  /* align-items: left; */
+  width: 400px;
   padding-top: 100px;
-  margin: 0 300px;
+  margin: 0 30%;
 
 }
 
@@ -19,17 +19,17 @@ body {
   width: 100%;
 }
 
-.form-group > input, .name input {
+.signup-form .form-group input, .name input {
   width: 100%;
   height: 20px;
-  margin: 10px 0;
+  margin: 10px;
   padding: 15px 20px;
   border-radius: 5px;
-  border: none;
-  background-color : #fafafa;
+  border: 1px solid lightgray;
+  /* background-color : #fafafa; */
 }
 
-.form-group > input:focus, .name input:focus {
+.signup-form .form-group input:focus, .name input:focus {
   outline: none;
   border: 1px solid #20ce9a;
   background-color: #ffffff; 

@@ -7,16 +7,25 @@ class LoginForm extends React.Component {
       email: "",
       password: "",
     };
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDemo = this.handleDemo.bind(this);
   }
 
   handleChange(field) {
-    return e => this.setState({[field]: e.target.value})
+    return e => this.setState({[field]: e.target.value});
   }
 
   handleSubmit(e) {
     e.preventDefault();
     this.props.login(this.state);
+  }
+
+  handleDemo() {
+    const demoUser = {
+      email: "tonystark@email.com",
+      password: "password"
+    };
+    this.props.login(demoUser);
   }
 
   render() {
@@ -41,6 +50,7 @@ class LoginForm extends React.Component {
               </label>
               <button type="submit">Sign In </button>
             </form>
+            <button onClick={this.handleDemo}>Demo User</button>
           </div>
         </div>
       </>
