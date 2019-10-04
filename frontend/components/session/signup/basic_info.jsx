@@ -5,7 +5,7 @@ const BasicInfo = props => {
   if (props.currentForm !== "BasicInfo") return null;
   return (
     <>
-      <h2>Welcome {props.email_address},</h2>
+      <h2>Welcome {props.state.email_address},</h2>
       <h3>Enter Your Contact Information</h3>
       <div className="form-group">
         <input type="text" required onChange={props.handleChange('address')} value={props.state.address}/>
