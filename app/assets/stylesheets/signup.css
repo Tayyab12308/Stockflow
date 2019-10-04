@@ -1,12 +1,23 @@
 body {
   position: relative;
 }
+
+.signup-header {
+  font-size: 35px;
+  padding-bottom: 5px;
+}
+
+.signup-sub-header {
+  font-size: 25px;
+  padding-bottom: 10px;
+}
+
 .signup-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* align-items: left; */
-  width: 400px;
+  width: 500px;
   padding-top: 100px;
   margin: 0 30%;
 

@@ -13,7 +13,7 @@ const Navbar = ({ currentUser, logout }) => {
     );
     const loggedOut = () => (
       <>
-        <Link to="/" className="navbar-logo"><h1>stockflow</h1></Link>
+        <Link to="/" className="navbar-logo">stockflow</Link>
         <div className="navbar-buttons">
           <div className="navbar-links">
             <Link to="/">Investing</Link>
@@ -23,7 +23,7 @@ const Navbar = ({ currentUser, logout }) => {
           </div>
           <div className="navbar-session-buttons">
             <Link to="/login">Log In</Link>
-            <Link to="/signup">Sign Up</Link>
+            <Link className="signup-button" to="/signup">Sign Up</Link>
           </div>
         </div>
       </>

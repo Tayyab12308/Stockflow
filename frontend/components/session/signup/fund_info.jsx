@@ -9,7 +9,7 @@ const FundInfo = props => {
       <p>Remember to only invest spare money</p>
       <div className="form-group">
         <input type="text" required onChange={props.handleChange('funds')} value={props.state.funds}/>
-        <input type="submit" value="Sign Up"/>
+        <button type="submit" value="Sign Up">Sign Up</button>
       </div>
     </>
   )

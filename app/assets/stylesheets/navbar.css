@@ -5,40 +5,51 @@
   align-items: center;
   width: 100%;
   letter-spacing: 1.25px;
-  justify-content: center;
+  /* justify-content: center; */
   top: 0;
   flex-direction: row;
+  background-color: white;
+}
+
+.navbar-logo {
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 
 .nav-elements {
   display: flex;
-  /* justify-content: space-around; */
-  width: 100vw;
-  margin-left: 10vw;
+  justify-content: space-around;
+  width: 100%;
+  margin-left: 5%;
 }
 
 .navbar-buttons {
   display: flex;
   text-decoration: none;
   justify-content: space-between;
-  width: 60vw;
-  margin-left: 7%;
+  width: 70%;
+  margin: 0% 5%;
 }
 
 .navbar-links {
   display: flex;
-  margin-right: 150px;
+  margin-right: 15%;
 }
 
+
 .navbar-links a, .navbar-session-buttons a {
-  margin: 0 10px;
+  margin: 0 15px;
   font-weight: 900;
 }
 
-.navbar-session-buttons a:last-child {
+.signup-button {
   border: 1px solid #20ce9a;
   background: #20ce9a;
   padding: 15px;
   border-radius: 36px;
+  color: white;
+}
+
+.signup-button:hover {
   color: white;
 }
