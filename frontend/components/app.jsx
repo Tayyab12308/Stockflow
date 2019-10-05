@@ -9,11 +9,7 @@ import SplashComponent from './splash';
 
 const App = () => (
   <div>
-    <header className="navbar">
-      <nav className="nav-elements">
-        <Route exact path={["/", "/signup"]} component={NavbarContainer}/>
-      </nav>
-    </header>
+    <Route exact path={["/"]} component={NavbarContainer}/>
     <AuthRoute path="/signup" component={SignUpContainer} />
     <AuthRoute path="/login" component={LoginContainer}/>
     <Route exact path="/" component={SplashComponent} />

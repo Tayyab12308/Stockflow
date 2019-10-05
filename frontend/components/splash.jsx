@@ -17,7 +17,7 @@ class Splash extends React.Component {
               <Link className="signup-button" to="/signup">Sign up</Link>
           </div>
           <div className="image-container">
-            <img className="first-image" src={window.homePagePhone} />
+            <img className="first-image" src={window.homePageGif} />
           </div>
         </div>
         <div className="second-image-container">

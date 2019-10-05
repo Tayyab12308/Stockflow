@@ -1,5 +1,6 @@
 body {
-  font-family: 'Big Shoulders Display', cursive;
+  /* font-family: din-condensed, sans-serif; */
+  font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: 1.2px;
   font-weight: 400px;
 }

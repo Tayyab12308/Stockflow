@@ -13,7 +13,10 @@ const Navbar = ({ currentUser, logout }) => {
     );
     const loggedOut = () => (
       <>
-        <Link to="/" className="navbar-logo">stockflow</Link>
+        <div className="navbar-right">
+          <Link to="/"><img className="logo-image" src={window.stockflowLogo} /></Link>
+          <Link to="/" className="navbar-logo">tockflow</Link>
+        </div>
         <div className="navbar-buttons">
           <div className="navbar-links">
             <Link to="/">Investing</Link>
@@ -28,7 +31,15 @@ const Navbar = ({ currentUser, logout }) => {
         </div>
       </>
     );
-    return currentUser ? loggedIn() : loggedOut();
+    return (
+      <>
+      <header className="navbar">
+        <nav className="nav-elements">
+          {currentUser ? loggedIn() : loggedOut()}
+          </nav>
+        </header>
+      </>
+    )
 
 };
 

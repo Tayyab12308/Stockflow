@@ -11,9 +11,21 @@
   background-color: white;
 }
 
+.navbar-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 7.5%;
+}
+
 .navbar-logo {
   font-weight: 700;
   letter-spacing: 1.5px;
+  color: #20ce9a;
+}
+
+.navbar-logo:hover {
+  text-decoration: none;
 }
 
 .nav-elements {
@@ -21,6 +33,7 @@
   justify-content: space-around;
   width: 100%;
   margin-left: 5%;
+  line-height: 3;
 }
 
 .navbar-buttons {
@@ -45,11 +58,18 @@
 .signup-button {
   border: 1px solid #20ce9a;
   background: #20ce9a;
-  padding: 15px;
+  padding: 10px 15px;
   border-radius: 36px;
   color: white;
 }
 
 .signup-button:hover {
   color: white;
+}
+
+.logo-image {
+  width: 25px;
+  height: 35px;
+  padding-top: 8px;
+  
 }

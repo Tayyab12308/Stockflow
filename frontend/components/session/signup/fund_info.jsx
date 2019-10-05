@@ -1,18 +1,28 @@
 import React from 'react';
 
-const FundInfo = props => {
-  // debugger
-  if (props.currentForm !== "FundInfo") return null; 
-  return (
-    <>
-      <h1>How much funds would you like to start off with</h1>
-      <p>Remember to only invest spare money</p>
-      <div className="form-group">
-        <input type="text" required onChange={props.handleChange('funds')} value={props.state.funds}/>
-        <button type="submit" value="Sign Up">Sign Up</button>
-      </div>
-    </>
-  )
+class FundInfo extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  isError(field) {
+    return this.props.errors[field] ? true : false
+  }
+  render() {
+    if (this.props.currentForm !== "FundInfo") return null; 
+    return (
+      <>
+        <h1 className="signup-header">How much funds would you like to start off with?<br />
+        Remember to only invest spare money!</h1>
+        <div className="second-form-group">
+          <div className="funds">
+            <div className={`error-msg-${this.isError('funds')}`}>{this.props.errors.funds}</div>
+            <input type="text" required className={`error-${this.isError('funds')}`} onChange={this.props.handleChange('funds')} placeholder="Funds" value={this.props.state.funds}/>
+          </div>
+        </div>
+      </>
+    )
+  }
 };
 
 export default FundInfo;
