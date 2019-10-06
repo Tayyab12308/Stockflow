@@ -2,6 +2,8 @@ body {
   position: relative;
 }
 
+
+
 .signup-header {
   font-size: 45px;
   padding-bottom: 15px;
@@ -17,9 +19,6 @@ body {
  .signup-form {
   display: flex;
   flex-direction: column;
-  /* justify-content: center;  */
-  /* align-items: left; */
-  /* width: 50%; */
   padding-top: 8%; 
   margin-left: 15%; 
 
@@ -39,7 +38,6 @@ body {
   padding: 15px 20px;
   border-radius: 5px;
   border: 1px solid lightgray;
-  /* background-color : #fafafa; */
   z-index: 0;
   position: relative;
   padding: 10px 10px;
@@ -61,7 +59,7 @@ body {
   width: 50%;
   max-width: none;
   min-width: none;
-  margin-top: -85px;
+  margin-top: 0;
   font-size: 20px;
   font-weight: 500;
   padding: 10px 25px;
@@ -86,6 +84,7 @@ body {
   position: absolute;
   z-index: 1;
   font-size: 12px;
+  
 }
 
 .error-true {
@@ -97,6 +96,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-top: 4%;
 }
 
 .form-container {
@@ -105,18 +105,16 @@ body {
 
 .video-container {
   display: flex;
-  /* justify-content: right; */
   width: 40%;
 }
 
 .signup-gif {
-  width: 60%;
-  /* padding-left: 50px; */
-  border: 1px solid white;
+  width: 50%;
+  /* border: 1px solid white; */
 }
 
 .second-form-group {
-  padding-bottom: 100px;
+  padding-bottom: 4%;
   
 }
 
@@ -127,7 +125,6 @@ body {
   padding: 15px 20px;
   border-radius: 5px;
   border: 1px solid lightgray;
-  /* background-color : #fafafa; */
   z-index: 0;
   position: relative;
   padding: 10px 10px;
@@ -147,7 +144,7 @@ body {
 }
 
 .submit-info-header {
-  padding-bottom: 5%;
+  padding-bottom: 4% 0 5%;
 }
 
 .all-info {
@@ -191,7 +188,6 @@ body {
 .progress-items p {
   display: flex;
   margin: 20px 70px 10px;
-  /* opacity: 0.5; */
 }
 
 .status-bar {
@@ -215,7 +211,6 @@ body {
   height: 100%;
   border-radius: inherit;
   transition: width .5s ease-in;
-  /* transition-delay: 0.2s; */
 }
 
 .active-true {
@@ -224,5 +219,13 @@ body {
 }
 
 .active-false {
-  opacity: 0.5;
+  opacity: 0.3;
+}
+
+.second-step, .third-step {
+  padding-top: 4%;
+}
+
+.prev-button {
+  margin-top: 0;
 }

@@ -20,8 +20,8 @@ class AccountInfo extends React.Component {
             <div className="form-group">
               <div className="name">
                 <div className="first-name">
-                  <div className={`error-msg-${this.isError('first_name')}`}>{this.props.errors.first_name}</div>
-                  <input type="text" className={`error-${this.isError('first_name')}`} required placeholder="First Name" onChange={this.props.handleChange('first_name')} value={this.props.state.first_name} width="200" />
+                  <div className={`error-msg-${this.isError('first_name')} tooltip-text`}>{this.props.errors.first_name}</div>
+                  <input type="text" className={`error-${this.isError('first_name')} tooltip`} required placeholder="First Name" onChange={this.props.handleChange('first_name')} value={this.props.state.first_name} width="200" />
                 </div>
                 <div className="last-name">
                   <div className={`error-msg-${this.isError('last_name')}`}>{this.props.errors.last_name}</div> 

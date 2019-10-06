@@ -18,7 +18,7 @@ class SubmitInfo extends React.Component {
             <h1 className="signup-sub-header">Email Address: {this.props.state.email_address}</h1>
           </div>
           <div className="button-container">
-            <button onClick={() => this.props.handlePrevious("AccountInfo")}>Edit Account Info</button>
+            <button className="prev-button" onClick={() => this.props.handlePrevious("AccountInfo")}>Edit Account Info</button>
           </div>
         </div>
         <div className="basic-info">
@@ -27,7 +27,7 @@ class SubmitInfo extends React.Component {
             <h1 className="signup-sub-header">Phone Number: {this.props.state.phone_number}</h1>
           </div>
           <div className="button-container">
-            <button onClick={() => this.props.handlePrevious("BasicInfo")}>Edit Basic Info</button>
+            <button className="prev-button" onClick={() => this.props.handlePrevious("BasicInfo")}>Edit Basic Info</button>
           </div>
         </div>
         <div className="fund-info">
@@ -35,12 +35,12 @@ class SubmitInfo extends React.Component {
             <h1 className="signup-sub-header">Funds: {this.props.state.funds}</h1>
           </div>
           <div className="button-container">
-            <button onClick={() => this.props.handlePrevious("FundInfo")}>Edit Fund Info</button>
+            <button className="prev-button" onClick={() => this.props.handlePrevious("FundInfo")}>Edit Fund Info</button>
           </div>
         </div>
       </div>
       <div>
-        <button className="submit-button" value="Sign Up">Sign Up</button>
+        <button className="submit-button prev-button" value="Sign Up">Sign Up</button>
       </div>
       </>
     )

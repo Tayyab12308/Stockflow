@@ -12,7 +12,7 @@ class FundInfo extends React.Component {
     if (this.props.currentForm !== "FundInfo") return null; 
     return (
       <>
-        <h1 className="signup-header">How much funds would you like to start off with?<br />
+        <h1 className="signup-header third-step">How much funds would you like to start off with?<br />
         Remember to only invest spare money!</h1>
         <div className="second-form-group">
           <div className="funds">

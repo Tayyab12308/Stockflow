@@ -8,11 +8,12 @@ class BasicInfo extends React.Component {
   isError(field) {
     return this.props.errors[field] ? true : false
   }
+  
   render() {
     if (this.props.currentForm !== "BasicInfo") return null;
     return (
       <>
-        <h2 className="signup-header">Welcome, <span className="signup-header-email">{this.props.state.email_address}</span> <br/>
+        <h2 className="signup-header second-step">Welcome, <span className="signup-header-email">{this.props.state.email_address}</span> <br/>
         Enter Your Contact Information</h2>
         <div className="second-form-group">
           <div className="address">
