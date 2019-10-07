@@ -17,7 +17,7 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.login(this.state).then(() => this.props.history.push("/dashboard"));;
+    this.props.login(this.state).then(() => this.props.history.push("/dashboard"));
   }
 
   handleDemo() {
@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
       email: "tonystark@email.com",
       password: "password"
     };
-    this.props.login(demoUser);
+    this.props.login(demoUser).then(()=> this.props.history.push("/dashboard"));
   }
 
   render() {

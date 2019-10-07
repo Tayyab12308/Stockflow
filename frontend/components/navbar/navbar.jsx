@@ -1,15 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Search from '../search_bar/search_container'
 
 const Navbar = ({ currentUser, logout }) => {
     const loggedIn = () => (
-      <div className="navbar-links">
-        <Link to="/">Free Stock</Link>
-        <Link to="/">Home</Link>
-        <Link to="/">Messages</Link>
-        <Link to="/">Account</Link>
-        <Link to="" onClick={logout}>Logout</Link>
-      </div>
+      <>
+        <div className="navbar-logo">
+          <Link to="/"><img className="logo-image" src={window.stockflowLogo} /></Link>
+        </div>
+        <div className="search-bar">
+          <Search />
+        </div>
+        <div className="navbar-links">
+          <Link to="/">Free Stock</Link>
+          <Link to="/">Home</Link>
+          <Link to="/">Messages</Link>
+          <Link to="/">Account</Link>
+          <Link to="" onClick={logout}>Logout</Link>
+        </div>
+      </>
     );
     const loggedOut = () => (
       <>
