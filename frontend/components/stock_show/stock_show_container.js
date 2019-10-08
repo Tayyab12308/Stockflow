@@ -3,9 +3,9 @@ import { fetchStocks } from '../../actions/stock_actions';
 import StockShow from './stock_show';
 
 const msp = (state, ownProps) => {
-  let searchString = ownProps.match.url.split("/")[2]
+  let ticker = ownProps.match.params.ticker
   let stock = Object.values(state.entities.stock)
-  return { stock, searchString }
+  return { stock, ticker }
 };
 
 const mdp = dispatch => {

@@ -24,8 +24,8 @@ export const clearStockErrors = () => ({
   type: CLEAR_STOCK_ERRORS,
 })
 
-export const fetchStocks = ( symbol, range ) => dispatch => {
-  StockApilUtil.fetchPrices(symbol, range)
+export const fetchStocks = ( stock ) => dispatch => {
+  StockApilUtil.fetchPrices( stock)
   .then(prices => dispatch(receiveStock(prices)), error => dispatch(receiveStockErrors(error)))
 };
 

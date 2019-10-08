@@ -6,7 +6,7 @@ import SignUpContainer from '../components/session/signup/signup_form_container'
 import LoginContainer from '../components/session/login_form_container';
 import SplashComponent from './splash';
 import DashboardContainer from './dashboard/dashboard_container';
-import StockShowComponent from './stock_show/stock_show_container';
+import StockShowContainer from './stock_show/stock_show_container';
 
 
 const App = () => (
@@ -16,7 +16,7 @@ const App = () => (
     <AuthRoute path="/login" component={LoginContainer}/>
     <Route exact path="/" component={SplashComponent} />
     <ProtectedRoute path="/dashboard" component={DashboardContainer} />
-    <ProtectedRoute path="/stock/:ticker" component={StockShowComponent} />
+    <ProtectedRoute path="/stock/:ticker" component={StockShowContainer} />
   </div>
 );
 
