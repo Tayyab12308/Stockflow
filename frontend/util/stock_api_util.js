@@ -15,13 +15,13 @@ export const searchStock = string => (
 export const fetchCompany = symbol => (
   $.ajax({
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/${symbol}/company/?token=pk_f3a536371922400fbada524c1bb5393b`
+    url: `https://cloud.iexapis.com/stable/stock/${symbol}/company/?token=pk_7e68c694e05b4d7f8a5803a21fc411a0`
   })
 );
 
 export const fetchKeyStats = symbol => (
   $.ajax({
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/${symbol}/quote/?token=pk_f3a536371922400fbada524c1bb5393b`
+    url: `https://cloud.iexapis.com/stable/stock/${symbol}/quote/?token=pk_7e68c694e05b4d7f8a5803a21fc411a0`
   })
 )

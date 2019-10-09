@@ -8,6 +8,7 @@
   top: 0;
   flex-direction: row;
   background-color: white;
+  z-index: 100;
 }
 
 .navbar-right {
@@ -84,4 +85,8 @@
 
 .logged-in-links a:hover {
   color: #f45531;
+}
+
+.search-bar-false {
+  display: none;
 }

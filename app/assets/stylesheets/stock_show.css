@@ -86,11 +86,12 @@ hr {
   width: 30%;
   display: flex;
   flex-direction: column;
+  margin-left: 5%;
 }
 
 .transaction-form {
   border: 1px solid white;
-  padding: 5px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 0px 0px 23px -16px rgba(0,0,0,0.72);
   font-size: 20px;
@@ -99,4 +100,40 @@ hr {
   height: 300px;
 }
 
+.graph-tooltip {
+  font-size: 12px;
+  opacity: 0.6;
+}
 
+.dotted-graph-line {
+  background-image: linear-gradient(to bottom, #333 10%, rgba(255, 255, 255, 0) 0%);
+  /* background-position: left; */
+  background-size: 1px 10px;
+  background-repeat: repeat-y;
+  width: 1000px;
+}
+
+.transaction-form-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 200px;
+  font-size: 13px;
+}
+
+.transaction-input {
+  width: 10%;
+  border: none;
+  border-radius: 8px;
+  background-color: lightgray;
+}
+
+
+.transaction-input:focus {
+  background-color: white;
+  border: 1px solid lightgray;
+}
+
+.transaction-break {
+  margin: 5px 0;
+}

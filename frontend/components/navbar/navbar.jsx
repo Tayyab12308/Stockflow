@@ -2,14 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Search from '../search_bar/search_container'
 
-const Navbar = ({ currentUser, logout }) => {
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      display: true
+    }
+  }
+
+  handleBlur() {
+    e => this.setState({ display: !(this.state.display)})
+  }
+
+  render() {
+    const { currentUser, logout } = this.props;
     const loggedIn = () => (
       <>
         <div className="navbar-logo">
           <Link to="/"><img className="logo-image" src={window.stockflowLogo} /></Link>
         </div>
-        <div className="search-bar">
-          <Search />
+        <div>
+          <Search onBlur={this.handleBlur()} className={`search-bar-${this.state.display}`} />
         </div>
         <div className="navbar-links logged-in-links">
           <Link to="/">Free Stock</Link>
@@ -49,7 +62,7 @@ const Navbar = ({ currentUser, logout }) => {
         </header>
       </>
     )
-
+  }
 };
 
 export default Navbar;

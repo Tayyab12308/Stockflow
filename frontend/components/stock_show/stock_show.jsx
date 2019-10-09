@@ -35,9 +35,11 @@ class StockShow extends React.Component {
     })}
   }
 
-  componentDidUpdate(prevProps) {
-    if(prevProps.ticker !== this.props.match.params.ticker) {
+  componentDidUpdate(prevProps) {    
+    if(prevProps.ticker !== this.props.match.params.ticker) {      
       this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker}))
+      this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));      
+      this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
     }
   }
 
@@ -63,18 +65,16 @@ class StockShow extends React.Component {
     return highest;
   }
 
-  // calculateLowToday() {
-  //   let lowest;
-  //   this.props.stock.forEach((stock, idx) => {
-  //     if (idx === 0) {
-  //       lowest = stock.low;
-  //     }
-  //     if (stock.low <= lowest) {
-  //       lowest = stock.low
-  //     };
-  //   });
-  //   return lowest;
-  // }
+  calculateLowToday() {    
+    let lowest = null;
+    if (this.props.stock.length > 0) {
+      lowest = this.props.stock[0].low
+      this.props.stock.forEach(stock => {
+        if (!lowest || stock.low <= lowest) lowest = stock.low;
+      });
+    }    
+    return lowest;
+  }
 
   handleChange() {
     return e => this.setState({form: {shares: e.target.value}}, () => {
@@ -84,17 +84,29 @@ class StockShow extends React.Component {
 
   calculateOrderTotal() {
     if (this.state.form.shares.length > 0) {
-      return parseInt(this.state.form.shares) * this.props.stock.slice(-1)[0].high
+      return (parseInt(this.state.form.shares) * this.props.stock.slice(-1)[0].high).toFixed(2)
     } else {
       return 0
     }
   }
 
   render() {
-
     const stockInfo = this.props.stock.map((stock, idx) => {
       return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
     });
+
+    const initalPrice = () => {
+      if (stockInfo.length > 0) {    
+      for (let i = stockInfo.length - 1; i >= 0; i--) {
+        if (stockInfo[i].price !== null) {        
+          return stockInfo[i].price;
+        }
+      }    
+      return 0
+    }
+  }
+
+  const pricee = initalPrice()
     return (
       <div className="show-page-container">
 
@@ -103,7 +115,7 @@ class StockShow extends React.Component {
             <h1>{this.state.info.companyName}</h1>
           </div>
           <div className="graph-container">
-            <StockGraph data={stockInfo} range={this.state.range}/>
+            {pricee && <StockGraph data={stockInfo} range={this.state.range} initialPrice={pricee}/>}
           </div>
           <div className="range-buttons">
             <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} onClick={this.handleClick("1d")} value={"1D"}/>
@@ -154,7 +166,7 @@ class StockShow extends React.Component {
                 </div>
                 <div>
                   <div className="info-subheader">Low Today</div> <br/>
-                  {/* {this.calculateLowToday()} */}
+                  {this.calculateLowToday()}
                 </div>
               </div>
               <div className="info-row">
@@ -183,16 +195,29 @@ class StockShow extends React.Component {
             <div>
               <h2>Buy <span>{this.state.info.symbol}</span></h2>
             </div>
+            <hr className="transaction-break"/>
             <div>
-              <form>
-                <label>
-                  Shares
-                  <input type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
-                </label>
-                <p>Market Price<span>${this.props.stock.slice(-1).high}</span></p>
-                <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
-                <input type="submit" value="Place Order"/>
-                <p>${this.props.user.funds} Buying Power Available</p>
+              <form className="transaction-form-item">
+                <div>
+                  <label>
+                    Shares
+                    <input className="transaction-input" type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
+                  </label>
+                </div>
+                <div>
+                  <p>Market Price<span>${this.props.stock.slice(-1).high}</span></p>
+                </div>
+                <hr className="transaction-break" />
+                <div>
+                  <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
+                </div>
+                <div>
+                  <input type="submit" value="Place Order"/>
+                </div>
+                <hr className="transaction-break" />
+                <div>
+                  <p>${this.props.user.funds} Buying Power Available</p>
+                </div>
               </form>
             </div>
           </div>
