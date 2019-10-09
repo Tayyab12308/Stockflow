@@ -11,7 +11,7 @@ const Navbar = ({ currentUser, logout }) => {
         <div className="search-bar">
           <Search />
         </div>
-        <div className="navbar-links">
+        <div className="navbar-links logged-in-links">
           <Link to="/">Free Stock</Link>
           <Link to="/">Home</Link>
           <Link to="/">Messages</Link>

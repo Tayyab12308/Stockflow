@@ -69,6 +69,19 @@
 .logo-image {
   width: 25px;
   height: 35px;
-  padding-top: 8px;
-  
+  padding-top: 8px;  
+}
+
+.logged-in-links {
+  margin-right: 0;
+  font-size: 12px;
+  margin-top: 1%;
+}
+
+.logged-in-links a {
+  text-decoration: none;  
+}
+
+.logged-in-links a:hover {
+  color: #f45531;
 }

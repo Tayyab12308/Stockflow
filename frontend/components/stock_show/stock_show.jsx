@@ -21,7 +21,7 @@ class StockShow extends React.Component {
     this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker }));
     this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));
     this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
-    this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
+    // this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
   }
 
   componentWillUnmount() {
@@ -105,65 +105,67 @@ class StockShow extends React.Component {
             <StockGraph data={stockInfo} range={this.state.range}/>
           </div>
           <div className="range-buttons">
-            <button onClick={this.handleClick("1d")}>1D</button>
-            <button onClick={this.handleClick("5dm")}>5D</button>
-            <button onClick={this.handleClick("1mm")}>1M</button>
-            <button onClick={this.handleClick("3m")}>3M</button>
-            <button onClick={this.handleClick("1y")}>1Y</button>
-            <button onClick={this.handleClick("5y")}>5Y</button>
+            <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} onClick={this.handleClick("1d")} value={"1D"}/>
+            <input type="submit" className={`button-active-${this.state.range.range === "5dm" ? true : false}`} onClick={this.handleClick("5dm")} value={"1W"}/>
+            <input type="submit" className={`button-active-${this.state.range.range === "1mm" ? true : false}`} onClick={this.handleClick("1mm")} value={"1M"}/>
+            <input type="submit" className={`button-active-${this.state.range.range === "3m" ? true : false}`} onClick={this.handleClick("3m")} value={"3M"}/>
+            <input type="submit" className={`button-active-${this.state.range.range === "1y" ? true : false}`} onClick={this.handleClick("1y")} value={"1Y"}/>
+            <input type="submit" className={`button-active-${this.state.range.range === "5y" ? true : false}`} onClick={this.handleClick("5y")} value={"5Y"}/>
           </div>
           <div className="stock-info">
+            <hr/>
             <h2>About</h2>
+            <hr/>
             <div className="stock-description">
               {this.state.info.description}
             </div>
             <div className="info-subsets">
               <div>
-                CEO <br/>
+                <div className="info-subheader">CEO</div> <br/>
                 {this.state.info.CEO}
               </div>
               <div>
-                Employees <br/>
+                <div className="info-subheader">Employees</div> <br/>
                 {this.state.info.employees}
               </div>
               <div>
-                Headquarters <br/>
+                <div className="info-subheader">Headquarters</div> <br/>
                 {this.state.info.city}, {this.state.info.state}
               </div>
               <div>
-                Market Cap <br/>
+                <div className="info-subheader">Market Cap</div> <br/>
                 {this.formatNumber(this.state.keyStats.marketCap)}
               </div>
               <div>
-                Price-Earnings Ratio <br/>
+                <div className="info-subheader">Price-Earnings Ratio</div> <br/>
                 {this.state.keyStats.peRatio}
               </div>
               <div>
-                Average Volume <br/>
+                <div className="info-subheader">Average Volume</div> <br/>
                 {this.formatNumber(this.state.keyStats.avgTotalVolume)}
               </div>
               <div>
-                High Today <br/>
+                <div className="info-subheader">High Today</div> <br/>
                 {this.calculateHighToday()}
               </div>
               <div>
-                Low Today <br/>
+                <div className="info-subheader">Low Today</div> <br/>
                 {/* {this.calculateLowToday()} */}
               </div>
               <div>
-                Open Price <br/>
+                <div className="info-subheader">Open Price</div> <br/>
                 {this.state.keyStats.open}
               </div>
               <div>
-                Volume <br/>
+                <div className="info-subheader">Volume</div> <br/>
                 {this.state.keyStats.volume}
               </div>
               <div>
-                52 Week High <br/>
+                <div className="info-subheader">52 Week High</div> <br/>
                 ${this.state.keyStats.week52High}
               </div>
               <div>
-                52 Week Low <br/>
+                <div className="info-subheader">52 Week Low</div> <br/>
                 ${this.state.keyStats.week52Low}
               </div>
             </div>

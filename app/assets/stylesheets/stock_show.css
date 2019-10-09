@@ -1,3 +1,85 @@
-.stock-show-container {
-    padding-top: 10%;
+.show-page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10% 15% 0 15%;
 }
+.company-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.stock-show-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.graph-price {
+  margin: 5px 0;
+  font-size: 32px;
+}
+
+.range-buttons {
+  padding: 15px 0;
+} 
+
+.range-buttons input {
+  border: none;
+  font-size: 16px;
+  padding: 2px 5px 8px 5px;;
+  margin: 0px 5px;
+}
+
+.range-buttons input:focus {
+  outline: none;
+}
+
+.button-active-true {
+  border-bottom: 2px solid #f45531 !important;
+}
+
+.button-active-false {
+  border: none
+}
+
+.stock-info h2 {
+  padding: 5px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+hr {
+  opacity: 0.3;
+}
+
+.info-subsets {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  /* justify-content: space-evenly; */
+}
+
+.info-subsets div {
+  padding: 7px;
+  font-size: 14px;
+}
+
+.info-subheader {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.transaction-container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-form {
+  border: 1px solid black;
+}
+
+.
+

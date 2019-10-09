@@ -4,6 +4,10 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContai
 class StockGraph extends React.Component {
   constructor(props) {
     super(props)
+    debugger
+    this.state = {
+      price: this.showPrice()
+    }
   }
 
   formatXAxis() {
@@ -18,6 +22,14 @@ class StockGraph extends React.Component {
     }
   }
 
+  showPrice() {
+    if (this.props.data.length > 0) {
+      debugger
+      return this.props.data.slice(-1)[0].price
+    } else {
+      return 0
+    }
+  }
 
 
   render() {
@@ -25,19 +37,21 @@ class StockGraph extends React.Component {
     return (
       <>
         <div>
+          <div className="graph-price">${this.showPrice()}</div>
         <ResponsiveContainer width={700} height={300}>
           <LineChart data={data}
                      margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
             <XAxis dataKey="time"
                   //  type="number"
                     domain={this.formatXAxis()}
+                    orientation={top}
                     // tickFormatter={(time) => new Date(time).toLocaleTimeString().split(" ")[0]}
             />
             <YAxis type="number" 
                    hide={true}
                    domain={['dataMin - 100', 'dataMax + 100']}
             />
-            <Tooltip position={{y: 5}} 
+            <Tooltip position={{y: 1}} 
                      content={this.props.data.date}
             />
             <Line type="linear" 
