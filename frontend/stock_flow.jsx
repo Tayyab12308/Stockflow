@@ -4,6 +4,7 @@ import { login, logout, signup } from './actions/session_actions';
 import configureStore from './store/store';
 import Root from './components/root';
 import { fetchStocks, searchStock } from './actions/stock_actions';
+import { fetchPrices } from './util/stock_api_util'
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
@@ -26,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.logout = logout;
   window.login = login;
   window.signup = signup;
-  window.fetchPrices = fetchStocks;
+  window.fetchPrices = fetchPrices;
+  window.fetchStocks = fetchStocks;
   window.searchStock = searchStock;
   // TEST //
   const root = document.getElementById("root");
