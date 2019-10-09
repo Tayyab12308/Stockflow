@@ -13,11 +13,9 @@ class StockGraph extends React.Component {
   formatXAxis() {
     if (this.props.data.length > 0) {
       if (this.props.range.range === "1d") {
-        let startTime= new Date(`${this.props.data[1].date}T09:00:00`).toLocaleTimeString().split(" ")[0];
-        let endTime = new Date(`${this.props.data[1].date}T16:00:00`).toLocaleTimeString().split(" ")[0];
-        return [startTime, endTime]
+        return [0, 390]
       } else {
-        return ['dataMin', 'dataMax']
+        return [0, this.props.data.length]
       }
     }
   }
@@ -34,6 +32,7 @@ class StockGraph extends React.Component {
 
   render() {
     let data = this.props.data || [];
+    debugger
     return (
       <>
         <div>
@@ -41,11 +40,13 @@ class StockGraph extends React.Component {
         <ResponsiveContainer width={700} height={300}>
           <LineChart data={data}
                      margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-            <XAxis dataKey="time"
-                  //  type="number"
+            <XAxis dataKey="idx"
+                   type="number"
                     domain={this.formatXAxis()}
-                    orientation={top}
-                    // tickFormatter={(time) => new Date(time).toLocaleTimeString().split(" ")[0]}
+                    orientation="top"
+                    allowDataOverflow={false}
+                    hide={true}
+                    interval={5}
             />
             <YAxis type="number" 
                    hide={true}

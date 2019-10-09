@@ -91,8 +91,9 @@ class StockShow extends React.Component {
   }
 
   render() {
-    const stockInfo = this.props.stock.map(stock => {
-      return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high }
+
+    const stockInfo = this.props.stock.map((stock, idx) => {
+      return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
     });
     return (
       <div className="show-page-container">
@@ -120,70 +121,80 @@ class StockShow extends React.Component {
               {this.state.info.description}
             </div>
             <div className="info-subsets">
-              <div>
-                <div className="info-subheader">CEO</div> <br/>
-                {this.state.info.CEO}
+              <div className="info-row">
+                <div>
+                  <div className="info-subheader">CEO</div> <br/>
+                  {this.state.info.CEO}
+                </div>
+                <div>
+                  <div className="info-subheader">Employees</div> <br/>
+                  {this.state.info.employees}
+                </div>
+                <div>
+                  <div className="info-subheader">Headquarters</div> <br/>
+                  {this.state.info.city}, {this.state.info.state}
+                </div>
+                <div>
+                  <div className="info-subheader">Market Cap</div> <br/>
+                  {this.formatNumber(this.state.keyStats.marketCap)}
+                </div>
               </div>
-              <div>
-                <div className="info-subheader">Employees</div> <br/>
-                {this.state.info.employees}
+              <div className="info-row">
+                <div>
+                  <div className="info-subheader">Price-Earnings Ratio</div> <br/>
+                  {this.state.keyStats.peRatio}
+                </div>
+                <div>
+                  <div className="info-subheader">Average Volume</div> <br/>
+                  {this.formatNumber(this.state.keyStats.avgTotalVolume)}
+                </div>
+                <div>
+                  <div className="info-subheader">High Today</div> <br/>
+                  {this.calculateHighToday()}
+                </div>
+                <div>
+                  <div className="info-subheader">Low Today</div> <br/>
+                  {/* {this.calculateLowToday()} */}
+                </div>
               </div>
-              <div>
-                <div className="info-subheader">Headquarters</div> <br/>
-                {this.state.info.city}, {this.state.info.state}
-              </div>
-              <div>
-                <div className="info-subheader">Market Cap</div> <br/>
-                {this.formatNumber(this.state.keyStats.marketCap)}
-              </div>
-              <div>
-                <div className="info-subheader">Price-Earnings Ratio</div> <br/>
-                {this.state.keyStats.peRatio}
-              </div>
-              <div>
-                <div className="info-subheader">Average Volume</div> <br/>
-                {this.formatNumber(this.state.keyStats.avgTotalVolume)}
-              </div>
-              <div>
-                <div className="info-subheader">High Today</div> <br/>
-                {this.calculateHighToday()}
-              </div>
-              <div>
-                <div className="info-subheader">Low Today</div> <br/>
-                {/* {this.calculateLowToday()} */}
-              </div>
-              <div>
-                <div className="info-subheader">Open Price</div> <br/>
-                {this.state.keyStats.open}
-              </div>
-              <div>
-                <div className="info-subheader">Volume</div> <br/>
-                {this.state.keyStats.volume}
-              </div>
-              <div>
-                <div className="info-subheader">52 Week High</div> <br/>
-                ${this.state.keyStats.week52High}
-              </div>
-              <div>
-                <div className="info-subheader">52 Week Low</div> <br/>
-                ${this.state.keyStats.week52Low}
+              <div className="info-row">
+                <div>
+                  <div className="info-subheader">Open Price</div> <br/>
+                  {this.state.keyStats.open}
+                </div>
+                <div>
+                  <div className="info-subheader">Volume</div> <br/>
+                  {this.state.keyStats.volume}
+                </div>
+                <div>
+                  <div className="info-subheader">52 Week High</div> <br/>
+                  ${this.state.keyStats.week52High}
+                </div>
+                <div>
+                  <div className="info-subheader">52 Week Low</div> <br/>
+                  ${this.state.keyStats.week52Low}
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="transaction-container">
           <div className="transaction-form">
-            <h2>Buy {this.state.info.symbol}</h2>
-            <form>
-              <label>
-                Shares
-                <input type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
-              </label>
-              <p>Market Price<span>${this.props.stock.slice(-1).high}</span></p>
-              <p>Estimated Cost {this.calculateOrderTotal()}</p>
-              <input type="submit" value="Review Order"/>
-              <p>${this.props.user.funds} Buying Power Available</p>
-            </form>
+            <div>
+              <h2>Buy <span>{this.state.info.symbol}</span></h2>
+            </div>
+            <div>
+              <form>
+                <label>
+                  Shares
+                  <input type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
+                </label>
+                <p>Market Price<span>${this.props.stock.slice(-1).high}</span></p>
+                <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
+                <input type="submit" value="Place Order"/>
+                <p>${this.props.user.funds} Buying Power Available</p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
