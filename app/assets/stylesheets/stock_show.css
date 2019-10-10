@@ -29,6 +29,7 @@
   font-size: 16px;
   padding: 2px 5px 8px 5px;;
   margin: 0px 5px;
+  cursor: pointer;
 }
 
 .range-buttons input:focus {
@@ -46,7 +47,7 @@
 .stock-info h2 {
   padding: 20px 0 10px;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 hr {
@@ -54,12 +55,16 @@ hr {
   margin: 0 0 30px;
 }
 
+.stock-description {
+  line-height: 1.5;
+}
+
 .info-subsets {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   padding-top: 18px;
-  /* justify-content: space-evenly; */
+  padding-bottom: 90px;
 }
 
 .info-row {
@@ -73,8 +78,10 @@ hr {
 }
 
 .info-subsets div {
-  padding: 7px 0;
+  padding: 7px 0 5px 0;
   font-size: 14px;
+  overflow: unset;
+  white-space: nowrap;
 }
 
 .info-subheader {
@@ -117,23 +124,52 @@ hr {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 200px;
+  height: 300px;
   font-size: 13px;
 }
 
 .transaction-input {
-  width: 10%;
+  width: 25%;
   border: none;
-  border-radius: 8px;
-  background-color: lightgray;
+  border-radius: 3px;
+  background-color : #fafafa;
+  padding: 4px;
 }
 
 
 .transaction-input:focus {
   background-color: white;
   border: 1px solid lightgray;
+  outline: none;
 }
 
 .transaction-break {
   margin: 5px 0;
+}
+
+.transaction-submit {
+  max-width: none;
+  margin-top: 0;
+  background-color: #f45531;
+  width: 100%;
+  padding: 20px !important;
+  border: none;
+}
+
+.transaction-submit:focus {
+  outline: none;
+}
+
+.transaction-submit:hover {
+  background-color: #ea674a;
+}
+
+.buying-power {
+  font-size: 12px;
+  color: #f45531;
+  text-align: center;
+  padding-bottom: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 700;
 }

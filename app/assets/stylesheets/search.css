@@ -1,6 +1,7 @@
 .search-barz {
   width: 100%;
   border-radius: 5px;
+  padding: 5px;
 }
 
 .search-container {
@@ -52,6 +53,10 @@
    transition: height 0.2s ease-in-out;
 }
 
+.search-results {
+   border-top: none; 
+}
+
 .search-item {
    height: 60px;
    display: flex;
@@ -67,4 +72,31 @@
    padding-left: 10px;
 }
 
+.filtered-search {
+   font-size: 10px;
+   display: flex;
+   justify-content: space-between;
+}
 
+.search-symbol {
+   width: 25%;
+   padding-left: 20px;
+}
+
+.search-name {
+   width: 75%;
+}
+
+.search-list a {
+   display: contents;
+   text-decoration: none;
+   font-weight: 700;
+}
+
+.search-list a:hover {
+   background-color: lightgray;
+}
+
+.no-results {
+   display: hidden;
+}

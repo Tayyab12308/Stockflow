@@ -95,18 +95,18 @@ class StockShow extends React.Component {
       return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
     });
 
-    const initalPrice = () => {
+    const calcInitalPrice = () => {
       if (stockInfo.length > 0) {    
       for (let i = stockInfo.length - 1; i >= 0; i--) {
         if (stockInfo[i].price !== null) {        
-          return stockInfo[i].price;
+          return stockInfo[i].price.toFixed(2);
         }
       }    
-      return 0
+      return 0.00
     }
   }
 
-  const pricee = initalPrice()
+  const initialPrice = calcInitalPrice()
     return (
       <div className="show-page-container">
 
@@ -115,7 +115,7 @@ class StockShow extends React.Component {
             <h1>{this.state.info.companyName}</h1>
           </div>
           <div className="graph-container">
-            {pricee && <StockGraph data={stockInfo} range={this.state.range} initialPrice={pricee}/>}
+            {initialPrice && <StockGraph data={stockInfo} range={this.state.range} initialPrice={initialPrice}/>}
           </div>
           <div className="range-buttons">
             <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} onClick={this.handleClick("1d")} value={"1D"}/>
@@ -205,18 +205,18 @@ class StockShow extends React.Component {
                   </label>
                 </div>
                 <div>
-                  <p>Market Price<span>${this.props.stock.slice(-1).high}</span></p>
+                  <p>Market Price<span>${initialPrice}</span></p>
                 </div>
                 <hr className="transaction-break" />
                 <div>
                   <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
                 </div>
                 <div>
-                  <input type="submit" value="Place Order"/>
+                  <button className="transaction-submit" type="submit">Place Order</button>
                 </div>
                 <hr className="transaction-break" />
                 <div>
-                  <p>${this.props.user.funds} Buying Power Available</p>
+                  <p className="buying-power">${this.props.user.funds} Buying Power Available</p>
                 </div>
               </form>
             </div>

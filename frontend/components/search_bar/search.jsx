@@ -19,7 +19,7 @@ class Search extends React.Component {
   renderResults() {
     let results;    
     if (this.state.currentString === "") {
-      results = null;
+      results = <div className="no-results"></div>;
     } else {
       let allResults = Object.values(this.props.results)
       let filteredResults = allResults.filter(stock => {
@@ -29,7 +29,7 @@ class Search extends React.Component {
       let outputResults = filteredResults.map((stock, idx) => {
         let symbol = "1. symbol";
         let name = "2. name";        
-        return <li key={idx} ><Link to={`/stock/${stock[symbol]}`}>{stock[symbol]}: {stock[name]}</Link></li>
+        return <li key={idx} className="filtered-search"><Link to={`/stock/${stock[symbol]}`}><div className="search-symbol">{stock[symbol]}</div> <span className="search-name">{stock[name]}</span></Link></li>
       })
       results = outputResults;
     }
@@ -42,7 +42,7 @@ class Search extends React.Component {
         <div className="search-container">
           <input type="text" className="search-barz" onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
           <div className="search-results">
-          <ul>
+          <ul className="search-list">
             {this.renderResults()}
           </ul>
           </div>

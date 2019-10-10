@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts'
+import Odometer from 'react-odometerjs'
 
 class StockGraph extends React.Component {
   constructor(props) {
@@ -76,19 +77,19 @@ class StockGraph extends React.Component {
       return (
         <>
           <div>
-            <div className="graph-price">${this.state.price}</div>
+            <div className="graph-price"><Odometer value={this.state.price} duration={3000} format='(,ddd).dd'/></div>
           <ResponsiveContainer width={700} height={300}>
             <LineChart data={data}
-                      margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-                  onMouseMove={this.handleMouseMove.bind(this)}
-                  onMouseLeave={this.handleMouseLeave.bind(this)} >
+                       margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+                       onMouseMove={this.handleMouseMove.bind(this)}
+                       onMouseLeave={this.handleMouseLeave.bind(this)} >
               <XAxis dataKey="idx"
-                    type="number"
-                      domain={this.formatXAxis()}
-                      orientation="top"
-                      allowDataOverflow={false}
-                      hide={true}
-                      interval={5}
+                     type="number"
+                     domain={this.formatXAxis()}
+                     orientation="top"
+                     allowDataOverflow={false}
+                     hide={true}
+                     interval={5}
                       
               />
               <YAxis type="number" 
