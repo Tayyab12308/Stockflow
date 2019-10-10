@@ -13,16 +13,3 @@
  *= require_tree .
  *= require_self
  */
-
-
-@import "reset.css";
-@import "global.css";
-@import "navbar.css";
-@import "form.css";
-@import "login.css";
-@import "signup.css";
-@import "splash.css";
-@import "dashboard.css";
-@import "search.css";
-@import "odometer-theme-default.css";
-@import "stock_show.css";
