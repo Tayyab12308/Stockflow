@@ -19,7 +19,7 @@ class Navbar extends React.Component {
     const loggedIn = () => (
       <>
         <div className="navbar-logo">
-          <Link to="/"><img className="logo-image" src={window.stockflowLogo} /></Link>
+          <Link to="/dashboard"><img className="logo-image" src={window.stockflowDarkLogo} /></Link>
         </div>
         <div>
           <Search onBlur={this.handleBlur()} className={`search-bar-${this.state.display}`} />

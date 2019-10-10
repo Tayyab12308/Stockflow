@@ -15,13 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       session: { id: window.currentUser.id }
     };
-    // document.body.style.backgroundColor = "#1b1b1d";
-    // document.body.style.color = "white";
     store = configureStore(preloadedState);    
     delete window.currentUser;
   } else {
     store = configureStore();
-    // document.body.style.backgroundColor = "white"
   }
   // TEST //
   window.store = store;

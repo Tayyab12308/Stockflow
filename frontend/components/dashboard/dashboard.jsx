@@ -16,6 +16,7 @@ class Dashboard extends React.Component {
 
   componentWillUnmount() {
     document.body.style.backgroundColor = "white";
+    document.getElementById("navbar-component").style.backgroundColor = "white"
     document.body.style.color = "black";
   }
 

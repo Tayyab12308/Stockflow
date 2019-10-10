@@ -42,7 +42,7 @@
 
 .search-results {
    position: absolute;
-   top: 25px;
+   top: 31px;
    z-index: 6;
    background: white;
    width: 100%;
@@ -98,5 +98,5 @@
 }
 
 .no-results {
-   display: hidden;
+   display: none;
 }

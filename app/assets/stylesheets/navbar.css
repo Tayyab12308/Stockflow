@@ -90,3 +90,7 @@
 .search-bar-false {
   display: none;
 }
+
+#nav-log-in-links a:hover {
+    color: #f45531 !important;
+}

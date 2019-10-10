@@ -37,16 +37,17 @@ class Search extends React.Component {
   }
 
   render() {
+    let allResults = this.renderResults();
     return (
       <div>
         <div className="search-container">
           <input type="text" className="search-barz" onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
-          <div className="search-results">
+          {allResults.length > 0 && <div className="search-results">
           <ul className="search-list">
-            {this.renderResults()}
+            {allResults}
           </ul>
-          </div>
-        </div>
+          </div> }
+        </div> 
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { fetchStocks } from '../../actions/stock_actions';
-import { fetchCompany, fetchKeyStats } from '../../util/stock_api_util';
+import { fetchCompany, fetchKeyStats, fetchNews } from '../../util/stock_api_util';
 import StockShow from './stock_show';
 
 const msp = (state, ownProps) => {
@@ -15,6 +15,7 @@ const mdp = dispatch => {
     fetchStocks: stock => dispatch(fetchStocks(stock)),
     fetchCompany: symbol => fetchCompany(symbol),
     fetchKeyStats: symbol => fetchKeyStats(symbol),
+    fetchNews: symbol => fetchNews(symbol),
   }
 }
 

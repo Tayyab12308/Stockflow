@@ -8,6 +8,7 @@ class StockGraph extends React.Component {
     this.state = {
       price: this.props.initialPrice,
       defaultPrice: this.props.initialPrice,
+      openingPrice: this.props.openingPrice
     }
   }
 
@@ -76,8 +77,11 @@ class StockGraph extends React.Component {
     if (this.props.data !== undefined && this.props.data.length > 0) {
       return (
         <>
-          <div>
-            <div className="graph-price"><Odometer value={this.state.price} duration={3000} format='(,ddd).dd'/></div>
+          <div className="graph-price">$<Odometer value={this.state.price} duration={3000} format='(,ddd).dd'/></div>
+          <div className="graph-change-info">
+              <div className="graph-change">$<Odometer value={(this.state.price - this.state.openingPrice).toFixed(2)} /></div>      
+              <div> [ <Odometer value={((this.state.price - this.state.openingPrice) / this.state.openingPrice).toFixed(2) } /> % ] </div>
+          </div>
           <ResponsiveContainer width={700} height={300}>
             <LineChart data={data}
                        margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
@@ -108,8 +112,6 @@ class StockGraph extends React.Component {
               />
             </LineChart>
           </ResponsiveContainer>
-          </div>
-          <div className='dotted-graph-line'></div>
         </>
       )
     } else {

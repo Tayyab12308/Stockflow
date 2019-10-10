@@ -107,6 +107,7 @@ hr {
   display: flex;
   flex-direction: column;
   height: 300px;
+  position: fixed;
 }
 
 .graph-tooltip {
@@ -176,7 +177,47 @@ hr {
   font-weight: 700;
 }
 
-/* background
-#1b1b1d
+.news-link {
+  color: white;
+  /* text-decoration: none; */
+}
 
-*/
+.news-link:hover {
+  text-decoration: none;
+  color: #f45531;
+}
+
+.news-item {
+  display: flex;
+  flex-direction: row;
+  height: 150px;
+  margin: 20px 0;
+}
+
+.news-source {
+  font-size: 10px;
+}
+
+.news-title {
+  font-weight: 700;
+  width: 70%;
+  padding-top: 10px;
+}
+
+.news-image-container {
+  width: 400px;
+  flex-direction: column;
+  display: grid;
+  justify-content: right;
+}
+
+.news-pic {
+  width: auto;
+  max-height: 125px;
+}
+
+.graph-change-info {
+  display: flex;
+  font-size: 12px;
+  padding-bottom: 5px;
+}

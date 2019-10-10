@@ -1,6 +1,7 @@
 import React from 'react';
 import StockGraph from './stock_graph';
 import { merge } from 'lodash';
+import NewsItem from './news_item';
 
 class StockShow extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class StockShow extends React.Component {
       form: {
         shares: "",
       },
+      news: [],
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -25,6 +27,7 @@ class StockShow extends React.Component {
     this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker }));
     this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));
     this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
+    this.props.fetchNews(this.props.match.params.ticker).then(res => this.setState({ news: res.articles }));
     // this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
   }
 
@@ -32,6 +35,7 @@ class StockShow extends React.Component {
     clearInterval(this.interval)
     document.body.style.backgroundColor = "white";
     document.body.style.color = "black";
+    document.getElementById("navbar-component").style.backgroundColor = "white"
     document.getElementById("nav-log-in-links").style.color = "white";
 
   }
@@ -103,6 +107,10 @@ class StockShow extends React.Component {
       return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
     });
 
+    const stockNews = this.state.news.map((article, idx) => {
+      return <NewsItem key={idx} article={article} />
+    })
+
     const calcInitalPrice = () => {
       if (stockInfo.length > 0) {    
       for (let i = stockInfo.length - 1; i >= 0; i--) {
@@ -114,7 +122,14 @@ class StockShow extends React.Component {
     }
   }
 
-  const initialPrice = calcInitalPrice()
+  const calcOpeningPrice = () => {
+    if (stockInfo.length > 0) {
+      return stockInfo[0].price
+    }
+  }
+
+  const initialPrice = calcInitalPrice();
+  const openingPrice = calcOpeningPrice();
     return (
       <div className="show-page-container">
 
@@ -123,7 +138,7 @@ class StockShow extends React.Component {
             <h1>{this.state.info.companyName}</h1>
           </div>
           <div className="graph-container">
-            {initialPrice && <StockGraph data={stockInfo} range={this.state.range} initialPrice={initialPrice}/>}
+            {initialPrice && <StockGraph data={stockInfo} range={this.state.range} initialPrice={initialPrice} openingPrice={openingPrice}/>}
           </div>
           <div className="range-buttons">
             <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} onClick={this.handleClick("1d")} value={"1D"}/>
@@ -195,6 +210,13 @@ class StockShow extends React.Component {
                   ${this.state.keyStats.week52Low}
                 </div>
               </div>
+            </div>
+            <div>
+              <h2>News</h2>
+              <hr/>
+            </div>
+            <div className="news">
+              {stockNews}
             </div>
           </div>
         </div>
