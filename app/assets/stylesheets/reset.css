@@ -46,3 +46,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: 1.2px;
+  font-weight: 400px;
+}
