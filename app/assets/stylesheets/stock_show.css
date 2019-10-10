@@ -30,6 +30,8 @@
   padding: 2px 5px 8px 5px;;
   margin: 0px 5px;
   cursor: pointer;
+  background-color: #1b1b1d;
+  color: white;
 }
 
 .range-buttons input:focus {
@@ -97,10 +99,10 @@ hr {
 }
 
 .transaction-form {
-  border: 1px solid white;
+  border: 1px solid #1b1b1d;
   padding: 15px;
   border-radius: 5px;
-  box-shadow: 0px 0px 23px -16px rgba(0,0,0,0.72);
+  box-shadow: 0px 0px 23px -16px rgba(255, 255, 255,0.72);
   font-size: 20px;
   display: flex;
   flex-direction: column;
@@ -132,14 +134,14 @@ hr {
   width: 25%;
   border: none;
   border-radius: 3px;
-  background-color : #fafafa;
+  background-color: #171718;
+  border-color: #171718; 
   padding: 4px;
 }
 
 
 .transaction-input:focus {
-  background-color: white;
-  border: 1px solid lightgray;
+  border: 1px solid #f45531;
   outline: none;
 }
 
@@ -173,3 +175,8 @@ hr {
   white-space: nowrap;
   font-weight: 700;
 }
+
+/* background
+#1b1b1d
+
+*/

@@ -24,7 +24,7 @@ class Navbar extends React.Component {
         <div>
           <Search onBlur={this.handleBlur()} className={`search-bar-${this.state.display}`} />
         </div>
-        <div className="navbar-links logged-in-links">
+        <div className="navbar-links logged-in-links" id="nav-log-in-links">
           <Link to="/">Free Stock</Link>
           <Link to="/">Home</Link>
           <Link to="/">Messages</Link>
@@ -55,7 +55,7 @@ class Navbar extends React.Component {
     );
     return (
       <>
-      <header className="navbar">
+      <header className="navbar" id="navbar-component">
         <nav className="nav-elements">
           {currentUser ? loggedIn() : loggedOut()}
           </nav>

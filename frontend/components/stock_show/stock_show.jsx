@@ -18,6 +18,10 @@ class StockShow extends React.Component {
   }
 
   componentDidMount() {
+    document.body.style.backgroundColor = "#1b1b1d";
+    document.body.style.color = "white";
+    document.getElementById("navbar-component").style.backgroundColor = "#1b1b1d";
+    document.getElementById("nav-log-in-links").childNodes.forEach(el => el.style.color = "white");
     this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker }));
     this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));
     this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
@@ -26,6 +30,10 @@ class StockShow extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.interval)
+    document.body.style.backgroundColor = "white";
+    document.body.style.color = "black";
+    document.getElementById("nav-log-in-links").style.color = "white";
+
   }
 
   handleClick(value) {

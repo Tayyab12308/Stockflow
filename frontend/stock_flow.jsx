@@ -15,10 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       session: { id: window.currentUser.id }
     };
-    store = configureStore(preloadedState);
+    // document.body.style.backgroundColor = "#1b1b1d";
+    // document.body.style.color = "white";
+    store = configureStore(preloadedState);    
     delete window.currentUser;
   } else {
     store = configureStore();
+    // document.body.style.backgroundColor = "white"
   }
   // TEST //
   window.store = store;
@@ -31,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.fetchStocks = fetchStocks;
   window.searchStock = searchStock;
   // TEST //
+    
   const root = document.getElementById("root");
   ReactDOM.render(<Root store={store}/>, root);
 });

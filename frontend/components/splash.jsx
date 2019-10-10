@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Splash extends React.Component {
+
+  componentDidMount() {
+    document.body.style.backgroundColor = "white"
+  }
+  
   render() {
     return (
       <>
