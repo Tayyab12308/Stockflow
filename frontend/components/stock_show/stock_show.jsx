@@ -28,7 +28,7 @@ class StockShow extends React.Component {
     this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));
     this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
     this.props.fetchNews(this.props.match.params.ticker).then(res => this.setState({ news: res.articles }));
-    // this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
+    this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
   }
 
   componentWillUnmount() {
