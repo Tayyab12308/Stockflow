@@ -80,7 +80,7 @@ class StockGraph extends React.Component {
           <div className="graph-price">$<Odometer value={this.state.price} duration={3000} format='(,ddd).dd'/></div>
           <div className="graph-change-info">
               <div className="graph-change">$<Odometer value={(this.state.price - this.state.openingPrice).toFixed(2)} /></div>      
-              <div> [ <Odometer value={((this.state.price - this.state.openingPrice) / this.state.openingPrice).toFixed(2) } /> % ] </div>
+              <div> [ <Odometer value={(((this.state.price - this.state.openingPrice) / this.state.openingPrice) * 100 ).toFixed(2) } /> % ] </div>
           </div>
           <ResponsiveContainer width={700} height={300}>
             <LineChart data={data}

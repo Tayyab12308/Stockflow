@@ -11,6 +11,9 @@
 #  funds           :decimal(10, 2)   not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  address         :string           not null
+#  phone_number    :bigint           not null
+#  portfolio_value :decimal(10, 2)   not null
 #
 
 require 'test_helper'

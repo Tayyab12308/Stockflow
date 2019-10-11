@@ -40,7 +40,7 @@
    cursor: pointer;
 }
 
-.search-results {
+.search-results-true {
    position: absolute;
    top: 31px;
    z-index: 6;

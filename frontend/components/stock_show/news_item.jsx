@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 
 class NewsItem extends React.Component {
   render() {
-    debugger
     return (
       <>
-      <Link className="news-link" to={this.props.article.url}>
+      <a className="news-link" href={this.props.article.url}>
           <div className="news-item">
             <div className="header">
               <div className="news-source">
@@ -20,7 +19,7 @@ class NewsItem extends React.Component {
               <img className="news-pic" src={this.props.article.urlToImage} />
             </div>
           </div>
-      </Link>
+      </a>
       </>
     )
   }

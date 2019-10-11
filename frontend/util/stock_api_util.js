@@ -1,7 +1,7 @@
 export const fetchPrices = ({ticker, range}) => (
   $.ajax({
     method: "GET",
-    url: `https://cloud.iexapis.com//stable/stock/${ticker}/chart/${range}/quote/?token=${window.iexAPIKey}`
+    url: `https://cloud.iexapis.com/stable/stock/${ticker}/chart/${range}/?token=${window.iexAPIKey}`
   })
 );
 
@@ -24,11 +24,28 @@ export const fetchKeyStats = symbol => (
     method: "GET",
     url: `https://cloud.iexapis.com/stable/stock/${symbol}/quote/?token=${window.iexAPIKey}`
   })
-)
+);
 
 export const fetchNews = symbol => (
   $.ajax({
     method: "GET",
-    url: `https://newsapi.org/v2/top-headlines?q=${symbol}&pageSize=10&apiKey=465591c2e4c64c8d8494cfc4f9c19d28`
+    url: `https://newsapi.org/v2/top-headlines?q=${symbol}&pageSize=10&apiKey=${window.newsAPIKey}`
   })
-)
+);
+
+export const fetchAllNews = () => (
+  $.ajax({
+    method: "GET",
+    url: `https://newsapi.org/v2/top-headlines?country=us&category=business&articles=15&apiKey=${window.newsAPIKey}`
+  })
+);
+
+export const fetchBatchRequest = symbolArr => {
+  let symbol = symbolArr.join(",")
+  return (
+  $.ajax({
+    method: "GET",
+    url: `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${symbol}&types=chart&range=1d&token=${window.iexAPIKey}`
+  })
+  )
+}

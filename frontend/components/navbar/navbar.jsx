@@ -5,13 +5,6 @@ import Search from '../search_bar/search_container'
 class Navbar extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      display: true
-    }
-  }
-
-  handleBlur() {
-    e => this.setState({ display: !(this.state.display)})
   }
 
   render() {
@@ -19,10 +12,10 @@ class Navbar extends React.Component {
     const loggedIn = () => (
       <>
         <div className="navbar-logo">
-          <Link to="/dashboard"><img className="logo-image" src={window.stockflowDarkLogo} /></Link>
+          <Link to="/dashboard"><img className="logo-image transition-logo" src={window.stockflowDarkLogo} /></Link>
         </div>
         <div>
-          <Search onBlur={this.handleBlur()} className={`search-bar-${this.state.display}`} />
+          <Search className="search-bar" />
         </div>
         <div className="navbar-links logged-in-links" id="nav-log-in-links">
           <Link to="/">Free Stock</Link>

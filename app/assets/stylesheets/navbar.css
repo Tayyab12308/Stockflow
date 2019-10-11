@@ -87,10 +87,21 @@
   color: #f45531;
 }
 
-.search-bar-false {
+.search-results-false {
   display: none;
 }
 
 #nav-log-in-links a:hover {
     color: #f45531 !important;
+}
+
+.transition-logo {
+  background-color: white;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.transition-logo:hover {
+  background-color:  #f45531;
+  transition: 0.25s; 
 }

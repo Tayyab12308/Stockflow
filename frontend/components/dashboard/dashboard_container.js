@@ -1,18 +1,17 @@
 import { connect } from 'react-redux';
-import { fetchStocks } from '../../actions/stock_actions';
 import Dashboard from './dashboard';
+import { fetchPrices, fetchAllNews } from '../../util/stock_api_util';
 
 const msp = state => {
-  // let stock = Object.values(state.entities.stock)
-  // // debugger
-  // // let stock = state.entities.stock
-  // return { stock }
+  let portfolio = state.entities.users
+  return { portfolio }
 };
 
 const mdp = dispatch => {
-  // return {
-  //   fetchStocks: stock => dispatch(fetchStocks(stock)),
-  // }
+  return {
+    fetchAllNews: () => fetchAllNews(),
+    // fetchPrices: stock => fetchPrices(stock)
+  }
 }
 
 export default connect(msp, mdp)(Dashboard);

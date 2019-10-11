@@ -5,9 +5,12 @@ class Search extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentString: ""
+      currentString: "",
+      display: true,
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
   handleChange(e) {    
@@ -28,21 +31,33 @@ class Search extends React.Component {
       })      
       let outputResults = filteredResults.map((stock, idx) => {
         let symbol = "1. symbol";
-        let name = "2. name";        
+        let name = "2. name";      
         return <li key={idx} className="filtered-search"><Link to={`/stock/${stock[symbol]}`}><div className="search-symbol">{stock[symbol]}</div> <span className="search-name">{stock[name]}</span></Link></li>
-      })
+      });
       results = outputResults;
     }
     return results
   }
 
-  render() {
+  handleBlur(e) {
+    e.stopPropagation();
+    if (e.currentTarget.contains(e.relatedTarget)) {
+      return
+    }
+    this.setState({ display: false })
+  }
+
+  handleFocus(e) {
+    this.setState({ display: true })
+  }
+
+  render() {    
     let allResults = this.renderResults();
     return (
       <div>
         <div className="search-container">
-          <input type="text" className="search-barz" onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
-          {allResults.length > 0 && <div className="search-results">
+          <input type="text" className="search-barz" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
+          {allResults.length > 0 && <div className={`search-results-${this.state.display}`}>
           <ul className="search-list">
             {allResults}
           </ul>
