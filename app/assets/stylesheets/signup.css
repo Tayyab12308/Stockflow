@@ -228,4 +228,10 @@ body {
 
 .prev-button {
   margin-top: 0;
+  padding: 10px 5px;
+  max-height: 35px;
+}
+
+.signup-submit-button {
+  margin-top: 0;
 }

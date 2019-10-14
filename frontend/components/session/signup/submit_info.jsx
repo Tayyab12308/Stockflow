@@ -40,7 +40,7 @@ class SubmitInfo extends React.Component {
         </div>
       </div>
       <div>
-        <button className="submit-button prev-button" value="Sign Up">Sign Up</button>
+        <button className="signup-submit-button" value="Sign Up">Sign Up</button>
       </div>
       </>
     )

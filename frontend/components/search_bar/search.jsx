@@ -6,7 +6,7 @@ class Search extends React.Component {
     super(props)
     this.state = {
       currentString: "",
-      display: true,
+      display: false,
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
@@ -39,16 +39,19 @@ class Search extends React.Component {
     return results
   }
 
-  handleBlur(e) {
-    e.stopPropagation();
-    if (e.currentTarget.contains(e.relatedTarget)) {
-      return
-    }
-    this.setState({ display: false })
+  handleBlur() {
+    setTimeout(() => {
+      if (this.state.display) {
+        this.setState({ display: false });
+      }
+    }, 200);
+    // this.setState({ currentString: "" });
   }
 
-  handleFocus(e) {
-    this.setState({ display: true })
+  handleFocus() {
+    if (!this.state.display) {
+      this.setState({ display: true })
+    }
   }
 
   render() {    
@@ -56,8 +59,8 @@ class Search extends React.Component {
     return (
       <div>
         <div className="search-container">
-          <input type="text" className="search-barz" onFocus={this.handleFocus} onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
-          {allResults.length > 0 && <div className={`search-results-${this.state.display}`}>
+          <input type="text" className="search-barz" onFocus={this.handleFocus} onBlur={this.handleBlur} onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
+          {allResults.length > 0 && <div className={`search-results-${this.state.display}`} >
           <ul className="search-list">
             {allResults}
           </ul>
