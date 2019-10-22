@@ -7,3 +7,7 @@ a:hover {
   color: #20ce9a;
   text-decoration: underline;
 }
+
+button:focus, input:focus {
+  outline: none;
+}

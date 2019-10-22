@@ -2,6 +2,7 @@ import React from 'react';
 
 class LoginForm extends React.Component {
   constructor(props) {
+    debugger
     super(props);
     this.state = {
       email: "",
@@ -28,6 +29,15 @@ class LoginForm extends React.Component {
     this.props.login(demoUser).then(()=> this.props.history.push("/dashboard"));
   }
 
+  renderErrors() {
+    debugger
+    if (Object.values(this.props.errors).length > 0) { 
+      return <div className="login-errors"><img className="error-icon" src={window.warningIcon}/> Unable to login with provided credentials</div>
+    } else {
+      return null
+    }
+  }
+
   render() {
     return (
       <>
@@ -48,6 +58,7 @@ class LoginForm extends React.Component {
                 <br />
                 <input className="login-input" type="password" required onChange={this.handleChange('password')} value={this.state.password}/>
               </label>
+              {this.renderErrors()}
               <button type="submit">Sign In </button>
             </form>
             <button onClick={this.handleDemo}>Demo User</button>
