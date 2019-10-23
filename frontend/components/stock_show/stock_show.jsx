@@ -138,8 +138,9 @@ class StockShow extends React.Component {
             <h1>{this.state.info.companyName}</h1>
           </div>
           <div className="graph-container">
-            {initialPrice && <StockGraph data={stockInfo} range={this.state.range} initialPrice={initialPrice} openingPrice={openingPrice}/>}
+            {initialPrice && <StockGraph className="stock-show-grpah" data={stockInfo} range={this.state.range} initialPrice={initialPrice} openingPrice={openingPrice}/>}
           </div>
+          <hr className="graph-line" />
           <div className="range-buttons">
             <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} onClick={this.handleClick("1d")} value={"1D"}/>
             <input type="submit" className={`button-active-${this.state.range.range === "5dm" ? true : false}`} onClick={this.handleClick("5dm")} value={"1W"}/>
