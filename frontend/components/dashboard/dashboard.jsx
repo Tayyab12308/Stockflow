@@ -71,7 +71,9 @@ class Dashboard extends React.Component {
           <div className="watchlist">
             <h2>Watchlist</h2>
           </div>
+          <ul>
             <Watchlist />
+          </ul>
         </div>
       </div>
     )

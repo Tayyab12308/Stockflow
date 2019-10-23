@@ -47,3 +47,19 @@
 .news-button:hover {
   background-color: #ef441d;
 }
+
+.watchlist-item {
+  display: flex;
+  height: 200px;
+  width: 200px;
+}
+
+.watchlist-graph-container {
+  width: 200px;
+  height: 200px;
+}
+
+.watchlist-graph {
+  width: 200px;
+  height: 200px;
+}
