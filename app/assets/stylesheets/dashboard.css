@@ -49,8 +49,8 @@
 }
 
 .watchlist-graph-container {
-  width: 121px;
-  height: 100px;
+  width: 85px;
+  height: 75px;
 }
 
 .watchlist-link {
@@ -83,9 +83,25 @@
 }
 
 .watchlist-ticker, .watchlist-price {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 700;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.watchlist-ticker {
+  padding-right: 7px;
+}
+
+.watchlist-graph-container .recharts-surface {
+  stroke-width: 0;
+}
+
+.watchlist-graph-container .recharts-tooltip-cusor {
+  width: 0px;
+}
+
+.watchlist-graph-container path {
+  stroke-width: 0.75px;
 }
