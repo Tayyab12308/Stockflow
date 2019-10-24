@@ -29,7 +29,12 @@ class WatchlistItem extends React.Component {
         let graphInfo = stockPrices.map((stock, idx) => {
           return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
         })
-        let currentPrice = graphInfo.slice(-1)[0].price.toFixed(2)
+        let currentPrice = graphInfo.slice(-1)[0].price
+        if (currentPrice !== undefined && currentPrice !== null) {
+          currentPrice = (currentPrice.toFixed(2))
+        } else {
+          currentPrice = 0
+        }
         debugger
         return (
           <>

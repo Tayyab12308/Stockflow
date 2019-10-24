@@ -54,7 +54,8 @@
 }
 
 .watchlist-link {
-  color: white
+  color: white;
+  background-color: white !important;
 }
 
 .watchlist-link:hover {
@@ -92,6 +93,7 @@
 
 .watchlist-ticker {
   padding-right: 7px;
+  width: 20%;
 }
 
 .watchlist-graph-container .recharts-surface {

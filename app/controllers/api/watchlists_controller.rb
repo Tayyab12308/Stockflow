@@ -11,7 +11,8 @@ class Api::WatchlistsController < ApplicationController
   end
 
   def destroy
-    @watchlist = Watchlist.find(params[:id])
+    watchlists = Watchlist.where(user_id: current_user)
+    @watchlist = watchlists.find(ticker_symbol: watchlist_params)
     if @watchlist.destroy
       render json: ["removed from watchlist"]
     else
@@ -22,6 +23,6 @@ class Api::WatchlistsController < ApplicationController
   private
 
   def watchlist_params
-    params.require(:watchlist).permit(:symbol_ticker)
+    params.require(:watchlist).permit(:ticker_symbol)
   end
 end
