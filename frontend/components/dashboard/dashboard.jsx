@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
           <div className="graph-container">
             <StockGraph data={data} range={this.state.range}/>
           </div>
-          <div className="range-buttons">
+          <div className="range-buttons portfolio-range">
             <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`}  value={"1D"} />
             <input type="submit" className={`button-active-${this.state.range.range === "5d" ? true : false}`}  value={"1W"} />
             <input type="submit" className={`button-active-${this.state.range.range === "1m" ? true : false}`}  value={"1M"} />
@@ -70,10 +70,11 @@ class Dashboard extends React.Component {
         <div className="watchlist-container">
           <div className="watchlist">
             <h2>Watchlist</h2>
+            <ul className="watchlist-full-list">
+              <Watchlist />
+            </ul>
           </div>
-          <ul>
-            <Watchlist />
-          </ul>
+          
         </div>
       </div>
     )

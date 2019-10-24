@@ -48,18 +48,44 @@
   background-color: #ef441d;
 }
 
-.watchlist-item {
-  display: flex;
-  height: 200px;
-  width: 200px;
-}
-
 .watchlist-graph-container {
-  width: 200px;
-  height: 200px;
+  width: 121px;
+  height: 100px;
 }
 
-.watchlist-graph {
-  width: 200px;
-  height: 200px;
+.watchlist-link {
+  color: white
+}
+
+.watchlist-link:hover {
+  cursor: pointer;
+  color: #ef441d;
+  text-decoration: none;
+  background-color: white;
+}
+
+.watchlist-graph-container .graph-price, .watchlist-graph-container .graph-change-info, .watchlist-graph-container .graph-tooltip {
+  display: none;
+}
+
+.watchlist-full-list {
+  overflow: scroll;
+}
+
+.portfolio-range {
+  margin-top: 68px;
+}
+
+.watchlist-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.watchlist-ticker, .watchlist-price {
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

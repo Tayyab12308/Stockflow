@@ -1,5 +1,6 @@
 import React from 'react';
 import StockGraph from "../stock_show/stock_graph";
+import { Link } from 'react-router-dom';
 
 class WatchlistItem extends React.Component {
   constructor(props) {
@@ -28,22 +29,25 @@ class WatchlistItem extends React.Component {
         let graphInfo = stockPrices.map((stock, idx) => {
           return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
         })
-        let currentPrice = graphInfo.slice(-1).price
+        let currentPrice = graphInfo.slice(-1)[0].price.toFixed(2)
+        debugger
         return (
           <>
-            <li key={stockSymbol} className="watchlist-item">
-              <div className="watchlist-item-container">
-                <div className="watchlist-ticker">
-                  <h2>{stockSymbol}</h2>
+          <Link to={`/stock/${stockSymbol}`} className="watchlist-link">
+              <li key={stockSymbol} className="watchlist-item">
+                <div className="watchlist-item-container">
+                  <div className="watchlist-ticker">
+                    <h2>{stockSymbol}</h2>
+                  </div>
+                  <div className="watchlist-graph-container">
+                    <StockGraph className="watchlist-graph" data={graphInfo} range={this.state.range} />
+                  </div>
+                  <div className="watchlist-price">
+                    ${currentPrice}
+                  </div>
                 </div>
-                <div className="watchlist-graph-container">
-                  <StockGraph className="watchlist-graph" data={graphInfo} range={this.state.range} />
-                </div>
-                <div className="watchlist-price">
-                  {currentPrice}
-                </div>
-              </div>
-            </li>
+              </li>
+            </Link>
           </>
         )
       })
