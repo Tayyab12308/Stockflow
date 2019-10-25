@@ -19,11 +19,9 @@ class WatchlistItem extends React.Component {
 
   renderWatchlistItem() {
     let stockInfo = null;
-    let stockBatch = Object.entries(this.state.stockPrices)
-    debugger
+    let stockBatch = Object.entries(this.state.stockPrices)    
     if (stockBatch.length > 0) {
-      stockInfo = stockBatch.map(stock => {
-        debugger
+      stockInfo = stockBatch.map(stock => {        
         let stockSymbol = stock[0]
         let stockPrices = stock[1].chart
         let graphInfo = stockPrices.map((stock, idx) => {
@@ -34,8 +32,7 @@ class WatchlistItem extends React.Component {
           currentPrice = (currentPrice.toFixed(2))
         } else {
           currentPrice = 0
-        }
-        debugger
+        }        
         return (
           <>
           <Link to={`/stock/${stockSymbol}`} className="watchlist-link">
@@ -56,14 +53,12 @@ class WatchlistItem extends React.Component {
           </>
         )
       })
-    }
-    debugger
+    }    
     return stockInfo;
   }
 
   render() {    
-    
-    debugger
+        
     return (
       <>
         {this.renderWatchlistItem()}

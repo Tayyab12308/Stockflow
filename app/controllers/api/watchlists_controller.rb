@@ -11,8 +11,8 @@ class Api::WatchlistsController < ApplicationController
   end
 
   def destroy
-    watchlists = Watchlist.where(user_id: current_user)
-    @watchlist = watchlists.find(ticker_symbol: watchlist_params)
+    watchlists = Watchlist.where(user_id: current_user.id)
+    @watchlist = watchlists.find_by(ticker_symbol: params[:ticker_symbol])
     if @watchlist.destroy
       render json: ["removed from watchlist"]
     else

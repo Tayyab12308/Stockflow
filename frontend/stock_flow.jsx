@@ -6,7 +6,7 @@ import Root from './components/root';
 import { fetchStocks, searchStock } from './actions/stock_actions';
 import { fetchPrices, fetchBatchRequest } from './util/stock_api_util';
 import { createTransaction } from './util/transaction_api_util';
-import { createWatchlist, deleteWatchlist} from './util/watchlist_api_util'
+import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util'
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
   window.searchStock = searchStock;
   window.createTransaction = createTransaction;
   window.fetchBatchRequest = fetchBatchRequest;
-  window.createWatchlist = createWatchlist;
-  window.deleteWatchlist = deleteWatchlist;
+  window.addToWatchlist = addToWatchlist;
+  window.deleteFromWatchlist = deleteFromWatchlist;
   // TEST //
     
   const root = document.getElementById("root");

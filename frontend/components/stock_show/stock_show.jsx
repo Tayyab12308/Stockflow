@@ -17,6 +17,9 @@ class StockShow extends React.Component {
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.renderWatchlistbutton = this.renderWatchlistbutton.bind(this);
+    this.handleAddtoWatchlist = this.handleAddtoWatchlist.bind(this);
+    this.handleDeleteFromWatchlist = this.handleDeleteFromWatchlist.bind(this);
   }
 
   componentDidMount() {
@@ -99,6 +102,27 @@ class StockShow extends React.Component {
       return (parseInt(this.state.form.shares) * this.props.stock.slice(-1)[0].high).toFixed(2)
     } else {
       return 0
+    }
+  }
+
+  handleAddtoWatchlist(e) {
+    e.preventDefault();
+    let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
+    this.props.addToWatchlist(watchlistParams);
+  }
+
+  handleDeleteFromWatchlist(e) {
+    e.preventDefault();
+    let watchlistParams = {ticker_symbol: this.props.match.params.ticker };
+    this.props.deleteFromWatchlist(watchlistParams);
+  }
+
+  renderWatchlistbutton() {
+    const watchlistSymbols = this.props.user.watchlist.map(el => el.ticker_symbol) || []
+    if (watchlistSymbols.includes(this.props.match.params.ticker)) {
+      return <button className="watchlist-button" onClick={this.handleDeleteFromWatchlist}> Remove From Watchlist</button>
+    } else { 
+      return <button className="watchlist-button" onClick={this.handleAddtoWatchlist}> Add to Watchlist</button>
     }
   }
 
@@ -251,6 +275,9 @@ class StockShow extends React.Component {
                 </div>
               </form>
             </div>
+          <div className="watchlist-button-container">
+            {this.renderWatchlistbutton()}
+          </div>
           </div>
         </div>
       </div>

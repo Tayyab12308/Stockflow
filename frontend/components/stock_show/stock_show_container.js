@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchStocks } from '../../actions/stock_actions';
 import { fetchCompany, fetchKeyStats, fetchNews } from '../../util/stock_api_util';
+import { addToWatchlist, deleteFromWatchlist} from '../../util/watchlist_api_util'
 import StockShow from './stock_show';
 
 const msp = (state, ownProps) => {
@@ -16,6 +17,8 @@ const mdp = dispatch => {
     fetchCompany: symbol => fetchCompany(symbol),
     fetchKeyStats: symbol => fetchKeyStats(symbol),
     fetchNews: symbol => fetchNews(symbol),
+    addToWatchlist: watchlist => addToWatchlist(watchlist),
+    deleteFromWatchlist: watchlist => deleteFromWatchlist(watchlist)
   }
 }
 
