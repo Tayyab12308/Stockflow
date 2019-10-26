@@ -14,12 +14,12 @@ class StockShow extends React.Component {
         shares: "",
       },
       news: [],
+      inWatchlist: this.inWatchlist(),
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.renderWatchlistbutton = this.renderWatchlistbutton.bind(this);
-    this.handleAddtoWatchlist = this.handleAddtoWatchlist.bind(this);
-    this.handleDeleteFromWatchlist = this.handleDeleteFromWatchlist.bind(this);
+    this.renderWatchlistButton = this.renderWatchlistButton.bind(this);
+    this.handleWatchlistAction = this.handleWatchlistAction.bind(this);
   }
 
   componentDidMount() {
@@ -31,16 +31,18 @@ class StockShow extends React.Component {
     this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));
     this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
     this.props.fetchNews(this.props.match.params.ticker).then(res => this.setState({ news: res.articles }));
-    this.interval = setInterval(() => this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker})), 60000);
+    this.inWatchlist();
+    // this.interval = setInterval(() => this.props.fetchStocks({ range: this.state.range.range, 
+    //                                                            ticker: this.props.match.params.ticker 
+    //                                                           }), 60000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    // clearInterval(this.interval)
     document.body.style.backgroundColor = "white";
     document.body.style.color = "black";
     document.getElementById("navbar-component").style.backgroundColor = "white"
     document.getElementById("nav-log-in-links").style.color = "white";
-
   }
 
   handleClick(value) {
@@ -55,6 +57,7 @@ class StockShow extends React.Component {
       this.props.fetchStocks(merge({}, this.state.range, { ticker: this.props.match.params.ticker}))
       this.props.fetchCompany(this.props.match.params.ticker).then(res => this.setState({ info: res }));      
       this.props.fetchKeyStats(this.props.match.params.ticker).then(res => this.setState({ keyStats: res }));
+      this.inWatchlist()
     }
   }
 
@@ -105,30 +108,43 @@ class StockShow extends React.Component {
     }
   }
 
-  handleAddtoWatchlist(e) {
-    e.preventDefault();
-    let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
-    this.props.addToWatchlist(watchlistParams);
+  inWatchlist() {
+    const watchlistSymbols = this.props.user.watchlist.map(el => el.ticker_symbol)
+    this.setState({ inWatchlist: watchlistSymbols.includes(this.props.match.params.ticker) });
   }
 
-  handleDeleteFromWatchlist(e) {
-    e.preventDefault();
-    let watchlistParams = {ticker_symbol: this.props.match.params.ticker };
-    this.props.deleteFromWatchlist(watchlistParams);
+  handleWatchlistAction(action) {
+    return (e) => {
+      e.stopPropagation();
+      let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
+      (action === "add" ? this.props.addToWatchlist(watchlistParams) : this.props.deleteFromWatchlist(watchlistParams))
+      .then(() => this.setState({ inWatchlist: !(this.state.inWatchlist) }))
+    }
   }
 
-  renderWatchlistbutton() {
-    const watchlistSymbols = this.props.user.watchlist.map(el => el.ticker_symbol) || []
-    if (watchlistSymbols.includes(this.props.match.params.ticker)) {
-      return <button className="watchlist-button" onClick={this.handleDeleteFromWatchlist}> Remove From Watchlist</button>
-    } else { 
-      return <button className="watchlist-button" onClick={this.handleAddtoWatchlist}> Add to Watchlist</button>
+  renderWatchlistButton() {
+    if (this.state.inWatchlist) {
+      return <input type="submit" 
+                    className="watchlist-button" 
+                    onClick={this.handleWatchlistAction("remove")} 
+                    value="Remove From Watchlist" 
+              />
+    } else {
+      return <input type="submit" 
+                    className="watchlist-button" 
+                    onClick={this.handleWatchlistAction("add")} 
+                    value="Add to Watchlist" 
+              />
     }
   }
 
   render() {
     const stockInfo = this.props.stock.map((stock, idx) => {
-      return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
+      return { date: stock.date, 
+               time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
+               price: stock.high, 
+               idx: idx,
+             }
     });
 
     const stockNews = this.state.news.map((article, idx) => {
@@ -154,6 +170,8 @@ class StockShow extends React.Component {
 
   const initialPrice = calcInitalPrice();
   const openingPrice = calcOpeningPrice();
+
+   debugger
     return (
       <div className="show-page-container">
 
@@ -276,7 +294,7 @@ class StockShow extends React.Component {
               </form>
             </div>
           <div className="watchlist-button-container">
-            {this.renderWatchlistbutton()}
+            {this.renderWatchlistButton()}
           </div>
           </div>
         </div>
@@ -287,4 +305,3 @@ class StockShow extends React.Component {
   
   export default StockShow;
   
-{/* <StockGraph  data={this.props.data}/> */}

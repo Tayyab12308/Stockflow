@@ -235,3 +235,21 @@ hr {
   height: 1px;
   width: 100%;
 }
+
+.watchlist-button {
+  border: 1px solid #f35531;
+  background-color: transparent;
+  color: #f35531;
+  width: 105%;
+  margin: 0;
+  border-radius: 5px;
+  padding: 15px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.watchlist-button:hover {
+  background-color: transparent;
+  font-weight: 800;
+  cursor: pointer;
+}
