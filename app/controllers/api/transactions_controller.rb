@@ -2,9 +2,10 @@ class Api::TransactionsController < ApplicationController
   before_action :ensure_logged_in?
   
   def create
-    @transaction = Transaction.new(transaction_params)
-    if @transaction.save
-      render json: ["transaction successful"]
+    transaction = Transaction.new(transaction_params)
+    @user = current_user
+    if transaction.save
+      render "api/users/show"
     else
       render json: @transaction.errors.full_messages
     end

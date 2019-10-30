@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/session_api_util';
 import * as WatchlistAPIUtil from '../util/watchlist_api_util';
+import * as TransactionAPIUtil from '../util/transaction_api_util';
 
 
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
@@ -35,6 +36,10 @@ export const addToWatchlist = watchlist => dispatch => (
 
 export const deleteFromWatchlist = watchlist => dispatch => (
   WatchlistAPIUtil.deleteFromWatchlist(watchlist).then(res => dispatch(receiveCurrentUser(res)), error => dispatch(receiveSessionErrors(error.responseJSON)))
+);
+
+export const createTransaction = transaction => dispatch => (
+  TransactionAPIUtil.createTransaction(transaction).then(res => dispatch(receiveCurrentUser(res)), error => dispatch(receiveSessionErrors(error.responseJSON)))
 );
 
 export const logout = () => dispatch => (

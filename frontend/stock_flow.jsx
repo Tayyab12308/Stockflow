@@ -5,8 +5,8 @@ import configureStore from './store/store';
 import Root from './components/root';
 import { fetchStocks, searchStock } from './actions/stock_actions';
 import { fetchPrices, fetchBatchRequest } from './util/stock_api_util';
-import { createTransaction } from './util/transaction_api_util';
-import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util'
+import { createTransaction } from './actions/session_actions';
+import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util';
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
