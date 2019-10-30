@@ -138,13 +138,28 @@ class StockShow extends React.Component {
     }
   }
 
+  handleBuyOrder() {
+    return (e) => {
+      e.preventDefault();
+      let transactionParams = {
+        ticker_symbol: this.props.match.params.ticker,
+        transaction_amount: this.calculateOrderTotal(),
+        stock_count: parseInt(this.state.form.shares),
+        transaction_type: "BUY",
+      }
+      this.props.createTransaction(transactionParams)
+    }
+  }
+
   render() {
     const stockInfo = this.props.stock.map((stock, idx) => {
-      return { date: stock.date, 
-               time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
-               price: stock.high, 
-               idx: idx,
-             }
+      if (stock.high !== undefined || stock.high !== null) {
+        return { date: stock.date, 
+                time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
+                price: stock.high, 
+                idx: idx,
+              }
+      }
     });
 
     const stockNews = this.state.news.map((article, idx) => {
@@ -284,7 +299,7 @@ class StockShow extends React.Component {
                   <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
                 </div>
                 <div>
-                  <button className="transaction-submit" type="submit">Place Order</button>
+                  <button className="transaction-submit" type="submit" onClick={this.handleBuyOrder()}>Place Buy Order</button>
                 </div>
                 <hr className="transaction-break" />
                 <div>

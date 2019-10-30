@@ -4,6 +4,7 @@ class Api::TransactionsController < ApplicationController
   def create
     transaction = Transaction.new(transaction_params)
     @user = current_user
+    transaction.user_id = current_user.id
     if transaction.save
       render "api/users/show"
     else
@@ -14,7 +15,7 @@ class Api::TransactionsController < ApplicationController
   private
 
   def transaction_params
-    params.require(:transaction).permit(:user_id, :ticker_symbol, :transaction_amount, :stock_count, :transaction_type)
+    params.require(:transaction).permit(:ticker_symbol, :transaction_amount, :stock_count, :transaction_type)
   end
 
 end

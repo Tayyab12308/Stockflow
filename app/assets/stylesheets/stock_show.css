@@ -223,7 +223,7 @@ hr {
 }
 
 .stock-show-graph, .graph-container {
-  width: 700px;
+  width: 100%;
   height: 300px;
 }
 

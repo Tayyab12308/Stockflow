@@ -21,7 +21,6 @@ class User < ApplicationRecord
   validates :email_address, :session_token, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   after_initialize :ensure_session_token
-
   attr_reader :password
   has_many :transactions
   has_many :watchlists
@@ -54,44 +53,10 @@ class User < ApplicationRecord
     self.session_token
   end
 
-  def assign_portfolio_value
-    self.portfolio_value = calculate_portfolio_value(0.00)
-    self.save!
-  end
-
-  def calculate_portfolio_value(amount)
-    total_value = amount
-    self.transactions.each do |transact|
-      if transact.transaction_type == "Buy"
-        total_value += transact.transaction_amount
-      else
-        total_value -= transact.transaction_amount
-      end
-    end
-    total_value
-  end
-
-  def assign_funds
-    self.funds = calculate_funds(self.funds)
-    self.save!
-  end
-
-  def calculate_funds(amount)
-    total_value = amount
-    self.transactions.each do |transact|
-      if transact.transaction_type == "Buy"
-        total_value -= transact.transaction_amount
-      else
-        total_value += transact.transaction_amount
-      end
-    end
-  end
-
   def total_stock_count
     all_stocks = Hash.new(0);
     self.transactions.each do |transact|
-      if transact.transaction_type == "Buy"
-        debugger
+      if transact.transaction_type == "BUY"
         all_stocks[transact.ticker_symbol] += transact.stock_count 
       else
         all_stocks[transact.ticker_symbol] -= transact.stock_count

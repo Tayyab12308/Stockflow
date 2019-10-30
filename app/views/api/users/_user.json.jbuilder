@@ -7,6 +7,7 @@ json.user do
   json.address user.address
   json.phone_number user.phone_number
   json.portfolio_value user.portfolio_value
+  json.total_stock_count user.total_stock_count
 
   json.transactions user.transactions do |transaction|
     json.id transaction.id
