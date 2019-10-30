@@ -13,6 +13,8 @@
 #
 
 class Transaction < ApplicationRecord
-  validates :ticker_symbol, :stock_count, :transaction_type, presence: true
+  validates :ticker_symbol, :stock_count, :transaction_amount, presence: true
+  validates :transaction_type, inclusion: { in: %w(BUY SELL) } 
   belongs_to :user
+
 end

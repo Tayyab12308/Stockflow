@@ -20,7 +20,8 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :password_digest, :funds, :address, :phone_number, presence: true
   validates :email_address, :session_token, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
-  after_initialize :ensure_session_token, :assign_portfolio_value
+  after_initialize :ensure_session_token
+
   attr_reader :password
   has_many :transactions
   has_many :watchlists
@@ -54,12 +55,29 @@ class User < ApplicationRecord
   end
 
   def assign_portfolio_value
-    self.portfolio_value = calculate_portfolio_value()
+    self.portfolio_value = calculate_portfolio_value(0.00)
     self.save!
   end
 
-  def calculate_portfolio_value
-    total_value = 0.00
+  def calculate_portfolio_value(amount)
+    total_value = amount
+    self.transactions.each do |transact|
+      if transact.transaction_type == "Buy"
+        total_value += transact.transaction_amount
+      else
+        total_value -= transact.transaction_amount
+      end
+    end
+    total_value
+  end
+
+  def assign_funds
+    self.funds = calculate_funds(self.funds)
+    self.save!
+  end
+
+  def calculate_funds(amount)
+    total_value = amount
     self.transactions.each do |transact|
       if transact.transaction_type == "Buy"
         total_value -= transact.transaction_amount
@@ -67,7 +85,19 @@ class User < ApplicationRecord
         total_value += transact.transaction_amount
       end
     end
-    total_value
+  end
+
+  def total_stock_count
+    all_stocks = Hash.new(0);
+    self.transactions.each do |transact|
+      if transact.transaction_type == "Buy"
+        debugger
+        all_stocks[transact.ticker_symbol] += transact.stock_count 
+      else
+        all_stocks[transact.ticker_symbol] -= transact.stock_count
+      end
+    end
+    all_stocks
   end
 
 end
