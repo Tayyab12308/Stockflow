@@ -11,11 +11,12 @@ import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util'
 document.addEventListener("DOMContentLoaded", () => {
   let store;
   if (window.currentUser) {
+    let currentUser = window.currentUser.user
     const preloadedState = {
       entities: {
-        users: { [window.currentUser.id]: window.currentUser }
+        users: { [currentUser.id]: currentUser }
       },
-      session: { id: window.currentUser.id }
+      session: { id: currentUser.id }
     };
     store = configureStore(preloadedState);    
     delete window.currentUser;

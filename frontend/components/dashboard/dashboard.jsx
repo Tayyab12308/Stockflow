@@ -2,7 +2,6 @@ import React from 'react';
 import StockGraph from '../stock_show/stock_graph';
 import NewsItem from '../stock_show/news_item'
 import Watchlist from './watchlist_container';
-import { Link } from 'react-router-dom';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -31,7 +30,6 @@ class Dashboard extends React.Component {
   handleClick() {
     this.props.fetchAllNews().then(res => this.setState({ news: res.articles }))
   }
-
 
   render() {
     const data = Object.values(this.props.portfolio)[0].transactions.map((transaction, idx) => {

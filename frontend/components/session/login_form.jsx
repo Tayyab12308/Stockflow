@@ -2,7 +2,6 @@ import React from 'react';
 
 class LoginForm extends React.Component {
   constructor(props) {
-    debugger
     super(props);
     this.state = {
       email: "",
@@ -30,7 +29,6 @@ class LoginForm extends React.Component {
   }
 
   renderErrors() {
-    debugger
     if (Object.values(this.props.errors).length > 0) { 
       return <div className="login-errors"><img className="error-icon" src={window.warningIcon}/> Unable to login with provided credentials</div>
     } else {

@@ -6,13 +6,14 @@ class WatchlistItem extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      watchlist: this.props.watchlist,
       stockPrices: {},
       range: { range: "1d" },
     }
   }
 
   componentDidMount() {
-    let symbolArr = this.props.watchlist.map(watchlist => watchlist.ticker_symbol)    
+    let symbolArr = this.state.watchlist.map(watchlist => watchlist.ticker_symbol)    
     this.props.fetchBatchRequest(symbolArr).then(res => {      
       this.setState({ stockPrices: res })});
   }

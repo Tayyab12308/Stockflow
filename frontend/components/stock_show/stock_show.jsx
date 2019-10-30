@@ -171,7 +171,6 @@ class StockShow extends React.Component {
   const initialPrice = calcInitalPrice();
   const openingPrice = calcOpeningPrice();
 
-   debugger
     return (
       <div className="show-page-container">
 

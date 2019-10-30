@@ -1,10 +1,11 @@
 class Api::WatchlistsController < ApplicationController 
 
   def create
-    @watchlist = Watchlist.new(watchlist_params)
-    @watchlist.user_id = current_user.id
-    if @watchlist.save
-      render json: ["added to watchlist"]
+    watchlist = Watchlist.new(watchlist_params)
+    @user = current_user
+    watchlist.user_id = current_user.id
+    if watchlist.save
+      render "api/users/show"
     else
       render json: @watchlist.errors.full_messages
     end
@@ -12,9 +13,10 @@ class Api::WatchlistsController < ApplicationController
 
   def destroy
     watchlists = Watchlist.where(user_id: current_user.id)
-    @watchlist = watchlists.find_by(ticker_symbol: params[:ticker_symbol])
-    if @watchlist.destroy
-      render json: ["removed from watchlist"]
+    watchlist = watchlists.find_by(ticker_symbol: params[:ticker_symbol])
+    @user = current_user
+    if watchlist.destroy
+      render "api/users/show"
     else
       render json: ["could not complete action"], status: 422
     end
