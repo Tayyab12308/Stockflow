@@ -15,7 +15,7 @@ class StockShow extends React.Component {
         shares: "",
       },
       news: [],
-      inWatchlist: this.inWatchlist(),
+      inWatchlist: null,
       orderType: "BUY",
       errors: "",
     }
@@ -153,18 +153,18 @@ class StockShow extends React.Component {
     let stockSymbolCount = stockCount[symbol];
     if (this.state.orderType === "SELL") {
       let stockCount = stockSymbolCount !== undefined ? stockSymbolCount : 0
-      return <p className="buying-power">You have <Odometer value={stockCount} duration={3} format='(,ddd)' /> shares to sell</p>;
+      return <div className="buying-power">You have <Odometer auto={false} value={stockCount} duration={3} format='(,ddd)' /> shares to sell</div>;
     } else {
-      return <p className="buying-power">$<Odometer value={this.props.user.funds} duration={300} format='(,ddd).dd' /> Buying Power Available</p>;
+      return <div className="buying-power">$<Odometer auto={false} value={this.props.user.funds} duration={3} format='(,ddd).dd' /> Buying Power Available</div>;
     }
   }
 
   handleBuy() {
-    return () => this.setState({ orderType: "BUY" }).then(() => this.formatOrderType());
+    return () => this.setState({ orderType: "BUY" }, () => this.formatOrderType());
   }
 
   handleSell() {
-    return () => this.setState({ orderType: "SELL" }).then(() => this.formatOrderType());
+    return () => this.setState({ orderType: "SELL" }, () => this.formatOrderType());
   }
 
   handleBuyOrder() {
