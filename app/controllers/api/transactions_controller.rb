@@ -8,7 +8,7 @@ class Api::TransactionsController < ApplicationController
     if transaction.save
       render "api/users/show"
     else
-      render json: @transaction.errors.full_messages
+      render json: transaction.errors.full_messages
     end
   end
 

@@ -46,7 +46,7 @@ class StockGraph extends React.Component {
   formatYAxis() {
     if (this.props.data.length > 0) {
       if (this.props.range.range === "1d") {
-        return ['dataMin - 10', 'dataMax + 5']
+        return ['dataMin - (dataMin * .20)', 'dataMax + (dataMax * .20)']
       } else {
         return ['dataMin - 100', 'dataMax + 100']
       }

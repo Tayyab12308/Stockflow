@@ -15,11 +15,18 @@ class StockShow extends React.Component {
       },
       news: [],
       inWatchlist: this.inWatchlist(),
+      orderType: "BUY",
+      errors: ""
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderWatchlistButton = this.renderWatchlistButton.bind(this);
     this.handleWatchlistAction = this.handleWatchlistAction.bind(this);
+    this.handleBuyOrder = this.handleBuyOrder.bind(this);
+    this.handleBuy = this.handleBuy.bind(this);
+    this.handleSell = this.handleSell.bind(this);
+    // this.formatOrderType = this.formatOrderType.bind(this);
+    this.renderTotalStocks = this.renderTotalStocks.bind(this);
   }
 
   componentDidMount() {
@@ -138,6 +145,25 @@ class StockShow extends React.Component {
     }
   }
 
+  renderTotalStocks() {
+    let symbol = this.props.match.params.ticker;
+    let stockCount = this.props.user.total_stock_count;
+    let stockSymbolCount = stockCount[symbol];
+    if (this.state.orderType === "SELL") {
+      return `You have ${stockSymbolCount !== undefined ? stockSymbolCount : 0} shares to sell`;
+    } else {
+      return null;
+    }
+  }
+
+  handleBuy() {
+    return () => this.setState({ orderType: "BUY" }).then(() => this.formatOrderType());
+  }
+
+  handleSell() {
+    return () => this.setState({ orderType: "SELL" }).then(() => this.formatOrderType());
+  }
+
   handleBuyOrder() {
     return (e) => {
       e.preventDefault();
@@ -145,15 +171,29 @@ class StockShow extends React.Component {
         ticker_symbol: this.props.match.params.ticker,
         transaction_amount: this.calculateOrderTotal(),
         stock_count: parseInt(this.state.form.shares),
-        transaction_type: "BUY",
+        transaction_type: this.state.orderType,
       }
-      this.props.createTransaction(transactionParams)
+      this.props.createTransaction(transactionParams).error(() => this.setState({ error: `You don't have enough shares to complete this order.`}))
+    }
+  }
+
+  formatOrderType() {
+    return `Place ${this.state.orderType[0] + this.state.orderType.slice(1).toLowerCase()} Order`
+  }
+
+  renderErrors() {
+    if (this.state.errors.length > 0) {
+      return (
+        <div>
+          
+        </div>
+      )
     }
   }
 
   render() {
     const stockInfo = this.props.stock.map((stock, idx) => {
-      if (stock.high !== undefined || stock.high !== null) {
+      if (stock.high !== null) {
         return { date: stock.date, 
                 time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
                 price: stock.high, 
@@ -279,27 +319,34 @@ class StockShow extends React.Component {
         </div>
         <div className="transaction-container">
           <div className="transaction-form">
-            <div>
-              <h2>Buy <span>{this.state.info.symbol}</span></h2>
+            <div className="transaction-type-header">
+              <button className={`transaction-header-${this.state.orderType === "BUY"}`} onClick={this.handleBuy()}>Buy <span>{this.state.info.symbol}</span></button>
+              <button className={`transaction-header-${this.state.orderType === "SELL"}`} onClick={this.handleSell()}>Sell <span>{this.state.info.symbol}</span></button>
             </div>
             <hr className="transaction-break"/>
             <div>
               <form className="transaction-form-item">
-                <div>
+                <div className="transaction-form-row">
                   <label>
-                    Shares
+                    <span>Shares</span>
                     <input className="transaction-input" type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
                   </label>
                 </div>
-                <div>
+                <div className="transaction-form-row">
                   <p>Market Price<span>${initialPrice}</span></p>
                 </div>
                 <hr className="transaction-break" />
-                <div>
+                <div className="transaction-form-row">
                   <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
                 </div>
                 <div>
-                  <button className="transaction-submit" type="submit" onClick={this.handleBuyOrder()}>Place Buy Order</button>
+                  {this.renderTotalStocks()}
+                </div>
+                <div>
+                  {this.state.errors}
+                </div>
+                <div>
+                  <button className="transaction-submit" type="submit" onClick={this.handleBuyOrder()}>{this.formatOrderType()}</button>
                 </div>
                 <hr className="transaction-break" />
                 <div>

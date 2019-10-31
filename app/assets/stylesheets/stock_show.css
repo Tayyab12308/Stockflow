@@ -138,6 +138,8 @@ hr {
   background-color: #171718;
   border-color: #171718; 
   padding: 4px;
+  color: white;
+  box-shadow: 0px 0px 6px 2px rgba(255, 255, 255, 0.35);
 }
 
 
@@ -252,4 +254,35 @@ hr {
   background-color: transparent;
   font-weight: 800;
   cursor: pointer;
+}
+
+.transaction-header-false, .transaction-header-true {
+  background: none;
+  margin-top: 0;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.transaction-header-false:hover, .transaction-header-true:hover, .transaction-header-true {
+  background-color: #f35531;
+  padding: 10px;
+}
+
+.transaction-header-false:hover {
+  border: 1px solid white;
+  background-color: white;
+  border: 1px solid #f35531;
+  color: #f35531;
+}
+
+.transaction-header-true {
+  box-shadow: 0px 0px 6px 5px rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.transaction-form-row {
+  display: flex;
+  justify-content: space-between;
 }
