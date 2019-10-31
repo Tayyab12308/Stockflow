@@ -15,7 +15,7 @@
 class Transaction < ApplicationRecord
   validates :ticker_symbol, :stock_count, :transaction_amount, presence: true
   validates :transaction_type, inclusion: { in: %w(BUY SELL) } 
-  validate :valid_sell
+  validate :valid_sell, :valid_buy
   belongs_to :user
   after_save :portfolio_actions
 
@@ -39,7 +39,14 @@ class Transaction < ApplicationRecord
   def valid_sell
     stock_count = self.user.total_stock_count[self.ticker_symbol]
     if self.transaction_type == "SELL" && stock_count - self.stock_count < 0
-      errors[:stock_count] << " is not enough to complete transaction"
+      errors[:stock_count] << "is not enough to complete transaction"
+    end
+  end
+
+  def valid_buy
+    funds = self.user.funds
+    if self.transaction_type == "BUY" && funds < self.transaction_amount
+      errors[:transaction_amount] << "is more than your funds"
     end
   end
 
