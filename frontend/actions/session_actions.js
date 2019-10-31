@@ -31,7 +31,7 @@ export const login = user => dispatch => (
 );
 
 export const addToWatchlist = watchlist => dispatch => (
-  WatchlistAPIUtil.addToWatchlist(watchlist).then(res => dispatch(receiveCurrentUser(res)))
+  WatchlistAPIUtil.addToWatchlist(watchlist).then(res => dispatch(receiveCurrentUser(res)), error => dispatch(receiveSessionErrors(error.responseJSON)))
 );
 
 export const deleteFromWatchlist = watchlist => dispatch => (

@@ -2,6 +2,7 @@ import React from 'react';
 import StockGraph from './stock_graph';
 import { merge } from 'lodash';
 import NewsItem from './news_item';
+import Odometer from 'react-odometerjs';
 
 class StockShow extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class StockShow extends React.Component {
       news: [],
       inWatchlist: this.inWatchlist(),
       orderType: "BUY",
-      errors: ""
+      errors: "",
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -102,16 +103,17 @@ class StockShow extends React.Component {
   }
 
   handleChange() {
-    return e => this.setState({form: {shares: e.target.value}}, () => {
-      this.calculateOrderTotal()
-    })
+    return e => {
+      let regNum = /^[0-9]*$/
+      if (regNum.test(e.target.value)) this.setState({form: {shares: e.target.value}}, () => this.calculateOrderTotal());
+    }
   }
 
   calculateOrderTotal() {
     if (this.state.form.shares.length > 0) {
       return (parseInt(this.state.form.shares) * this.props.stock.slice(-1)[0].high).toFixed(2)
     } else {
-      return 0
+      return 0.00
     }
   }
 
@@ -150,9 +152,10 @@ class StockShow extends React.Component {
     let stockCount = this.props.user.total_stock_count;
     let stockSymbolCount = stockCount[symbol];
     if (this.state.orderType === "SELL") {
-      return `You have ${stockSymbolCount !== undefined ? stockSymbolCount : 0} shares to sell`;
+      let stockCount = stockSymbolCount !== undefined ? stockSymbolCount : 0
+      return <p className="buying-power">You have <Odometer value={stockCount} duration={3} format='(,ddd)' /> shares to sell</p>;
     } else {
-      return null;
+      return <p className="buying-power">$<Odometer value={this.props.user.funds} duration={300} format='(,ddd).dd' /> Buying Power Available</p>;
     }
   }
 
@@ -192,22 +195,25 @@ class StockShow extends React.Component {
   }
 
   render() {
-    const stockInfo = this.props.stock.map((stock, idx) => {
-      if (stock.high !== null) {
-        return { date: stock.date, 
-                time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
-                price: stock.high, 
-                idx: idx,
-              }
-      }
-    });
+    let stockInfo = this.props.stock.map((stock, idx) => {
+        if (stock.high !== null) {
+          return { date: stock.date, 
+                  time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
+                  price: stock.high, 
+                  idx: idx,
+                }
+        }
+      });
+      
+
+    stockInfo = stockInfo.filter(el => el !== undefined);
 
     const stockNews = this.state.news.map((article, idx) => {
       return <NewsItem key={idx} article={article} />
     })
 
     const calcInitalPrice = () => {
-      if (stockInfo.length > 0) {    
+      if (stockInfo.length > 0) { 
       for (let i = stockInfo.length - 1; i >= 0; i--) {
         if (stockInfo[i].price !== null) {        
           return stockInfo[i].price.toFixed(2);
@@ -327,20 +333,15 @@ class StockShow extends React.Component {
             <div>
               <form className="transaction-form-item">
                 <div className="transaction-form-row">
-                  <label>
                     <span>Shares</span>
-                    <input className="transaction-input" type="text" value={this.state.form.shares} onChange={this.handleChange()}/>
-                  </label>
+                    <input className="transaction-input" type="text" value={this.state.form.shares} onChange={this.handleChange()} placeholder="0" />
                 </div>
                 <div className="transaction-form-row">
-                  <p>Market Price<span>${initialPrice}</span></p>
+                  <p>Market Price</p> <span>${initialPrice}</span>
                 </div>
                 <hr className="transaction-break" />
                 <div className="transaction-form-row">
-                  <p>Estimated Cost <span>{this.calculateOrderTotal()}</span></p>
-                </div>
-                <div>
-                  {this.renderTotalStocks()}
+                  <p>Estimated Cost</p> <span>${this.calculateOrderTotal()}</span>
                 </div>
                 <div>
                   {this.state.errors}
@@ -350,7 +351,7 @@ class StockShow extends React.Component {
                 </div>
                 <hr className="transaction-break" />
                 <div>
-                  <p className="buying-power">${this.props.user.funds} Buying Power Available</p>
+                  {this.renderTotalStocks()}
                 </div>
               </form>
             </div>

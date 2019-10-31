@@ -46,7 +46,7 @@ class StockGraph extends React.Component {
   formatYAxis() {
     if (this.props.data.length > 0) {
       if (this.props.range.range === "1d") {
-        return ['dataMin - (dataMin * .20)', 'dataMax + (dataMax * .20)']
+        return ['auto', 'auto']
       } else {
         return ['dataMin - 100', 'dataMax + 100']
       }
@@ -77,7 +77,7 @@ class StockGraph extends React.Component {
     if (this.props.data !== undefined && this.props.data.length > 0) {
       return (
         <>
-          <div className="graph-price">$<Odometer value={this.state.price} duration={3000} format='(,ddd).dd'/></div>
+          <div className="graph-price">$<Odometer value={this.state.price} duration={300} format='(,ddd).dd'/></div>
           <div className="graph-change-info">
               <div className="graph-change">$<Odometer value={(this.state.price - this.state.openingPrice).toFixed(2)} /></div>      
               <div> [ <Odometer value={(((this.state.price - this.state.openingPrice) / this.state.openingPrice) * 100 ).toFixed(2) } /> % ] </div>
