@@ -8,7 +8,8 @@ const msp = (state, ownProps) => {
   let ticker = ownProps.match.params.ticker
   let stock = Object.values(state.entities.stock)
   let user = Object.values(state.entities.users)[0]
-  return { stock, ticker, user }
+  let errors = state.errors.session
+  return { stock, ticker, user, errors }
 };
 
 const mdp = dispatch => {

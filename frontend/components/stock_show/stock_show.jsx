@@ -17,7 +17,8 @@ class StockShow extends React.Component {
       news: [],
       inWatchlist: null,
       orderType: "BUY",
-      errors: "",
+      errors: null,
+      success: null,   
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,7 +27,6 @@ class StockShow extends React.Component {
     this.handleBuyOrder = this.handleBuyOrder.bind(this);
     this.handleBuy = this.handleBuy.bind(this);
     this.handleSell = this.handleSell.bind(this);
-    // this.formatOrderType = this.formatOrderType.bind(this);
     this.renderTotalStocks = this.renderTotalStocks.bind(this);
   }
 
@@ -160,23 +160,33 @@ class StockShow extends React.Component {
   }
 
   handleBuy() {
-    return () => this.setState({ orderType: "BUY" }, () => this.formatOrderType());
+    return () => {
+      this.clearErrors();
+      this.clearSuccess();
+      this.setState({ form: { shares: "" }, orderType: "BUY" }, () => this.formatOrderType());
+    }
   }
 
   handleSell() {
-    return () => this.setState({ orderType: "SELL" }, () => this.formatOrderType());
+    return () => {
+      this.clearErrors();
+      this.clearSuccess();
+      this.setState({ form: { shares: "" }, orderType: "SELL" }, () => this.formatOrderType());
+    }
   }
 
   handleBuyOrder() {
     return (e) => {
       e.preventDefault();
+      this.clearErrors();
+      this.clearSuccess();
       let transactionParams = {
         ticker_symbol: this.props.match.params.ticker,
         transaction_amount: this.calculateOrderTotal(),
         stock_count: parseInt(this.state.form.shares),
         transaction_type: this.state.orderType,
       }
-      this.props.createTransaction(transactionParams).error(() => this.setState({ error: `You don't have enough shares to complete this order.`}))
+      this.props.createTransaction(transactionParams).then(() => this.setState({ form: { shares: "" }, success: this.renderSuccess()}), () => this.setState({ errors: this.renderErrors()}))      
     }
   }
 
@@ -184,13 +194,63 @@ class StockShow extends React.Component {
     return `Place ${this.state.orderType[0] + this.state.orderType.slice(1).toLowerCase()} Order`
   }
 
-  renderErrors() {
-    if (this.state.errors.length > 0) {
-      return (
-        <div>
-          
-        </div>
-      )
+  renderErrors() {    
+    if (Object.values(this.props.errors).length > 0) {      
+
+      if (this.state.form.shares.length < 1) {        
+        return <div className="login-errors">
+                                <img className="error-icon transaction-errors" src={window.invertedWarningIcon} />
+                                  Please enter a valid number of shares
+                                </div>
+      } 
+      if (this.state.orderType === "BUY") {        
+        let orderTotal = this.calculateOrderTotal();
+        let orderDifference = this.props.user.funds - orderTotal;
+        if (orderDifference < 0) {          
+          return <div className="login-errors transaction-errors">
+                                    <p>
+                                      <img className="error-icon" src={window.invertedWarningIcon} />
+                                      You don't have enough buying power to buy {parseInt(this.state.form.shares)}
+                                      shares of {this.props.match.params.ticker}.
+                                    </p> <br/> 
+                                    <p>
+                                      Please deposit ${Math.abs(orderDifference)} to purchase 
+                                      {parseInt(this.state.form.shares)} shares at market price.
+                                    </p>
+                                  </div>
+        }
+      } else {        
+        let symbol = this.props.match.params.ticker;
+        let stockCount = this.props.user.total_stock_count;
+        let stockSymbolCount = stockCount[symbol];        
+        if (parseInt(this.state.form.shares) > stockSymbolCount) {          
+          return <div className="login-errors transaction-errors">
+                                    <img className="error-icon" src={window.invertedWarningIcon} />
+                                    You don't have enough enough stocks shares of {this.props.match.params.ticker}
+                                    to complete this order. Please buy some more shares.
+                                  </div>
+        }
+      }
+    }
+  }
+
+  clearErrors() {
+    this.setState({ errors: null });
+  }
+
+  clearSuccess() {
+    this.setState({ success: null })
+  }
+
+  renderSuccess() {
+    if (this.state.orderType === "BUY") {
+      return <div className="login-errors">
+                Congratulations! You just bought {this.state.form.shares} shares of {this.props.match.params.ticker}
+              </div>
+    } else {
+      return <div className="login-errors">
+              Congratulations! You just sold {this.state.form.shares} shares of {this.props.match.params.ticker}
+             </div>
     }
   }
 
@@ -204,7 +264,6 @@ class StockShow extends React.Component {
                 }
         }
       });
-      
 
     stockInfo = stockInfo.filter(el => el !== undefined);
 
@@ -344,7 +403,7 @@ class StockShow extends React.Component {
                   <p>Estimated Cost</p> <span>${this.calculateOrderTotal()}</span>
                 </div>
                 <div>
-                  {this.state.errors}
+                  {this.state.errors} {this.state.success}
                 </div>
                 <div>
                   <button className="transaction-submit" type="submit" onClick={this.handleBuyOrder()}>{this.formatOrderType()}</button>

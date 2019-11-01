@@ -295,3 +295,7 @@ hr {
 .transaction-form-row {
   padding: 8px 0;
 }
+
+.transaction-errors {
+  line-height: 22px;
+}
