@@ -25,15 +25,20 @@ class WatchlistItem extends React.Component {
       stockInfo = stockBatch.map(stock => {        
         let stockSymbol = stock[0]
         let stockPrices = stock[1].chart
+        let lastNotNullPrice;
+        stockPrices = stockPrices.map(stock => {
+          if (stock.high !== null) {
+            lastNotNullPrice = stock.high
+            return stock;
+          } else {
+            stock.high = lastNotNullPrice;
+            return stock;
+          }
+        });
         let graphInfo = stockPrices.map((stock, idx) => {
           return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
         })
-        let currentPrice = graphInfo.slice(-1)[0].price
-        if (currentPrice !== undefined && currentPrice !== null) {
-          currentPrice = (currentPrice.toFixed(2))
-        } else {
-          currentPrice = 0
-        }        
+        let currentPrice = graphInfo.slice(-1)[0].price      
         return (
           <>
           <Link to={`/stock/${stockSymbol}`} className="watchlist-link">
@@ -58,8 +63,7 @@ class WatchlistItem extends React.Component {
     return stockInfo;
   }
 
-  render() {    
-        
+  render() {            
     return (
       <>
         {this.renderWatchlistItem()}

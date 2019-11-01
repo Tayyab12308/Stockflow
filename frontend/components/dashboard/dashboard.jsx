@@ -87,11 +87,18 @@ class Dashboard extends React.Component {
     Object.entries(allStocks).map(stockArr => {
       let stockSymbol = stockArr[0];
       let stockPrices = stockArr[1].chart;
+      let lastNotNullPrice;
       stockPrices = stockPrices.map(stock => {
-        if (stock.high !== null) return stock;
+        if (stock.high !== null) {
+          lastNotNullPrice = stock.high
+          return stock;
+        } else {
+          stock.high = lastNotNullPrice;
+          return stock;
+        }
       });
       let stockInfo = stockPrices.filter(el => el !== undefined);
-      stockInfo.map((stock, idx) => {
+      stockInfo.map(stock => {
         let time = new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0];
         let price = stock.high * portfolioInfo[stockSymbol]
         newInfo[time] = { date: stock.date, 
@@ -101,6 +108,7 @@ class Dashboard extends React.Component {
       })
     });
     let allInfo = Object.values(newInfo);
+    debugger
     return allInfo.map((el, idx) => Object.assign(el, { idx }))
   }
 
@@ -112,7 +120,7 @@ class Dashboard extends React.Component {
       let date = transaction.created_at.split("T")[0];
       return { date: date, time: new Date(transaction.created_at).toLocaleTimeString().split(" ")[0], price: currValue, idx: idx }
     })
-    debugger
+    // debugger
     return allValues;
   }
 

@@ -255,17 +255,25 @@ class StockShow extends React.Component {
   }
 
   render() {
+    let lastNotNullPrice;
     let stockInfo = this.props.stock.map((stock, idx) => {
-        if (stock.high !== null) {
-          return { date: stock.date, 
-                  time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
-                  price: stock.high, 
-                  idx: idx,
-                }
+      debugger
+      if (stock.high !== null) {
+        lastNotNullPrice = stock.high
+        debugger
+      } else {
+        stock.high = lastNotNullPrice;
+        debugger
+      };
+      debugger
+      return { date: stock.date, 
+              time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
+              price: stock.high, 
+              idx: idx,
+            }
         }
-      });
-
-    stockInfo = stockInfo.filter(el => el !== undefined);
+      );
+      debugger
 
     const stockNews = this.state.news.map((article, idx) => {
       return <NewsItem key={idx} article={article} />
