@@ -42,10 +42,11 @@ class Search extends React.Component {
   handleBlur() {
     setTimeout(() => {
       if (this.state.display) {
-        this.setState({ display: false });
+        this.setState({ display: false, 
+                        currentString: "",
+                      });
       }
     }, 200);
-    // this.setState({ currentString: "" });
   }
 
   handleFocus() {
