@@ -18,7 +18,7 @@ class StockShow extends React.Component {
       inWatchlist: null,
       orderType: "BUY",
       errors: null,
-      success: null,   
+      success: null,
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -254,51 +254,53 @@ class StockShow extends React.Component {
     }
   }
 
-  render() {
+  renderStockInfo() {
     let lastNotNullPrice;
     let stockInfo = this.props.stock.map((stock, idx) => {
-      debugger
       if (stock.high !== null) {
         lastNotNullPrice = stock.high
-        debugger
       } else {
         stock.high = lastNotNullPrice;
-        debugger
       };
-      debugger
-      return { date: stock.date, 
-              time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], 
-              price: stock.high, 
-              idx: idx,
-            }
-        }
-      );
-      debugger
+      return {
+        date: stock.date,
+        time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0],
+        price: stock.high,
+        idx: idx,
+      }
+    }
+    );
+    return stockInfo;
+  }
 
-    const stockNews = this.state.news.map((article, idx) => {
-      return <NewsItem key={idx} article={article} />
-    })
-
-    const calcInitalPrice = () => {
-      if (stockInfo.length > 0) { 
+  calcInitalPrice() {
+    let stockInfo = this.renderStockInfo();
+    if (stockInfo.length > 0) {
       for (let i = stockInfo.length - 1; i >= 0; i--) {
-        if (stockInfo[i].price !== null) {        
+        if (stockInfo[i].price !== null) {
           return stockInfo[i].price.toFixed(2);
         }
-      }    
+      }
       return 0.00
     }
   }
 
-  const calcOpeningPrice = () => {
+  calcOpeningPrice() {
+    let stockInfo = this.renderStockInfo();
     if (stockInfo.length > 0) {
-      return stockInfo[0].price
+      return stockInfo[0].price;
     }
   }
 
-  const initialPrice = calcInitalPrice();
-  const openingPrice = calcOpeningPrice();
+  render() {
+    const stockNews = this.state.news.map((article, idx) => {
+      return <NewsItem key={idx} article={article} />
+    });
 
+    const stockInfo = this.renderStockInfo()
+    const initialPrice = this.calcInitalPrice();
+    const openingPrice = this.calcOpeningPrice();
+    debugger
     return (
       <div className="show-page-container">
 

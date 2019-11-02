@@ -46,6 +46,7 @@ class WatchlistItem extends React.Component {
                 <div className="watchlist-item-container">
                   <div className="watchlist-ticker">
                     <h2>{stockSymbol}</h2>
+                    <h2>{}</h2>
                   </div>
                   <div className="watchlist-graph-container">
                     <StockGraph className="watchlist-graph" data={graphInfo} range={this.state.range} />

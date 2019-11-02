@@ -8,7 +8,7 @@ class StockGraph extends React.Component {
     this.state = {
       price: this.props.initialPrice,
       defaultPrice: this.props.initialPrice,
-      openingPrice: this.props.openingPrice
+      openingPrice: this.props.openingPrice,
     }
   }
 
@@ -20,6 +20,14 @@ class StockGraph extends React.Component {
         return [0, this.props.data.length]
       }
     }
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      price: this.props.initialPrice,
+      defaultPrice: this.props.initialPrice,
+      openingPrice: this.props.openingPrice,
+    })
   }
 
   setPrice() {
@@ -64,7 +72,9 @@ class StockGraph extends React.Component {
   }
 
   handleMouseMove(e) {
-    this.setState({ price: e.activePayload[0].payload.price})
+    if (e.activePayload !== undefined) {
+      this.setState({ price: e.activePayload[0].payload.price})
+    }
   }
 
   handleMouseLeave() {
@@ -73,6 +83,7 @@ class StockGraph extends React.Component {
 
 
   render() {
+    debugger
     let data = this.props.data || [];
     if (this.props.data !== undefined && this.props.data.length > 0) {
       return (
