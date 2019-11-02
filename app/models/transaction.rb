@@ -21,18 +21,15 @@ class Transaction < ApplicationRecord
   after_save :portfolio_actions
 
   def portfolio_actions
-    total_portfolio_value = 0.00
     user = self.user
+    total_portfolio_value = user.portfolio_value
     total_funds = user.funds
-    user.transactions.each do |transact|
-      transaction_amount = transact.transaction_amount
-      if transact.transaction_type == "BUY"
-        total_portfolio_value += transaction_amount
-        total_funds -= transaction_amount
-      else
-        total_portfolio_value -= transaction_amount
-        total_funds += transaction_amount
-      end
+    if self.transaction_type == "BUY"
+      total_portfolio_value += transaction_amount
+      total_funds -= transaction_amount
+    else
+      total_portfolio_value -= transaction_amount
+      total_funds += transaction_amount
     end
     user.update(portfolio_value: total_portfolio_value, funds: total_funds)
   end
