@@ -19,6 +19,7 @@ class StockShow extends React.Component {
       orderType: "BUY",
       errors: null,
       success: null,
+      addedToWatchlist: null,
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -28,6 +29,8 @@ class StockShow extends React.Component {
     this.handleBuy = this.handleBuy.bind(this);
     this.handleSell = this.handleSell.bind(this);
     this.renderTotalStocks = this.renderTotalStocks.bind(this);
+    this.afterBuyAction = this.afterBuyAction.bind(this);
+    this.handleFirstBuy = this.handleFirstBuy.bind(this);
   }
 
   componentDidMount() {
@@ -186,8 +189,28 @@ class StockShow extends React.Component {
         stock_count: parseInt(this.state.form.shares),
         transaction_type: this.state.orderType,
       }
-      this.props.createTransaction(transactionParams).then(() => this.setState({ form: { shares: "" }, success: this.renderSuccess()}), () => this.setState({ errors: this.renderErrors()}))      
+      this.props.createTransaction(transactionParams)
+      .then(() => this.afterBuyAction())
+      .then(() => this.setState({ form: { shares: "" }, success: this.renderSuccess()}), () => this.setState({ errors: this.renderErrors()}))      
     }
+  }
+
+  afterBuyAction() {    
+
+    if (this.state.inWatchlist === false && this.state.orderType === "BUY") {      
+      let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
+      let s = this.props.addToWatchlist(watchlistParams)
+      .then(() => {         
+        this.handleFirstBuy();        
+      })
+    }    
+  }
+
+  handleFirstBuy() {    
+    this.setState({
+      inWatchlist: !(this.state.inWatchlist),
+      addedToWatchlist: "This stock has automatically been added to your watchlist so you can easily track changes in price",
+    })    
   }
 
   formatOrderType() {
@@ -239,14 +262,18 @@ class StockShow extends React.Component {
   }
 
   clearSuccess() {
-    this.setState({ success: null })
+    this.setState({ success: null, addedToWatchlist: null })
   }
 
   renderSuccess() {
-    if (this.state.orderType === "BUY") {
-      return <div className="login-errors">
-                Congratulations! You just bought {this.state.form.shares} shares of {this.props.match.params.ticker}
-              </div>
+    if (this.state.orderType === "BUY") {      
+      return (
+        <>
+          <div className="login-errors">
+            Congratulations! You just bought {this.state.form.shares} shares of {this.props.match.params.ticker}
+          </div>
+        </>
+      )
     } else {
       return <div className="login-errors">
               Congratulations! You just sold {this.state.form.shares} shares of {this.props.match.params.ticker}
@@ -300,7 +327,6 @@ class StockShow extends React.Component {
     const stockInfo = this.renderStockInfo()
     const initialPrice = this.calcInitalPrice();
     const openingPrice = this.calcOpeningPrice();
-    debugger
     return (
       <div className="show-page-container">
 
@@ -413,7 +439,7 @@ class StockShow extends React.Component {
                   <p>Estimated Cost</p> <span>${this.calculateOrderTotal()}</span>
                 </div>
                 <div>
-                  {this.state.errors} {this.state.success}
+                  {this.state.errors} {this.state.success} {this.state.addedToWatchlist}
                 </div>
                 <div>
                   <button className="transaction-submit" type="submit" onClick={this.handleBuyOrder()}>{this.formatOrderType()}</button>

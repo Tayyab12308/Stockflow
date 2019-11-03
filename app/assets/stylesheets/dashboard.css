@@ -93,7 +93,7 @@
 
 .watchlist-ticker {
   padding-right: 7px;
-  width: 20%;
+  width: 33%;
 }
 
 .watchlist-graph-container .recharts-surface {
@@ -106,4 +106,11 @@
 
 .watchlist-graph-container path {
   stroke-width: 0.75px;
+}
+
+.shares-owned {
+  opacity: 0.7;
+  font-size: 9px;
+  font-weight: 100;
+  margin-top: 10px;
 }

@@ -83,7 +83,6 @@ class StockGraph extends React.Component {
 
 
   render() {
-    debugger
     let data = this.props.data || [];
     if (this.props.data !== undefined && this.props.data.length > 0) {
       return (

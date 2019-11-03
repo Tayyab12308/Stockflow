@@ -18,6 +18,14 @@ class WatchlistItem extends React.Component {
       this.setState({ stockPrices: res })});
   }
 
+  renderSharesOwned(symbol) {
+    if (this.props.currentlyInvested[symbol]) {
+      return <div className="shares-owned">{this.props.currentlyInvested[symbol]} shares</div>
+    } else {
+      return null;
+    }
+  }
+
   renderWatchlistItem() {
     let stockInfo = null;
     let stockBatch = Object.entries(this.state.stockPrices)    
@@ -46,7 +54,7 @@ class WatchlistItem extends React.Component {
                 <div className="watchlist-item-container">
                   <div className="watchlist-ticker">
                     <h2>{stockSymbol}</h2>
-                    <h2>{}</h2>
+                    <h2>{this.renderSharesOwned(stockSymbol)}</h2>
                   </div>
                   <div className="watchlist-graph-container">
                     <StockGraph className="watchlist-graph" data={graphInfo} range={this.state.range} />
