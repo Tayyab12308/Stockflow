@@ -20,6 +20,8 @@ class StockShow extends React.Component {
       errors: null,
       success: null,
       addedToWatchlist: null,
+      removeWatchlistClicked: 0,
+      removeWatchlistMessage: null,
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -31,6 +33,7 @@ class StockShow extends React.Component {
     this.renderTotalStocks = this.renderTotalStocks.bind(this);
     this.afterBuyAction = this.afterBuyAction.bind(this);
     this.handleFirstBuy = this.handleFirstBuy.bind(this);
+    this.removeFromWatchlist = this.removeFromWatchlist.bind(this);
   }
 
   componentDidMount() {
@@ -129,8 +132,12 @@ class StockShow extends React.Component {
     return (e) => {
       e.stopPropagation();
       let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
-      (action === "add" ? this.props.addToWatchlist(watchlistParams) : this.props.deleteFromWatchlist(watchlistParams))
-      .then(() => this.setState({ inWatchlist: !(this.state.inWatchlist) }))
+      if (action === "add") {
+        this.props.addToWatchlist(watchlistParams)
+        .then(() => this.setState({ inWatchlist: !(this.state.inWatchlist), removeWatchlistMessage: null, removeWatchlistClicked: 0 }))
+       } else {
+          this.removeFromWatchlist()
+       }
     }
   }
 
@@ -195,8 +202,7 @@ class StockShow extends React.Component {
     }
   }
 
-  afterBuyAction() {    
-
+  afterBuyAction() {
     if (this.state.inWatchlist === false && this.state.orderType === "BUY") {      
       let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
       let s = this.props.addToWatchlist(watchlistParams)
@@ -209,8 +215,23 @@ class StockShow extends React.Component {
   handleFirstBuy() {    
     this.setState({
       inWatchlist: !(this.state.inWatchlist),
-      addedToWatchlist: "This stock has automatically been added to your watchlist so you can easily track changes in price",
+      addedToWatchlist: <div className="login-errors">This stock has automatically been added to your watchlist so you can easily track changes in price</div>,
     })    
+  }
+
+  removeFromWatchlist() {
+    let watchlistParams = { ticker_symbol: this.props.match.params.ticker };
+    debugger
+    let currentlyInvested = this.props.user.total_stock_count
+    if (currentlyInvested[this.props.match.params.ticker] > 0 && this.state.removeWatchlistClicked < 1) {
+      this.setState({ removeFromWatchlist: this.state.removeWatchlistClicked += 1,
+        removeWatchlistMessage: <div className="login-errors">It is not recommended to remove a stock you are currently invested in from your watchlist. If you would still like to remove {this.props.match.params.ticker} from your watchlist please push the button one more time</div>,
+       })
+    } else {
+      this.props.deleteFromWatchlist(watchlistParams)
+      .then(() => this.setState({ inWatchlist: !(this.state.inWatchlist), removeWatchlistMessage: null, removeWatchlistClicked: 0 }))
+
+    }
   }
 
   formatOrderType() {
@@ -264,6 +285,10 @@ class StockShow extends React.Component {
   clearSuccess() {
     this.setState({ success: null, addedToWatchlist: null })
   }
+
+  // clearWatchlistMessage() {
+  //   this.setState({ removeWatchlistMessage: null })
+  // }
 
   renderSuccess() {
     if (this.state.orderType === "BUY") {      
@@ -452,6 +477,9 @@ class StockShow extends React.Component {
             </div>
           <div className="watchlist-button-container">
             {this.renderWatchlistButton()}
+          </div>
+          <div>
+            {this.state.removeWatchlistMessage}
           </div>
           </div>
         </div>

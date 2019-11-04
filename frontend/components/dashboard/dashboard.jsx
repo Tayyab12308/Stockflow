@@ -8,7 +8,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      range: { range: "1D" }, 
+      range: { range: "1d" }, 
       news: [],
       stockPrices: {},
     }
@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
     let endRange;
     let historicalValue;
     switch (this.state.range.range) {
-      case "1D":
+      case "1d":
         endRange = moment().format()
         historicalValue = this.handleDailyPortfolioCalc();
         break
@@ -142,7 +142,7 @@ class Dashboard extends React.Component {
             <StockGraph data={data} range={this.state.range}/>
           </div>
           <div className="range-buttons portfolio-range">
-            <input type="submit" className={`button-active-${this.state.range.range === "1D" ? true : false}`} value={"1D"} onClick={this.handleRangeChange("1D")} />
+            <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} value={"1d"} onClick={this.handleRangeChange("1d")} />
             <input type="submit" className={`button-active-${this.state.range.range === "5D" ? true : false}`} value={"1W"} onClick={this.handleRangeChange("5D")}/>
             <input type="submit" className={`button-active-${this.state.range.range === "1M" ? true : false}`} value={"1M"} onClick={this.handleRangeChange("1M")}/>
             <input type="submit" className={`button-active-${this.state.range.range === "3M" ? true : false}`} value={"3M"} onClick={this.handleRangeChange("3M")}/>
