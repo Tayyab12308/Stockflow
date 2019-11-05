@@ -11,16 +11,17 @@ class Navbar extends React.Component {
     const { currentUser, logout } = this.props;
     const loggedIn = () => (
       <>
-        <div className="navbar-logo">
-          <Link to="/dashboard"><img className="logo-image transition-logo" src={window.stockflowDarkLogo} /></Link>
-        </div>
-        <div>
-          <Search className="search-bar" />
+        <div className="navbar-left">
+          <div className="navbar-logo">
+            <Link to="/dashboard"><img className="logo-image transition-logo" src={window.stockflowDarkLogo} /></Link>
+          </div>
+          <div>
+            <Search className="search-bar" />
+          </div>
         </div>
         <div className="navbar-links logged-in-links" id="nav-log-in-links">
-          <Link to="/">Free Stock</Link>
           <Link to="/">Home</Link>
-          <Link to="/">Messages</Link>
+          <Link to="/transactions">Transactions</Link>
           <Link to="/">Account</Link>
           <Link to="" onClick={logout}>Logout</Link>
         </div>

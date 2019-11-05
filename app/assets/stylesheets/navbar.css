@@ -30,9 +30,9 @@
 
 .nav-elements {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
-  margin-left: 5%;
+  margin: 0 5%;
   line-height: 3;
 }
 
@@ -104,4 +104,10 @@
 .transition-logo:hover {
   background-color:  #f45531;
   transition: 0.25s; 
+}
+
+.navbar-left {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
 }
