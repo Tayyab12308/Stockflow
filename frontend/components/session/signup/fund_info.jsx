@@ -1,28 +1,32 @@
 import React from 'react';
 
-class FundInfo extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const FundInfo = ({ currentForm, errors, handleChange, state }) => {
 
-  isError(field) {
-    return this.props.errors[field] ? true : false
-  }
-  render() {
-    if (this.props.currentForm !== "FundInfo") return null; 
-    return (
-      <>
-        <h1 className="signup-header third-step">How much funds would you like to start off with?<br />
-        Remember to only invest spare money!</h1>
-        <div className="second-form-group">
-          <div className="funds">
-            <div className={`error-msg-${this.isError('funds')}`}>{this.props.errors.funds}</div>
-            <input type="text" required className={`error-${this.isError('funds')}`} onChange={this.props.handleChange('funds')} placeholder="Funds" value={this.props.state.funds}/>
-          </div>
+  const isError = (field) => errors[field] ? true : false
+
+  if (currentForm !== "FundInfo") return null;
+
+  return (
+    <>
+      <h1 className="signup-header third-step">
+        How much funds would you like to start off with?
+        <br />
+        Remember to only invest spare money!
+      </h1>
+      <div className="second-form-group">
+        <div className="funds">
+          <div className={`error-msg-${isError('funds')}`}>{errors.funds}</div>
+          <input type="text"
+            required
+            className={`error-${isError('funds')}`}
+            onChange={handleChange('funds')}
+            placeholder="Funds"
+            value={state.funds}
+          />
         </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  )
 };
 
 export default FundInfo;
