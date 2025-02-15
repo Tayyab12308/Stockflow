@@ -32,7 +32,8 @@ class SignupForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.signup(this.state).then(() => this.props.history.push("/dashboard"));
+    const userParams = { ...this.state, portfolio_value: this.state.funds };
+    this.props.signup(userParams).then(() => this.props.history.push("/dashboard"));
   }
 
   _continue(e) {
