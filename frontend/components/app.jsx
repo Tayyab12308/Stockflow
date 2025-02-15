@@ -1,24 +1,50 @@
 import React from 'react';
-import NavbarContainer from './navbar/navbar_container'
+import NavbarContainer from './navbar/navbar'
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
-import { Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import SignUpContainer from '../components/session/signup/signup_form_container';
 import LoginContainer from '../components/session/login_form_container';
 import SplashComponent from './splash';
-import DashboardContainer from './dashboard/dashboard_container';
-import StockShowContainer from './stock_show/stock_show_container';
-import TransactionComponent from './transactions/transactions_container';
+import Dashboard from './dashboard/dashboard';
+import StockShow from './stock_show/stock_show';
+import Transactions from './transactions/transactions';
 
 
 const App = () => (
   <div>
-    <Route exact path={["/", "/dashboard", "/stock/:ticker", "/transactions"]} component={NavbarContainer}/>
-    <AuthRoute path="/signup" component={SignUpContainer} />
-    <AuthRoute path="/login" component={LoginContainer}/>
-    <AuthRoute exact path="/" component={SplashComponent} />
-    <ProtectedRoute path="/dashboard" component={DashboardContainer} />
-    <ProtectedRoute path="/stock/:ticker" component={StockShowContainer} />
-    <ProtectedRoute path="/transactions" component={TransactionComponent} />
+    <NavbarContainer />
+    <Routes>
+      <Route path="/signup" element={
+        <AuthRoute>
+          <SignUpContainer />
+        </AuthRoute>
+      } />
+      <Route path="/login" element={
+        <AuthRoute>
+          <LoginContainer />
+        </AuthRoute>
+      } />
+      <Route path="/" element={
+        <AuthRoute>
+          <SplashComponent />
+        </AuthRoute>
+      } />
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/stock/:ticker" element={
+        <ProtectedRoute>
+          <StockShow />
+        </ProtectedRoute>
+      } />
+      <Route path="/transactions" element={
+        <ProtectedRoute>
+          <Transactions />
+        </ProtectedRoute>
+      } />
+    </Routes>
   </div>
 );
 

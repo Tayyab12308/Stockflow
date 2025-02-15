@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
-class Transactions extends React.Component {
+const Transactions = () => {
+  const transactions = useSelector(state => Object.values(state.entities.users)[0].transactions);
 
-  componentDidMount() {
+  useEffect(() => {
     document.body.style.backgroundColor = "#1b1b1d";
     document.body.style.color = "white";
     document.getElementById("navbar-component").style.backgroundColor = "#1b1b1d";
     document.getElementById("nav-log-in-links").childNodes.forEach(el => el.style.color = "white");
-  }
 
-  componentWillUnMount() {
-    document.body.style.backgroundColor = "white";
-    document.body.style.color = "black";
-    document.getElementById("navbar-component").style.backgroundColor = "white"
-    document.getElementById("nav-log-in-links").style.color = "white";
-  }
+    return () => {
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black";
+      document.getElementById("navbar-component").style.backgroundColor = "white"
+      document.getElementById("nav-log-in-links").style.color = "white";
+    }
+  })
 
-  renderTransactionData() {
-    return this.props.transactions.map((transaction, idx) => {
-      const { ticker_symbol, transaction_amount, transaction_type, created_at } = transaction;
+  const renderTransactionData = () => {
+    return transactions.map(({ ticker_symbol, transaction_amount, transaction_type, created_at }, idx) => {
       let dateObj = moment(created_at).format('LLLL').split(" ");
       let date = dateObj.slice(0, 4).join(" ");
       let time = dateObj.slice(4).join(" ");
@@ -35,10 +36,8 @@ class Transactions extends React.Component {
     })
   }
 
-  render() {
-    console.log(moment("2019-10-11T02:16:33.841Z").format('LLLL'))
-    return (
-      <>
+  return (
+    <>
       <div className="transactions-container">
         <div>
           <h1>All Transactions</h1>
@@ -53,14 +52,13 @@ class Transactions extends React.Component {
                 <th>Date</th>
                 <th>Time</th>
               </tr>
-              {this.renderTransactionData()}
+              {renderTransactionData()}
             </tbody>
           </table>
         </div>
       </div>
-      </>
-    )
-  }
+    </>
+  )
 }
 
 export default Transactions;

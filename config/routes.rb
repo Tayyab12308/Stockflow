@@ -7,4 +7,7 @@ Rails.application.routes.draw do
     resources :transactions, only: [:create]
     resources :watchlists, param: :ticker_symbol, only: [:create, :destroy]
   end
+
+  # Catch-all route to handle client-side routing by React
+  get '*path', to: 'static_pages#root', constraints: ->(req) { !req.xhr? && req.format.html? }
 end

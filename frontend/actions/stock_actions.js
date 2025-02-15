@@ -24,12 +24,17 @@ export const clearStockErrors = () => ({
   type: CLEAR_STOCK_ERRORS,
 })
 
-export const fetchStocks = ( stock ) => dispatch => {
-  StockApilUtil.fetchPrices( stock)
-  .then(prices => dispatch(receiveStock(prices)), error => dispatch(receiveStockErrors(error)))
+export const fetchStocks = (stock) => (dispatch) => {
+  StockApilUtil.fetchPrices(stock)
+  .then(
+    (prices) => dispatch(receiveStock(prices)),
+    (error) => dispatch(receiveStockErrors(error))
+  );
 };
 
-export const searchStock = string => dispatch => {
+export const searchStock = (string) => (dispatch) => {
   StockApilUtil.searchStock(string)
-  .then(results => dispatch(receiveSearch(results)))
+  .then(
+    (results) => dispatch(receiveSearch(results))
+  )
 };

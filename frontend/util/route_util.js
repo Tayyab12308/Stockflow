@@ -1,31 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-const Auth = ({ component: Component, path, loggedIn, exact }) => (
-  <Route path={path} exact={exact} render={(props) => (
-    !loggedIn ? (
-      <Component {...props} />
-    ) : (
-        <Redirect to="/dashboard" />
-      )
-  )} />
-);
+// AuthRoute: Renders children if the user is not logged in; otherwise redirects to dashboard.
+export const AuthRoute = ({ children }) => {
+  const loggedIn = useSelector(state => Boolean(state.session.id));
+  return !loggedIn ? children : <Navigate to="/dashboard" replace />;
+};
 
-const Protected = ({ component: Component, path, loggedIn, exact }) => (
-  <Route path={path} exact={exact} render={(props) => (
-    loggedIn ? (
-      <Component {...props} />
-    ) : (
-        <Redirect to="/login" />
-      )
-  )} />
-);
-
-const mapStateToProps = state => (
-  { loggedIn: Boolean(state.session.id) }
-);
-
-export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
-
-export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
+// ProtectedRoute: Renders children if the user is logged in; otherwise redirects to login.
+export const ProtectedRoute = ({ children }) => {
+  const loggedIn = useSelector(state => Boolean(state.session.id));
+  return loggedIn ? children : <Navigate to="/login" replace />;
+};

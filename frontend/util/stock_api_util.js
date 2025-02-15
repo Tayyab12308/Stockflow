@@ -1,28 +1,72 @@
-export const fetchPrices = ({ticker, range}) => (
-  $.ajax({
+let lastValidKeyIndex = 0;
+
+const FINANCIAL_MODEL_PREP_API_KEYS = [
+  window.finModelPrepAPIKeyOne,
+  window.finModelPrepAPIKeyTwo,
+  window.finModelPrepAPIKeyThree,
+  window.finModelPrepAPIKeyFour,
+  window.finModelPrepAPIKeyFive,
+  window.finModelPrepAPIKeySix,
+  window.finModelPrepAPIKeySeven,
+  window.finModelPrepAPIKeyEight,
+  window.finModelPrepAPIKeyNine,
+];
+
+const makeRequestWithCachedKey = async (ajaxOptions) => {
+  const tryKey = async (keyIndex) => {
+    const currentKey = FINANCIAL_MODEL_PREP_API_KEYS[keyIndex];
+    console.log("Trying Key:", currentKey)
+    const options = {
+      ...ajaxOptions,
+      url: ajaxOptions.url.replace(/apikey=[^&]*/, `apikey=${currentKey}`)
+    };
+
+    try {
+      const res = await $.ajax(options);
+      console.log({ res })
+      // On success, update the cached key.
+      lastValidKeyIndex = keyIndex;
+      return res;
+    } catch (err) {
+      console.error("AJAX error:", err);
+      if (err.status === 429 && keyIndex < FINANCIAL_MODEL_PREP_API_KEYS.length - 1) {
+        console.warn(`Key ${currentKey} exceeded. Trying next key.`);
+        return tryKey(keyIndex + 1);
+      } else {
+        throw err;
+      }
+    }
+  };
+
+  return tryKey(lastValidKeyIndex);
+};
+
+export const fetchPrices = async ({ticker, timeFrame, startDate, endDate}) => await makeRequestWithCachedKey(
+  {
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/${ticker}/chart/${range}/?token=${window.iexAPIKey}`
-  })
+    url: `https://financialmodelingprep.com/api/v3/historical-chart/${timeFrame}/${ticker}?from=${startDate}&to=${endDate}&apikey=REPLACE_API_KEY`,
+    dataType: 'json'
+  }
 );
 
-export const searchStock = string => (
-  $.ajax({
+export const searchStock = async (string) => await makeRequestWithCachedKey(
+  {
     method: "GET",
-    url: `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${string}&apikey=${window.alphaVantageAPIKey}`,
-  })
+    url: `https://financialmodelingprep.com/api/v3/search-ticker?query=${string}&limit=10&apikey=REPLACE_API_KEY`,
+  }
 );
 
 export const fetchCompany = symbol => (
   $.ajax({
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/${symbol}/company/?token=${window.iexAPIKey}`
+    url: `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${window.alphaVantageAPIKey}`
   })
 );
 
 export const fetchKeyStats = symbol => (
   $.ajax({
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/${symbol}/quote/?token=${window.iexAPIKey}`
+    url: `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${window.alphaVantageAPIKey}`
   })
 );
 
@@ -40,12 +84,10 @@ export const fetchAllNews = () => (
   })
 );
 
-export const fetchBatchRequest = symbolArr => {
-  let symbol = symbolArr.join(",")
-  return (
-  $.ajax({
+export const fetchCompanyProfile = async (symbol) => await makeRequestWithCachedKey(
+  {
     method: "GET",
-    url: `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${symbol}&types=chart&range=1d&token=${window.iexAPIKey}`
-  })
-  )
-}
+    url: `https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=REPLACE_API_KEY`
+  }
+)
+;

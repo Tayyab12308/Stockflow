@@ -1,7 +1,6 @@
 .show-page-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   padding: 10% 15% 0 15%;
 }
 .company-header h1 {
@@ -89,13 +88,57 @@ hr {
 .info-subheader {
   font-weight: bold;
   font-size: 12px;
+  color: #f35531;
 }
 
-.transaction-container {
-  width: 30%;
+.transactions-container {
+  width: 90%;
   display: flex;
   flex-direction: column;
-  margin-left: 5%;
+  margin-left: 5% auto;
+  padding: 100px;
+}
+
+.transactions-table-container {
+  overflow-x: auto;
+}
+
+.transactions-table-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Adds vertical space between rows */
+  min-width: 800px; /* Ensures table isn't too cramped */
+}
+
+.transactions-table-container th, 
+.transactions-table-container td {
+  padding: 12px 20px;
+  text-align: left;
+}
+
+.transactions-table-container th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.transactions-table-container tbody tr {
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+/* Odd rows: light gray with dark text */
+.transactions-table-container tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.transactions-table-container tbody tr:nth-child(even) {
+  background-color: #ffa500; /* Orange background for even rows */
+}
+
+.transactions-table-container tbody tr:hover {
+  background-color: #f2f2f2;
 }
 
 .transaction-form {
@@ -109,6 +152,7 @@ hr {
   height: auto;
   position: fixed;
   width: 18.5%;
+  margin-left: 25px;
 }
 
 .graph-tooltip {

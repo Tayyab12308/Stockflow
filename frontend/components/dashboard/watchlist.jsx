@@ -1,85 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StockGraph from "../stock_show/stock_graph";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { fetchPrices } from '../../util/stock_api_util';
+import { fetchValidPricesForTicker, getTickerQuery, transformFinModelPrepRawData, VALID_RANGES } from '../../util/util';
 
-class WatchlistItem extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      watchlist: this.props.watchlist,
-      stockPrices: {},
-      range: { range: "1d" },
-    }
-  }
+const WatchlistItem = () => {
+  const watchlist = useSelector(state => Object.values(state.entities.users)[0].watchlist);
+  const currentlyInvested = useSelector(state => Object.values(state.entities.users)[0].total_stock_count);
+  const [stockPrices, setStockPrices] = useState([]);
 
-  componentDidMount() {
-    let symbolArr = this.state.watchlist.map(watchlist => watchlist.ticker_symbol)    
-    this.props.fetchBatchRequest(symbolArr).then(res => {      
-      this.setState({ stockPrices: res })});
-  }
+  useEffect(() => {
+    Promise.all(
+      watchlist.map(watchlist => watchlist.ticker_symbol).map(ticker =>
+        fetchValidPricesForTicker(ticker)
+          .then(res => ({ [ticker]: res }))
+      )
+    ).then(results => {
+      const batchPrices = results.flatMap(obj =>
+        Object.entries(obj).map(([symbol, quotes]) => ({ [symbol]: transformFinModelPrepRawData(quotes)}))
+      );
+      setStockPrices(batchPrices);
+    });
+  }, [watchlist]);
 
-  renderSharesOwned(symbol) {
-    if (this.props.currentlyInvested[symbol]) {
-      return <div className="shares-owned">{this.props.currentlyInvested[symbol]} shares</div>
-    } else {
-      return null;
-    }
-  }
-
-  renderWatchlistItem() {
-    let stockInfo = null;
-    let stockBatch = Object.entries(this.state.stockPrices)    
-    if (stockBatch.length > 0) {
-      stockInfo = stockBatch.map(stock => {        
-        let stockSymbol = stock[0]
-        let stockPrices = stock[1].chart
-        let lastNotNullPrice;
-        stockPrices = stockPrices.map(stock => {
-          if (stock.high !== null) {
-            lastNotNullPrice = stock.high
-            return stock;
-          } else {
-            stock.high = lastNotNullPrice;
-            return stock;
-          }
-        });
-        let graphInfo = stockPrices.map((stock, idx) => {
-          return { date: stock.date, time: new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0], price: stock.high, idx: idx }
-        })
-        let currentPrice = graphInfo.slice(-1)[0].price      
-        return (
-          <>
-          <Link to={`/stock/${stockSymbol}`} className="watchlist-link">
-              <li key={stockSymbol} className="watchlist-item">
-                <div className="watchlist-item-container">
-                  <div className="watchlist-ticker">
-                    <h2>{stockSymbol}</h2>
-                    <h2>{this.renderSharesOwned(stockSymbol)}</h2>
-                  </div>
-                  <div className="watchlist-graph-container">
-                    <StockGraph className="watchlist-graph" data={graphInfo} range={this.state.range} />
-                  </div>
-                  <div className="watchlist-price">
-                    ${currentPrice}
-                  </div>
-                </div>
-              </li>
-            </Link>
-          </>
-        )
-      })
-    }    
-    return stockInfo;
-  }
-
-  render() {            
-    return (
+  return stockPrices.map(obj => Object.entries(obj).map(([symbol, quotesArray], idx) => (quotesArray.length &&
       <>
-        {this.renderWatchlistItem()}
+        <Link to={`/stock/${symbol}`} className="watchlist-link">
+          <li key={idx} className="watchlist-item">
+            <div className="watchlist-item-container">
+              <div className="watchlist-ticker">
+                <h2>{symbol}</h2>
+                {currentlyInvested[symbol] && <div className="shares-owned">{currentlyInvested[symbol]} shares</div>}
+              </div>
+              <div className="watchlist-graph-container">
+                <StockGraph className="watchlist-graph" data={quotesArray} range={VALID_RANGES.ONE_DAY} />
+              </div>
+              <div className="watchlist-price">
+                ${quotesArray[quotesArray.length - 1].close}
+              </div>
+            </div>
+          </li>
+        </Link>
       </>
     )
-  }
-}
+  ))
+};
 
 export default WatchlistItem;
 

@@ -1,73 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import StockGraph from '../stock_show/stock_graph';
 import NewsItem from '../stock_show/news_item'
-import Watchlist from './watchlist_container';
+import WatchlistItem from './watchlist';
+import { fetchAllNews, fetchPrices } from '../../util/stock_api_util';
 import * as moment from 'moment';
+import { fetchValidPricesForTicker, getTickerQuery, transformFinModelPrepRawData, VALID_RANGES } from '../../util/util';
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      range: { range: "1d" }, 
-      news: [],
-      stockPrices: {},
-    }
-    this.handleClick = this.handleClick.bind(this);
-    this.handleRangeChange = this.handleRangeChange.bind(this);
-   }
+const Dashboard = () => {
+  const portfolio = useSelector(state => state.entities.users)
 
-  componentDidMount() {
+  const [range, setRange] = useState(VALID_RANGES.ONE_DAY);
+  const [news, setNews] = useState([]);
+  const [stockPrices, setStockPrices] = useState([]);
+
+  useEffect(() => {
     document.body.style.backgroundColor = "#1b1b1d";
     document.body.style.color = "white";
     document.getElementById("navbar-component").style.backgroundColor = "#1b1b1d"
     document.getElementById("nav-log-in-links").childNodes.forEach(el => el.style.color = "white");
-    let symbolArr = Object.keys(Object.values(this.props.portfolio)[0].total_stock_count)
-    this.props.fetchBatchRequest(symbolArr).then(res => this.setState({ stockPrices: res }));
-    this.props.fetchAllNews().then(res => this.setState({ news: res.articles }))
-  }
 
-  componentWillUnmount() {
-    document.body.style.backgroundColor = "white";
-    document.getElementById("navbar-component").style.backgroundColor = "white"
-    document.body.style.color = "black";
-  }
+    let symbolArr = Object.keys(Object.values(portfolio)[0].total_stock_count);
+    Promise.all(
+      symbolArr.map(ticker =>
+        fetchValidPricesForTicker(ticker)
+          .then(res => ({ [ticker]: res }))
+      )
+    ).then(results => {
+      const batchPrices = results.flatMap(obj =>
+        Object.entries(obj).map(([symbol, quotes]) => ({ [symbol]: transformFinModelPrepRawData(quotes) }))
+      );
+      setStockPrices(batchPrices);
+    })
+    fetchAllNews().then(res => setNews(res.articles));
 
-  handleClick() {
-    this.props.fetchAllNews().then(res => this.setState({ news: res.articles }))
-  }
+    return () => {
+      document.body.style.backgroundColor = "white";
+      document.getElementById("navbar-component").style.backgroundColor = "white";
+      document.body.style.color = "black";
+    }
+  }, [fetchPrices, fetchAllNews, portfolio]);
 
-  renderPortfolioValue() {
+  const handleClick = () => fetchAllNews().then(res => setNews(res.articles));
+
+  const renderPortfolioValue = () => {
     let endRange;
     let historicalValue;
-    switch (this.state.range.range) {
-      case "1d":
+    switch (range) {
+      case "1D":
         endRange = moment().format()
-        historicalValue = this.handleDailyPortfolioCalc();
+        historicalValue = handleDailyPortfolioCalc();
         break
       case "5D":
-        endRange = moment().subtract(5, 'days').format().split("T")[0];
-        let allFiveDayTransactions = this.filterTransactions(endRange);
-        historicalValue = this.handleHistoricalPortfolioCalc(allFiveDayTransactions);
+        endRange = moment().subtract(1, 'week').format().split("T")[0];
+        let allFiveDayTransactions = filterTransactions(endRange);
+        historicalValue = handleHistoricalPortfolioCalc(allFiveDayTransactions);
         break;
       case "1M":
         endRange = moment().subtract(1, 'month').format().split("T")[0];
-        let allOneMonthTransactions = this.filterTransactions(endRange);
-        historicalValue = this.handleHistoricalPortfolioCalc(allOneMonthTransactions);
+        let allOneMonthTransactions = filterTransactions(endRange);
+        historicalValue = handleHistoricalPortfolioCalc(allOneMonthTransactions);
         break;
       case "3M":
         endRange = moment().subtract(3, 'months').format().split("T")[0];
-        let allThreeMonthTransactions = this.filterTransactions(endRange);
-        historicalValue = this.handleHistoricalPortfolioCalc(allThreeMonthTransactions);
+        let allThreeMonthTransactions = filterTransactions(endRange);
+        historicalValue = handleHistoricalPortfolioCalc(allThreeMonthTransactions);
         break;
       case "1Y":
         endRange = moment().subtract(1, 'years').format().split("T")[0];
-        let allOneYearTransactions = this.filterTransactions(endRange);
-        historicalValue = this.handleHistoricalPortfolioCalc(allOneYearTransactions);
+        let allOneYearTransactions = filterTransactions(endRange);
+        historicalValue = handleHistoricalPortfolioCalc(allOneYearTransactions);
         break;
       case "5Y":
         endRange = moment().subtract(5, 'years').format().split("T")[0];
-        let allFiveYearTransactions = this.filterTransactions(endRange);
-        historicalValue = this.handleHistoricalPortfolioCalc(allFiveYearTransactions);
+        let allFiveYearTransactions = filterTransactions(endRange);
+        historicalValue = handleHistoricalPortfolioCalc(allFiveYearTransactions);
         break;
       default:
         return null;
@@ -75,103 +82,87 @@ class Dashboard extends React.Component {
     return historicalValue;
   }
 
-  filterTransactions(endRange) {
-    let allTransactions = Object.values(this.props.portfolio)[0].transactions;
+  const filterTransactions = (endRange) => {
+    let allTransactions = Object.values(portfolio)[0].transactions;
     return allTransactions.filter(transaction => transaction.created_at.split("T")[0] >= endRange);
   }
 
-  handleDailyPortfolioCalc() {
-    let allStocks = this.state.stockPrices;
-    let portfolioInfo = Object.values(this.props.portfolio)[0].total_stock_count;
-    let newInfo = {};
-    Object.entries(allStocks).map(stockArr => {
-      let stockSymbol = stockArr[0];
-      let stockPrices = stockArr[1].chart;
-      let lastNotNullPrice;
-      stockPrices = stockPrices.map(stock => {
-        if (stock.high !== null) {
-          lastNotNullPrice = stock.high
-          return stock;
-        } else {
-          stock.high = lastNotNullPrice;
-          return stock;
-        }
-      });
-      let stockInfo = stockPrices.filter(el => el !== undefined);
-      stockInfo.map(stock => {
-        let time = new Date(`${stock.date}T${stock.minute}:00`).toLocaleTimeString().split(" ")[0];
-        let price = stock.high * portfolioInfo[stockSymbol]
-        newInfo[time] = { date: stock.date, 
-            price: (newInfo[time] === undefined) ? price: parseFloat((newInfo[time]["price"] += price).toFixed(2)),
-            time, 
-        } 
-      })
-    });
-    let allInfo = Object.values(newInfo);
-    debugger
-    return allInfo.map((el, idx) => Object.assign(el, { idx }))
+  const handleDailyPortfolioCalc = () => {
+    let portfolioInfo = Object.values(portfolio)[0].total_stock_count;
+    let timeIndexedQuotes = {};
+    stockPrices.forEach(obj => Object.entries(obj).forEach(([ticker, quotesArray]) => quotesArray.forEach(({ date, time, price }, idx) => {
+      const totalValue = price * portfolioInfo[ticker];
+      if (timeIndexedQuotes[time]) {
+        timeIndexedQuotes[time].price = parseFloat((timeIndexedQuotes[time].price + totalValue).toFixed(2));
+      } else {
+        timeIndexedQuotes[time] = {
+          date,
+          time,
+          price: totalValue,
+          idx,
+        };
+      }
+    })));
+    return Object.values(timeIndexedQuotes);
   }
 
-  handleHistoricalPortfolioCalc(transactions) {
-    let portfolioValue = Object.values(this.props.portfolio)[0].portfolio_value;
-    let currValue = portfolioValue
-    let allValues = transactions.map((transaction, idx) => {
-      transaction.transaction_type === "Buy" ? currValue -= transaction.transaction_amount : currValue += transaction.transaction_amount;
+  const handleHistoricalPortfolioCalc = (transactions) => {
+    console.log({ transactions })
+    let portfolioValue = Object.values(portfolio)[0].portfolio_value;
+    let currValue = parseFloat(portfolioValue);
+    const a = transactions.map((transaction, idx) => {
+      transaction.transaction_type === "Buy" ? currValue -= parseFloat(transaction.transaction_amount) : currValue += parseFloat(transaction.transaction_amount);
       let date = transaction.created_at.split("T")[0];
       return { date: date, time: new Date(transaction.created_at).toLocaleTimeString().split(" ")[0], price: currValue, idx: idx }
-    })
-    // debugger
-    return allValues;
+    });
+    console.log({ a });
+    return a;
   }
 
-  handleRangeChange(value) {
-    return () => this.setState({ range: { range: value}})
-  }
+  const handleRangeChange = (e) => setRange(e.target.value);
 
-  render() {
-    const data = this.renderPortfolioValue()
-    debugger
-    const news = this.state.news.map((article, idx) => {
-      return <NewsItem key={idx} article={article} />
-    })
+  const getRangeButtons = () => Object.keys(VALID_RANGES).map((currRange, idx) => (
+    <input type="submit"
+      key={idx}
+      className={`button-active-${range === VALID_RANGES[currRange]}`}
+      onClick={handleRangeChange}
+      value={VALID_RANGES[currRange]} 
+    />
+  ));
+  
+  const newsItems = news.map((article, idx) => <NewsItem key={idx} article={article} />);
 
-    return (
-      <div className="show-page-container">
-        <div className="stock-show-container">
-          <div className="graph-container">
-            <StockGraph data={data} range={this.state.range}/>
-          </div>
-          <div className="range-buttons portfolio-range">
-            <input type="submit" className={`button-active-${this.state.range.range === "1d" ? true : false}`} value={"1d"} onClick={this.handleRangeChange("1d")} />
-            <input type="submit" className={`button-active-${this.state.range.range === "5D" ? true : false}`} value={"1W"} onClick={this.handleRangeChange("5D")}/>
-            <input type="submit" className={`button-active-${this.state.range.range === "1M" ? true : false}`} value={"1M"} onClick={this.handleRangeChange("1M")}/>
-            <input type="submit" className={`button-active-${this.state.range.range === "3M" ? true : false}`} value={"3M"} onClick={this.handleRangeChange("3M")}/>
-            <input type="submit" className={`button-active-${this.state.range.range === "1Y" ? true : false}`} value={"1Y"} onClick={this.handleRangeChange("1Y")}/>
-            <input type="submit" className={`button-active-${this.state.range.range === "5Y" ? true : false}`} value={"5Y"} onClick={this.handleRangeChange("5Y")}/>
-          </div>
-          <div className="all-news">
-            <h2>News</h2>
-            <hr/>
-          </div>
-          <div className="news-button-container">
-            <button className="news-button" onClick={() => this.handleClick()}>Show Newer Articles</button>
-          </div>
-          <div className="news">
-            {news}
-          </div>
+  return (
+    <div className="show-page-container">
+      <div className="stock-show-container">
+        <div className="graph-container">
+          <StockGraph data={renderPortfolioValue()} range={range} />
         </div>
-        <div className="watchlist-container">
-          <div className="watchlist">
-            <h2>Watchlist</h2>
-            <ul className="watchlist-full-list">
-              <Watchlist />
-            </ul>
-          </div>
-          
+        <div className="range-buttons portfolio-range">
+          {getRangeButtons()}
+        </div>
+        <div className="all-news">
+          <h2>News</h2>
+          <hr />
+        </div>
+        <div className="news-button-container">
+          <button className="news-button" onClick={() => handleClick()}>Show Newer Articles</button>
+        </div>
+        <div className="news">
+          {newsItems}
         </div>
       </div>
-    )
-  }
-}
+      <div className="watchlist-container">
+        <div className="watchlist">
+          <h2>Watchlist</h2>
+          <ul className="watchlist-full-list">
+            <WatchlistItem />
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+};
 
 export default Dashboard;

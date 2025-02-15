@@ -1,75 +1,61 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { searchStock } from '../../actions/stock_actions';
+import { useDispatch, useSelector } from 'react-redux';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentString: "",
-      display: false,
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
+const Search = () => {
+  const dispatch = useDispatch();
+  const searchResults = useSelector(state => state.entities.search);
+  const [currentString, setCurrentString] = useState("");
+  const [display, setDisplay] = useState(false);
+
+  const handleChange = (e) => {
+    setCurrentString(e.target.value);
+    dispatch(searchStock(e.target.value));
+  };
+
+  const renderResults = () => {
+    if (currentString === "") { return <div className="no-results"></div>; }
+    return searchResults.map((stock, idx) => (
+      <li key={idx} className="filtered-search" onClick={() => setCurrentString("")}>
+        <Link to={`/stock/${stock.symbol}`}>
+          <div className="search-symbol">
+            {stock.symbol}
+          </div>
+          <span className="search-name">
+            {stock.name}
+          </span>
+        </Link>
+      </li>
+    ));
   }
 
-  handleChange(e) {    
-    this.setState({ currentString: e.target.value}, () => {      
-      return this.props.searchStock(this.state.currentString)
-    })
-  }
-
-  renderResults() {
-    let results;    
-    if (this.state.currentString === "") {
-      results = <div className="no-results"></div>;
-    } else {
-      let allResults = Object.values(this.props.results)
-      let filteredResults = allResults.filter(stock => {
-        let region = "4. region";        
-        if (stock[region] === "United States") return stock;  
-      })      
-      let outputResults = filteredResults.map((stock, idx) => {
-        let symbol = "1. symbol";
-        let name = "2. name";      
-        return <li key={idx} className="filtered-search"><Link to={`/stock/${stock[symbol]}`}><div className="search-symbol">{stock[symbol]}</div> <span className="search-name">{stock[name]}</span></Link></li>
-      });
-      results = outputResults;
-    }
-    return results
-  }
-
-  handleBlur() {
+  const handleBlur = () => {
     setTimeout(() => {
-      if (this.state.display) {
-        this.setState({ display: false, 
-                        currentString: "",
-                      });
+      if (display) {
+        setDisplay(false);
       }
     }, 200);
   }
 
-  handleFocus() {
-    if (!this.state.display) {
-      this.setState({ display: true })
+  const handleFocus = () => {
+    if (!display) {
+      setDisplay(true)
     }
   }
 
-  render() {    
-    let allResults = this.renderResults();
-    return (
-      <div>
-        <div className="search-container">
-          <input type="text" className="search-barz" onFocus={this.handleFocus} onBlur={this.handleBlur} onChange={this.handleChange} value={this.state.currentString} placeholder="Search"/>
-          {allResults.length > 0 && <div className={`search-results-${this.state.display}`} >
+  return (
+    <div>
+      <div className="search-container">
+        <input type="text" className="search-barz" onFocus={handleFocus} onBlur={handleBlur} onChange={handleChange} value={currentString} placeholder="Search" />
+        {searchResults.length > 0 && <div className={`search-results-${display}`} >
           <ul className="search-list">
-            {allResults}
+            {renderResults()}
           </ul>
-          </div> }
-        </div> 
+        </div>}
       </div>
-    )
-  }
-}
+    </div>
+  )
+};
 
 export default Search;

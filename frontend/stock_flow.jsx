@@ -1,15 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { login, logout, signup } from './actions/session_actions';
 import configureStore from './store/store';
 import Root from './components/root';
 import { fetchStocks, searchStock } from './actions/stock_actions';
-import { fetchPrices, fetchBatchRequest } from './util/stock_api_util';
+import { fetchPrices } from './util/stock_api_util';
 import { createTransaction } from './actions/session_actions';
 import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util';
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
+
+  // If there's a currentUser in the window, use it to preload state
   if (window.currentUser) {
     let currentUser = window.currentUser.user
     const preloadedState = {
@@ -23,7 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     store = configureStore();
   }
-  // TEST //
+
+  /** TEST - Expose store and actions for debugging if needed */ 
   window.store = store;
   window.getState = store.getState;
   window.dispatch = store.dispatch;
@@ -34,11 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
   window.fetchStocks = fetchStocks;
   window.searchStock = searchStock;
   window.createTransaction = createTransaction;
-  window.fetchBatchRequest = fetchBatchRequest;
   window.addToWatchlist = addToWatchlist;
   window.deleteFromWatchlist = deleteFromWatchlist;
-  // TEST //
+  /** END TEST BLOCK */
     
-  const root = document.getElementById("root");
-  ReactDOM.render(<Root store={store}/>, root);
+  // Locate the root element and mount the React application
+  const rootElement = document.getElementById("root");
+  if (rootElement) {
+    const root = createRoot(rootElement);
+    root.render(<Root store={store} />);
+  } else {
+    console.error("Root element not found!");
+  }
 });

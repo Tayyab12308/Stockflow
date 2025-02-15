@@ -6,7 +6,7 @@ const stockReducer = (state = _nullState, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_STOCK:
-      return action.prices
+      return action.prices;
     default:
       return state;
   }

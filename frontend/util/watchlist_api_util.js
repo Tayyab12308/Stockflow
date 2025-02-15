@@ -1,7 +1,7 @@
 export const addToWatchlist = watchlist => (
   $.ajax({
     method: "POST",
-    url: "api/watchlists",
+    url: "/api/watchlists",
     data: { watchlist }
   })
 );
@@ -9,6 +9,6 @@ export const addToWatchlist = watchlist => (
 export const deleteFromWatchlist = watchlist => (
   $.ajax({
     method: "DELETE",
-    url: `api/watchlists/${watchlist.ticker_symbol}`
+    url: `/api/watchlists/${watchlist.ticker_symbol}`
   })
 )
