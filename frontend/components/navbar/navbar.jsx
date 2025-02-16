@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Search from '../search_bar/search'
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,32 @@ const Navbar = () => {
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.entities.users[state.session.id]);
   const handleLogout = () => dispatch(logout()).then(() => navigate("/"));
+
+  useEffect(() => {
+    if (!currentUser) { return; }
+
+    const navBarComponent = document.getElementById("navbar-component")
+    if (navBarComponent) {
+      navBarComponent.style.backgroundColor = "#1b1b1d";
+    }
+
+    const navLogInLinks = document.getElementById("nav-log-in-links")
+    if (navLogInLinks) {
+      navLogInLinks.childNodes.forEach(el => el.style.color = "white");
+    }
+
+    return () => {
+      const navBarComponent = document.getElementById("navbar-component")
+      if (navBarComponent) {
+        navBarComponent.style.backgroundColor = "#white";
+      }
+
+      const navLogInLinks = document.getElementById("nav-log-in-links")
+      if (navLogInLinks) {
+        navLogInLinks.childNodes.forEach(el => el.style.color = "white");
+      }
+    }
+  })
 
   const loggedIn = () => (
     <>
@@ -52,9 +78,9 @@ const Navbar = () => {
 
   return (
     <>
-    <header className="navbar" id="navbar-component">
-      <nav className="nav-elements">
-        {currentUser ? loggedIn() : loggedOut()}
+      <header className="navbar" id="navbar-component">
+        <nav className="nav-elements">
+          {currentUser ? loggedIn() : loggedOut()}
         </nav>
       </header>
     </>

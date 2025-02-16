@@ -65,7 +65,7 @@ const StockGraph = ({ data = [], range, initialPrice, openingPrice }) => {
         <div className="graph-change">$<Odometer value={(price - localOpeningPrice).toFixed(2)} /></div>
         <div> [ <Odometer value={(((price - localOpeningPrice) / localOpeningPrice) * 100).toFixed(2)} /> % ] </div>
       </div>
-      <ResponsiveContainer >
+      <ResponsiveContainer>
         <LineChart data={data}
           margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
           onMouseMove={handleMouseMove}

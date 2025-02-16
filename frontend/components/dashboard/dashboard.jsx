@@ -17,8 +17,6 @@ const Dashboard = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#1b1b1d";
     document.body.style.color = "white";
-    document.getElementById("navbar-component").style.backgroundColor = "#1b1b1d"
-    document.getElementById("nav-log-in-links").childNodes.forEach(el => el.style.color = "white");
 
     let symbolArr = Object.keys(Object.values(portfolio)[0].total_stock_count);
     Promise.all(
@@ -36,7 +34,6 @@ const Dashboard = () => {
 
     return () => {
       document.body.style.backgroundColor = "white";
-      document.getElementById("navbar-component").style.backgroundColor = "white";
       document.body.style.color = "black";
     }
   }, [fetchPrices, fetchAllNews, portfolio]);

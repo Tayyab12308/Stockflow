@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchStocks } from '../../actions/stock_actions';
 import { fetchCompany, fetchCompanyProfile, fetchKeyStats, fetchNews } from '../../util/stock_api_util';
-import { addToWatchlist, createTransaction } from '../../actions/session_actions';
+import { addToWatchlist, createTransaction, deleteFromWatchlist } from '../../actions/session_actions';
 import { fetchValidPricesForTicker, getTickerQuery, transformFinModelPrepRawData, VALID_RANGES } from '../../util/util';
 
 const StockShow = () => {
@@ -35,18 +35,14 @@ const StockShow = () => {
 
   // Check if ticker is in user's watchlist
   const checkInWatchlist = useCallback(() => {
-    if (user && user.watchlist) {
-      const watchlistSymbols = user.watchlist.map(el => el.ticker_symbol);
-      setInWatchlist(watchlistSymbols.includes(ticker));
-    }
+    const watchlistSymbols = user.watchlist.map(el => el.ticker_symbol);
+    setInWatchlist(watchlistSymbols.includes(ticker));
   }, [user, ticker])
 
   useEffect(() => {
     // set page styling
     document.body.style.backgroundColor = "#1b1b1d";
     document.body.style.color = "white";
-    document.getElementById("navbar-component").style.backgroundColor = "#1b1b1d";
-    document.getElementById("nav-log-in-links").childNodes.forEach(el => el.style.color = "white");
 
     // fetch stocks for ticker and range
     fetchValidPricesForTicker(ticker).then(res => setStockData(transformFinModelPrepRawData(res)));
@@ -55,9 +51,7 @@ const StockShow = () => {
     fetchCompany(ticker).then(res => setInfo(res));
     fetchKeyStats(ticker).then(res => setKeyStats(res["Global Quote"]));
     fetchCompanyProfile(ticker).then(companyProfileRes => {
-      console.log({ companyProfileRes })
       fetchNews(companyProfileRes.companyName).then(newsRes => {
-        console.log({ newsRes })
         setNews(newsRes.articles)
         setCompanyProfile(companyProfileRes[0]);
       });
@@ -68,8 +62,6 @@ const StockShow = () => {
     return () => {
       document.body.style.backgroundColor = "white";
       document.body.style.color = "black";
-      document.getElementById("navbar-component").style.backgroundColor = "white"
-      document.getElementById("nav-log-in-links").style.color = "white";
     }
   }, [ticker, tickerQuery, dispatch])
 
@@ -102,7 +94,7 @@ const StockShow = () => {
 
   const calculateOrderTotal = () => {
     if (form.shares.length > 0) {
-      return (parseInt(form.shares) * stockData.slice(-1)[0].close).toFixed(2)
+      return (parseInt(form.shares) * stockData.slice(-1)[0].price).toFixed(2)
     }
     return 0.00
   }
@@ -144,7 +136,7 @@ const StockShow = () => {
     let stockSymbolCount = stockCount[symbol];
     if (orderType === "SELL") {
       let stockCount = stockSymbolCount !== undefined ? stockSymbolCount : 0
-      return <div className="buying-power">You have <Odometer auto={false} value={stockCount} duration={3} format='(,ddd)' /> shares to sell</div>;
+      return <div className="buying-power">You have <Odometer data-testid="shares-odometer" auto={false} value={stockCount} duration={3} format='(,ddd)' /> shares to sell</div>;
     } else {
       return <div className="buying-power">$<Odometer auto={false} value={user.funds} duration={3} format='(,ddd).dd' /> Buying Power Available</div>;
     }
@@ -261,8 +253,7 @@ const StockShow = () => {
       if (parseInt(form.shares) > stockSymbolCount) {
         return <div className="login-errors transaction-errors">
           <img className="error-icon" src={window.invertedWarningIcon} />
-          You don't have enough enough stocks shares of {ticker}
-          to complete this order. Please buy some more shares.
+          You don't have enough enough shares of {ticker} to complete this order. Please buy some more shares.
         </div>
       }
     }
@@ -319,7 +310,7 @@ const StockShow = () => {
             className="stock-show-grpah"
             data={stockData} range={tickerQuery.range}
             initialPrice={stockData[stockData.length - 1].price.toFixed(2)}
-            openingPrice={stockData?.[0]?.price} 
+            openingPrice={stockData?.[0]?.price}
           />}
         </div>
         <hr className="graph-line" />
