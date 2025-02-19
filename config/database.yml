@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
-  database: stock_flow_production
-  username: stock_flow
+  database: <%= ENV['STOCK_FLOW_DATABASE_NAME'] %>
+  username: <%= ENV['STOCK_FLOW_DATABASE_USERNAME'] %>
   password: <%= ENV['STOCK_FLOW_DATABASE_PASSWORD'] %>
+  url: <%= ENV['STOCK_FLOW_DATABASE_URL'] %>

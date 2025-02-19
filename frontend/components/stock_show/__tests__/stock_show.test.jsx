@@ -5,8 +5,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-
-// Import and mock external functions and actions
 import * as apiUtil from '../../../util/stock_api_util';
 import * as util from '../../../util/util';
 import * as sessionActions from '../../../actions/session_actions';
@@ -43,7 +41,6 @@ describe('StockShow component', () => {
     };
     store = mockStore(initialState);
 
-    // Setup API util mocks
     apiUtil.fetchCompany.mockResolvedValue({ companyName: 'Apple Inc.' });
     apiUtil.fetchPrices.mockResolvedValue({
       AAPL: [
@@ -74,7 +71,6 @@ describe('StockShow component', () => {
     ]);
     apiUtil.fetchNews.mockResolvedValue({ articles: [{ title: 'News 1', source: { name: 'ABC' } }, { title: 'News 2', source: { name: 'XYZ' } }] });
 
-    // Setup util mocks
     util.getTickerQuery.mockImplementation((ticker, range) => {
       switch (range) {
         case util.VALID_RANGES.ONE_DAY: return { ticker, range, value: '1D', timeFrame: "1min", startDate: '2025-02-15', endDate: '2025-02-15' };
@@ -93,16 +89,9 @@ describe('StockShow component', () => {
       { AAPL: [{ date: '2025-02-15 15:00:00', open: 144, high: 146, low: 143, close: 145, volume: 100000 }] }
     ]);
 
-    // Setup session actions mocks
-    sessionActions.addToWatchlist.mockImplementation(() => {
-      return () => Promise.resolve({});
-    });
-    sessionActions.deleteFromWatchlist.mockImplementation(() => {
-      return () => Promise.resolve({});
-    });
-    sessionActions.createTransaction.mockImplementation(() => {
-      return () => Promise.resolve({});
-    });
+    sessionActions.addToWatchlist.mockImplementation(() => () => Promise.resolve({}));
+    sessionActions.deleteFromWatchlist.mockImplementation(() => () => Promise.resolve({}));
+    sessionActions.createTransaction.mockImplementation(() => () => Promise.resolve({}));
   });
 
   const renderComponentWithParams = (params) => {

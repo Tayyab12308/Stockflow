@@ -1,4 +1,4 @@
-const getDateRange = (period) => {
+export const getDateRange = (period) => {
   const formatDate = (date) => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, '0');

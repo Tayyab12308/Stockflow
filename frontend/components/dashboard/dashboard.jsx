@@ -4,8 +4,8 @@ import StockGraph from '../stock_show/stock_graph';
 import NewsItem from '../stock_show/news_item'
 import WatchlistItem from './watchlist';
 import { fetchAllNews, fetchPrices } from '../../util/stock_api_util';
-import * as moment from 'moment';
-import { fetchValidPricesForTicker, getTickerQuery, transformFinModelPrepRawData, VALID_RANGES } from '../../util/util';
+import moment from 'moment';
+import { fetchValidPricesForTicker, transformFinModelPrepRawData, VALID_RANGES } from '../../util/util';
 
 const Dashboard = () => {
   const portfolio = useSelector(state => state.entities.users)
