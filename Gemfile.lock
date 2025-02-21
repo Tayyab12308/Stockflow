@@ -334,6 +334,7 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   spring (~> 3.0.0)
+  sprockets-rails
   terser
   tzinfo-data
   web-console (>= 4.0.0)
