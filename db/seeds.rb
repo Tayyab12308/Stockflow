@@ -16,11 +16,11 @@ User.destroy_all
 u4 = User.create!(first_name: 'Tony', last_name: 'Stark', email_address: 'tonystark@email.com', password: 'password', funds: 80000000, address: "1324 malibu ave", phone_number: 3339995555, portfolio_value: 80000000)
 # u5 = User.create!(first_name: 'Bobby', last_name: 'Lee', email_address: 'bobbobby@email.com', password: 'password', funds: 80, address: "4343 oinun ave", phone_number: 9994440033)
 
-t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 1000, stock_count: 10, transaction_type: "Buy");
-t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 10000, stock_count: 4, transaction_type: "Sell");
-t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 1000, stock_count: 4, transaction_type: "Sell");
-t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 500, stock_count: 10, transaction_type: "Buy");
-t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 3000, stock_count: 10, transaction_type: "Buy");
+t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 1000, stock_count: 10, transaction_type: "BUY");
+t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 10000, stock_count: 4, transaction_type: "SELL");
+t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 1000, stock_count: 4, transaction_type: "SELL");
+t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 500, stock_count: 10, transaction_type: "BUY");
+t1 = Transaction.create!(user_id: u4.id, ticker_symbol: "GOOG", transaction_amount: 3000, stock_count: 10, transaction_type: "BUY");
 
 
 w1 = Watchlist.create!(user_id: u4.id, ticker_symbol: "AAPL")

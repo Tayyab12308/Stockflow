@@ -24,7 +24,7 @@ const WatchlistItem = () => {
     });
   }, [watchlist]);
 
-  return stockPrices.map(obj => Object.entries(obj).map(([symbol, quotesArray], idx) => (quotesArray.length &&
+  return stockPrices.map(obj => Object.entries(obj).map(([symbol, quotesArray], idx) => (quotesArray.length > 0 &&
       <>
         <Link to={`/stock/${symbol}`} className="watchlist-link">
           <li key={idx} className="watchlist-item">
