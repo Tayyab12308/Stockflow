@@ -48,7 +48,7 @@
     <%= favicon_link_tag asset_path('stock_flow_icon.png') %>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag "bundle", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>

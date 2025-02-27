@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import jquery from "jquery";
 import { login, logout, signup } from './actions/session_actions';
 import configureStore from './store/store';
 import Root from './components/root';
@@ -8,7 +9,11 @@ import { fetchPrices } from './util/stock_api_util';
 import { createTransaction } from './actions/session_actions';
 import { addToWatchlist, deleteFromWatchlist } from './util/watchlist_api_util';
 
+window.$ = jquery;
+window.jQuery = jquery;
+
 document.addEventListener("DOMContentLoaded", () => {
+  Object.assign(window, window.Stockflow);
   let store;
 
   // If there's a currentUser in the window, use it to preload state
@@ -25,21 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     store = configureStore();
   }
-
-  /** TEST - Expose store and actions for debugging if needed */ 
-  window.store = store;
-  window.getState = store.getState;
-  window.dispatch = store.dispatch;
-  window.logout = logout;
-  window.login = login;
-  window.signup = signup;
-  window.fetchPrices = fetchPrices;
-  window.fetchStocks = fetchStocks;
-  window.searchStock = searchStock;
-  window.createTransaction = createTransaction;
-  window.addToWatchlist = addToWatchlist;
-  window.deleteFromWatchlist = deleteFromWatchlist;
-  /** END TEST BLOCK */
     
   // Locate the root element and mount the React application
   const rootElement = document.getElementById("root");
@@ -50,3 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Root element not found!");
   }
 });
+
+
+export {
+  login,
+  logout,
+  signup,
+  fetchPrices,
+  fetchStocks,
+  searchStock,
+  createTransaction,
+  addToWatchlist,
+  deleteFromWatchlist
+}

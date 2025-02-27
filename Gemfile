@@ -11,12 +11,8 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 6.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
-# Use Terser as compressor for JavaScript assets
-gem 'uglifier'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
-gem 'sprockets-rails'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 5.0'
@@ -26,6 +22,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.16'
+
+gem "jsbundling-rails"
 
 # Use Jquery-rails 
 gem 'jquery-rails'
