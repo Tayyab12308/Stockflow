@@ -1,13 +1,17 @@
-const esbuild = require('esbuild');
-const path = require('path');
+import { build } from 'esbuild';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-esbuild.build({
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+build({
   // Entry point from your frontend folder
-  entryPoints: [path.join(__dirname, 'frontend', 'stock_flow.jsx')],
+  entryPoints: [join(__dirname, 'frontend', 'stock_flow.jsx')],
   // Bundle all dependencies into one file
   bundle: true,
   // Output file – similar to webpack's output.filename and output.path
-  outfile: path.join(__dirname, 'app', 'assets', 'builds', 'bundle.js'),
+  outfile: join(__dirname, 'app', 'assets', 'builds', 'bundle.js'),
   // Generate inline sourcemaps (similar to webpack's 'eval-source-map')
   sourcemap: 'inline',
   // output as a self-invoking function

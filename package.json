@@ -31,7 +31,8 @@
   "scripts": {
     "test": "jest --coverage",
     "postinstall": "yarn build",
-    "build": "node esbuild.config.js"
+    "build:dev": "esbuild frontend/stock_flow.jsx --outfile=app/assets/builds/bundle.js --bundle --loader:.js=jsx --loader:.jsx=jsx --watch",
+    "build:prod": "NODE_ENV=production node esbuild.config.mjs"
   },
   "engines": {
     "node": "18.16.0",
