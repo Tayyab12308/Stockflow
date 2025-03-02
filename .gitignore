@@ -35,3 +35,6 @@ bundle.js.map
 .env
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+
+legacy_frontend/
