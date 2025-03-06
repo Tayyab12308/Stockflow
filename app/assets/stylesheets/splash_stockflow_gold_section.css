@@ -1,0 +1,84 @@
+.stockflow-gold-section {
+  height: 300px;
+  width: 100%;
+  position: relative;
+}
+
+.stockflow-gold-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.stockflow-gold-text {
+  position: absolute;
+  top: 59%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* Ensures the text is on top of the video */
+  text-align: center;
+  height: 100%;
+}
+
+.stockflow-gold-info {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 36px;
+  white-space: pre-line;
+  width: 820px;
+}
+
+@media (max-width: 1040px) {
+  .stockflow-gold-info {
+    font-size: 16px;
+    width: 590px;
+  }
+}
+
+@media (max-width: 680px) {
+  .stockflow-gold-text {
+    font-size: 14px;
+    width: 90%;
+  }
+
+  .stockflow-gold-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 455px) {
+  .stockflow-gold-info {
+    font-size: 14px;
+  }
+
+  .stockflow-gold-section {
+    height: 360px;
+  }
+}
+
+@media (max-width: 400px) {
+  .stockflow-gold-info {
+    font-size: 12px;
+  }
+
+  .stockflow-gold-section {
+    height: 350px;
+  }
+}
+
+@media (max-width: 265px) {
+  .stockflow-gold-info {
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .stockflow-gold-text {
+    top: 55%;
+  }
+
+  .stockflow-gold-section {
+    height: 375px;
+  }
+}

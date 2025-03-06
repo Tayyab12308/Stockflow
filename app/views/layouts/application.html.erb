@@ -19,6 +19,11 @@
       window.stockflowLogo = "<%= image_url("stock_flow_logo.svg") %>"
       window.dropdownIcon = "<%= image_url("dropdown_icon.svg") %>"
       window.hamburgerIcon = "<%= image_url("hamburger_icon.svg") %>"
+      window.stockflowRetirementBackground = "<%= video_url("Stockflow_Retirement_Background.webm") %>"
+      window.stockflowGoldBackground = "<%= image_url("stockflow_gold_background.png") %>"
+      window.investingHeroSmallBackground = "<%= image_url("investing_hero_background_425.png") %>"
+      window.investingHeroMediumBackground = "<%= image_url("investing_hero_background_767.png") %>"
+      window.investingHeroLargeBackground = "<%= image_url("investing_hero_background_1280.png") %>"
       window.stockflowDarkLogo = "<%= image_url("stock_flow_dark_logo.png") %>"
       window.signupGIF = "<%= image_url("signup_gif.gif") %>"
       window.warningIcon = "<%= image_url("warning.png") %>"
@@ -46,7 +51,7 @@
       window.newsAPIKey = "<%= Rails.application.credentials.news[:api_key] %>"
     </script>
 
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= favicon_link_tag asset_path('stock_flow_icon.png') %>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all' %>

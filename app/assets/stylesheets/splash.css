@@ -1,0 +1,10 @@
+.splash-page-content {
+  margin-top: 72px;
+}
+
+@media (min-width: 770px) and (max-width: 1020px) {
+  .splash-page-content {
+    overflow-x: unset;
+    padding: 0;              
+  }
+}
