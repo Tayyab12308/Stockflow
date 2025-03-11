@@ -36,7 +36,55 @@ const Splash = () => {
           </div>
         </div>
       </div>
+      <div className='investing-section'>
+        <picture className='investing-background'>
+          <source className='investing-background' media="(min-width: 1280px)" srcSet={window.investingHeroLargeBackground} />
+          <source className='investing-background' media="(max-width: 425px)" srcSet={window.investingHeroSmallBackground} />
+          <source className='investing-background' media="(max-width: 767px)" srcSet={window.investingHeroMediumBackground} />
+          <source className='investing-background' srcSet={window.investingHeroDefaultBackground} />
+          <img className='investing-background' src={window.investingHeroMediumBackground} alt="Investing background" />
+        </picture>
+        <div className='investing-text'>
+          <div className='investing-container'>
+            <div className='investing-headline'>Investing</div>
+            <div className='investing-catchphrase'>Build your portfolio starting with just $1</div>
+            <div className='investing-separator' ></div>
+            <div className='investing-description'>Invest in stocks, ETFs, and their options, at your pace and commission-free.</div>
+            <div className='investing-separator' ></div>
+            <div className='investing-disclosures'>Investing Disclosures</div>
+            <div className='investing-medium-separator' ></div>
+            <Link className='stockflow-button investing-button' to='/invest'>Learn More</Link>
+            <div className='investing-xl-separator' ></div>
+            <div className='investing-disclaimer'>Stocks & funds offered through Stockflow Financial. Other fees may apply. See our Fee Schedule for more details.</div>
+          </div>
+        </div>
+      </div>
+      <div className='crypto-section'>
+        <picture className='crypto-background'>
+          <source className='crypto-background' media="(min-width: 1280px)" srcSet={window.cryptoHeroLargeBackground} />
+          <source className='crypto-background' media="(max-width: 425px)" srcSet={window.cryptoHeroSmallBackground} />
+          <source className='crypto-background' media="(max-width: 767px)" srcSet={window.cryptoHeroMediumBackground} />
+          <source className='crypto-background' srcSet={window.cryptoHeroDefaultBackground} />
+          <img className='crypto-background' src={window.cryptoHeroMediumBackground} alt="crypto background" />
+        </picture>
+        <div className='crypto-text'>
+          <div className='crypto-container'>
+            <img className="crypto-logo" src={window.stockflowCryptoLogo} />
+            <div className='crypto-catchphrase'>Get started with Stockflow Crypto. Trade crypto 24/7</div>
+            <div className='crypto-separator' ></div>
+            <div className='crypto-description'>Start with as little as $1. Buy, sell, and transfer BTC, ETH, XRP, SOL, DOGE, SHIB, and more.</div>
+            <div className='crypto-separator' ></div>
+            <div className='crypto-disclosures'>Crypto Risk Disclosures</div>
+            <div className='crypto-medium-separator' ></div>
+            <Link className='stockflow-button crypto-button' to='/crypto'>Learn More</Link>
+            <div className='crypto-xl-separator' ></div>
+            <div className='crypto-disclaimer'>Crypto offered through Robinhood Crypto.</div>
+          </div>
+        </div>
+      </div>
+      <div className='protection-section'>
 
+      </div>
     </div>
   )
 };
