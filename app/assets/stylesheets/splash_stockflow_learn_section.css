@@ -1,0 +1,74 @@
+.stockflow-learn-section {
+  height: 800px;
+  background: #CCFF00;
+  background-image: linear-gradient(to top, #CCFF00 0px, #CCFF00 80px, transparent 80px);
+  display: flex;
+  justify-content: center;
+}
+
+.stockflow-learn-content-container {
+  width: 600px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.stockflow-learn-headline {
+  font-size: 44px;
+  line-height: 60px;
+  margin: 60px 16px 12px 16px;
+}
+
+.stockflow-learn-small-separator {
+  height: 12px;
+}
+
+.stockflow-learn-catchphrase {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  line-height: 24px;
+}
+
+.stockflow-learn-medium-separator {
+  height: 24px;
+}
+
+.stockflow-learn-button {
+  display: inline-flex;
+  background-color: black;
+  color: white;
+  align-self: center;
+}
+
+.stockflow-learn-large-separator {
+  height: 70px;
+}
+
+.stockflow-learn-phone-image {
+  width: 100%;
+  margin-top: auto;
+}
+
+@media (max-width: 590px) {
+  .stockflow-learn-section {
+    height: 841px;
+  }
+}
+
+@media (max-width: 425px) {
+  .stockflow-learn-content-container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 410px) {
+  .stockflow-learn-section {
+    height: 725px;
+  }
+
+  .stockflow-learn-headline {
+    font-size: 34px;
+    line-height: 50px;
+  }
+}
