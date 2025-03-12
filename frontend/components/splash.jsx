@@ -138,6 +138,18 @@ const Splash = () => {
           </picture>
         </div>
       </div>
+      <div className='new-gen-section'>
+        <video className='new-gen-background' autoPlay loop muted playsInline preload="auto">
+          <source src={window.stockflowNewGenInvestorsBackground} type="video/webm" />
+        </video>
+        <div className='new-gen-text'>
+          <div className='new-gen-text-container'>
+            <div className='new-gen-headline'>Join a new generation of investors</div>
+            <div className='new-gen-text-separator'></div>
+            <Link to="/signup" className="stockflow-button new-gen-signup-button">Sign up</Link>
+          </div>
+        </div>
+      </div>
     </div >
   )
 };
