@@ -1,0 +1,215 @@
+.signup-page-content {
+  background-color: black;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.information-section-container {
+  width: 50%;
+  border-right: 1px solid rgb(48, 54, 58);
+  color: white;
+  padding: 0px 64px 36px;
+}
+
+.signup-stockflow-logo {
+  height: 50px;
+  max-width: 200px;
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+.information-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.information-section-headline {
+  font-size: 72px;
+}
+
+.form-section-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section-content {
+  color: white;
+  padding: 160px 64px 48px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.form-section-info-text {
+  font-size: 21px;
+  margin-bottom: 48px;
+}
+
+.form-fields-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-section-basic-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 55px;
+}
+
+.input-container {
+  height: 65px;
+}
+
+.shared-row-field {
+  width: 50%;
+}
+
+.signup-form-input {
+  background: black;
+  border: 1px solid rgb(48, 54, 58);
+  border-radius: 6px;
+  height: initial;
+  color: white;
+  font-size: 20px;
+  padding: 16px 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.error-field {
+  border: 1px solid red;
+}
+
+.signup-form-field-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.login-redirect-text {
+  font-size: 12px;
+  margin-top: 40px;
+}
+
+.login-redirect-link {
+  color: white;
+  font-size: 12px;
+}
+
+.signup-form-footer {
+  font-size: 12px;
+  margin-top: 150px; 
+}
+
+.progress-bar-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-progress {
+  background-color: white;
+  height: 4px;
+  width: 2.5%;
+}
+
+.full-progress-bar {
+  background-color: white;
+  height: 1px;
+  width: 100%;
+}
+
+.continue-form-container {
+  padding: 36px 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.signup-form-continue-button {
+  font-weight: 600;
+  min-width: 120px;
+  max-width: 420px;
+  padding: 0px 44px;
+}
+
+
+@media (max-width: 1200px) {
+  .form-section-basic-input {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .signup-form-input {
+    width: 100%;
+  }
+
+  .shared-row-field {
+    width: 100%;
+  }
+
+  .signup-form-footer {
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .signup-page-content {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .information-section-container {
+    width: 95%;
+    border-bottom: 1px solid rgb(48, 54, 58);
+    color: white;
+    padding: 12px 24px 36px;
+  }
+
+  .signup-stockflow-logo {
+    margin-top: 0px;
+    margin-bottom: 24px;
+  }
+
+  .signup-image {
+    display: none;
+  }
+
+  .information-section-headline {
+    font-size: 40px;
+  }
+
+  .information-section-details {
+    font-size: 12px;
+  }
+
+  .form-section-container {
+    width: 95%;
+  }
+
+  .form-section-content {
+    padding: 24px 24px 0px;
+    gap: 148px
+  }
+
+  .login-redirect-link,
+  .login-redirect-text,
+  .progress-bar-section {
+    display: none;
+  }
+
+  .continue-form-container {
+    padding: 19px 24px;
+    align-self: center;
+    width: 250px;
+  }
+
+  .signup-form-continue-button {
+    margin-left: 0px;
+    width: 100%;
+  }
+}

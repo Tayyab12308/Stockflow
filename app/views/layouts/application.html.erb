@@ -5,7 +5,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <script type="text/javascript">
-      window.loginImage = "<%= image_url("login_image.png") %>"
+      window.loginImage = "<%= image_url("login_page_image.svg") %>"
+      window.signupBasicInfoImage = "<%= image_url("signup_basic_info.svg") %>"
+      window.signupContactInfoImage = "<%= image_url("signup_contact_info.svg") %>"
       window.homePageGif = "<%= image_url("home_page_gif.gif") %>"
       window.rocketKitty = "<%= image_url("rocket_kitty.png") %>"
       window.stockGraph = "<%= image_url("stock_options.png") %>"
@@ -39,7 +41,7 @@
       window.stockflowLearnPhoneDefault = "<%= image_url("stockflow_learn_phone_default.png") %>"
       window.stockflowDarkLogo = "<%= image_url("stock_flow_dark_logo.png") %>"
       window.signupGIF = "<%= image_url("signup_gif.gif") %>"
-      window.warningIcon = "<%= image_url("warning.png") %>"
+      window.warningIcon = "<%= image_url("warning_icon.svg") %>"
       window.invertedWarningIcon = "<%= image_url("inverted-warning.png") %>"
       window.iexAPIKey = "<%= Rails.application.credentials.iex[:api_key] %>"
       window.finModelPrepAPIKeyOne = "<%= Rails.application.credentials.finModelPrep[:api_key_one] %>"

@@ -36,6 +36,11 @@
   margin-left: 20px; /* Space between logo and links */
 }
 
+.logo-image {
+  width: 150px;
+  height: 24px;
+}
+
 /* Individual links with spacing */
 .navbar-link {
   margin-right: 20px; /* Space between links */
