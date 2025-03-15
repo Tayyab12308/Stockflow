@@ -1,9 +1,9 @@
-.dropdown {
+.link-dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-toggle {
+.link-dropdown-toggle {
   cursor: pointer;
   background: none;
   border: none;
@@ -13,18 +13,18 @@
   align-items: center;
 }
 
-.caret {
+.link-caret {
   margin-left: 0.5rem;
   width: 16px;
   height: 12px;
   transition: transform 0.3s ease;
 }
 
-.caret.open {
+.link-caret.open {
   transform: rotate(180deg);
 }
 
-.dropdown-menu {
+.link-dropdown-menu {
   position: absolute;
   top: 53px;
   left: 0;
@@ -41,11 +41,11 @@
   gap: 24px;
 }
 
-.dropdown-item {
+.link-dropdown-item {
   padding: 0 1rem;
 }
 
-.dropdown-link {
+.link-dropdown-link {
   display: block;
   padding: 0.5rem 0;
   text-decoration: none;

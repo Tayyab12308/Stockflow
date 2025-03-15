@@ -1,28 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { BasicInfo, BasicInfoFormSection } from "./basic_info";
-import { ContactInfo, ContactInfoFormSection } from "./contact_info";
-
-const FORM_FIELDS = {
-  FIRST_NAME: 'firstName',
-  LAST_NAME: 'lastName',
-  EMAIL: 'email',
-  PASSWORD: 'password',
-  PHONE_NUMBER: 'phoneNumber',
-  ADDRESS: 'address',
-  ADDITIONAL_ADDRESS: 'additionalAddress',
-  CITY: 'city',
-  STATE: 'state',
-  ZIP_CODE: 'zipCode',
-}
-
-const FORM_PAGES = {
-  BASIC_INFO: 'basicInfo',
-  CONTACT_INFO: 'contactInfo',
-}
+import { BasicInfo, BasicInfoFormSection, basicInfoValidations } from "./basic_info";
+import { ContactInfo, ContactInfoFormSection, contactInfoValidations } from "./contact_info";
+import { FORM_FIELDS, FORM_PAGES } from "./util";
+import { IdentityInfo, IdentityInfoFormSection, identityInfoValidations } from "./identity_info";
 
 export default Signup = () => {
-  const [currentFormPage, setCurrentFormPage] = useState(FORM_PAGES.BASIC_INFO)
+  const [currentFormPage, setCurrentFormPage] = useState(FORM_PAGES.IDENTITY_INFO)
   const [userInfo, setUserInfo] = useState({
     [FORM_FIELDS.FIRST_NAME]: '',
     [FORM_FIELDS.LAST_NAME]: '',
@@ -34,7 +18,11 @@ export default Signup = () => {
     [FORM_FIELDS.CITY]: '',
     [FORM_FIELDS.STATE]: '',
     [FORM_FIELDS.ZIP_CODE]: '',
-  })
+    [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
+    [FORM_FIELDS.DATE_OF_BIRTH]: '',
+    [FORM_FIELDS.CITIZENSHIP]: '',
+  });
+
   const [errors, setErrors] = useState({
     [FORM_FIELDS.FIRST_NAME]: '',
     [FORM_FIELDS.LAST_NAME]: '',
@@ -46,98 +34,70 @@ export default Signup = () => {
     [FORM_FIELDS.CITY]: '',
     [FORM_FIELDS.STATE]: '',
     [FORM_FIELDS.ZIP_CODE]: '',
-  })
+    [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
+    [FORM_FIELDS.DATE_OF_BIRTH]: '',
+    [FORM_FIELDS.CITIZENSHIP]: '',
+  });
 
-  const updateField = (fieldName) => (e) => setUserInfo(prev => ({ ...prev, [fieldName]: e.target.value }));
+  const updateField = (fieldName) => (e) => setUserInfo(prev => ({ ...prev, [fieldName]: e?.target?.value || '' }));
 
-  const clearErrors = () => setErrors(Object.values(FORM_FIELDS).reduce((acc, curr) => ({...acc, [curr]: '' }), {}))
+  const clearErrors = () => setErrors(Object.values(FORM_FIELDS).reduce((acc, curr) => ({ ...acc, [curr]: '' }), {}));
 
   const validations = {
-    [FORM_PAGES.BASIC_INFO]: {
-      [FORM_FIELDS.FIRST_NAME]: (firstName) => {
-        if (firstName.length <= 0) {
-          return 'Please enter your first name';
-        };
-      },
-      [FORM_FIELDS.LAST_NAME]: (lastName) => {
-        if (lastName.length <= 0) {
-          return 'Please enter your last name';
-        };
-      },
-      [FORM_FIELDS.EMAIL]: (email) => {
-        if (email.length <= 0) {
-          return 'Please enter your email';
-        };
-      },
-      [FORM_FIELDS.PASSWORD]: (password) => {
-        if (password.length <= 6) {
-          return 'Your password must be at least 6 characters';
-        };
-      },
-    },
-    [FORM_PAGES.CONTACT_INFO]: {
-      [FORM_FIELDS.PHONE_NUMBER]: (phoneNumber) => {
-        if (phoneNumber.length <= 0) {
-          return 'Please enter your phone number';
-        };
-      },
-      [FORM_FIELDS.ADDRESS]: (address) => {
-        if (address.length <= 0) {
-          return 'Please enter your address';
-        };
-      },
-      [FORM_FIELDS.ADDITIONAL_ADDRESS]: () => {},
-      [FORM_FIELDS.CITY]: (city) => {
-        if (city.length <= 0) {
-          return 'Please enter your city';
-        };
-      },
-      [FORM_FIELDS.STATE]: (state) => {
-        if (state.length <= 0) {
-          return 'Please enter your state';
-        };
-      },
-      [FORM_FIELDS.ZIP_CODE]: (zipCode) => {
-        if (zipCode.length <= 0) {
-          return 'Please enter your zip code';
-        };
-      },
-    }, 
+    [FORM_PAGES.BASIC_INFO]: basicInfoValidations,
+    [FORM_PAGES.CONTACT_INFO]: contactInfoValidations,
+    [FORM_PAGES.IDENTITY_INFO]: identityInfoValidations,
   };
 
-  const checkValidations = () => {
-    const newErrors = Object.keys(validations[currentFormPage]).reduce((acc, curr) => ({
-      ...acc,
-      [curr]: validations[currentFormPage][curr](userInfo[curr])
-    }), {});
-    setErrors(prev => ({ ...prev, ...newErrors }));
-    return newErrors;
-  };
+  const checkValidations = () => Object.keys(validations[currentFormPage]).reduce((acc, curr) => ({
+    ...acc,
+    [curr]: validations[currentFormPage][curr](userInfo[curr])
+  }), {});
 
   const anyErrors = (errorObject) => Object.values(errorObject).some(e => e);
 
   const handleContinue = () => {
-    clearErrors()
-    const newErrors = checkValidations()
-
-    console.log({newErrors});
+    clearErrors();
+    const newErrors = checkValidations();
+    setErrors(prev => ({ ...prev, ...newErrors }));
 
     if (anyErrors(newErrors)) { return; }
 
     if (currentFormPage === FORM_PAGES.BASIC_INFO) {
-      setCurrentFormPage(FORM_PAGES.CONTACT_INFO)
+      setCurrentFormPage(FORM_PAGES.CONTACT_INFO);
+    } else if (currentFormPage === FORM_PAGES.CONTACT_INFO) {
+      setCurrentFormPage(FORM_PAGES.IDENTITY_INFO);
     }
   };
 
   const formComponents = {
     [FORM_PAGES.BASIC_INFO]: {
       informationSection: <BasicInfo />,
-      formFieldSection: <BasicInfoFormSection updateField={updateField} errors={errors} formFields={FORM_FIELDS} userInfo={userInfo} />
+      formFieldSection: <BasicInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 2.5,
     },
     [FORM_PAGES.CONTACT_INFO]: {
       informationSection: <ContactInfo />,
-      formFieldSection: <ContactInfoFormSection updateField={updateField} errors={errors} formFields={FORM_FIELDS} userInfo={userInfo} />
+      formFieldSection: <ContactInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 5,
     },
+    [FORM_PAGES.IDENTITY_INFO]: {
+      informationSection: <IdentityInfo />,
+      formFieldSection: <IdentityInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 15,
+    }
   };
 
   return (
@@ -146,18 +106,25 @@ export default Signup = () => {
         {formComponents[currentFormPage].informationSection}
       </div>
       <div className="form-section-container">
-        <div className="form-section-content">
-        {formComponents[currentFormPage].formFieldSection}
-        </div>
+          {formComponents[currentFormPage].formFieldSection}
         <div className="progress-bar-section">
-          <div className="current-progress"></div>
-          <div className="full-progress-bar"></div>
+          <div
+            className="current-progress"
+            style={{ 
+              width: `${formComponents[currentFormPage].completionPercentage}%` 
+            }} 
+          />
+          <div className="full-progress-bar" />
         </div>
-
         <div className="continue-form-container">
-          <button className="stockflow-button signup-form-continue-button" onClick={handleContinue}>Continue</button>
+          <button
+            className="stockflow-button signup-form-continue-button"
+            onClick={handleContinue}
+          >
+            Continue
+          </button>
         </div>
       </div>
     </div>
   )
-}
+};

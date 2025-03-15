@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Dropdown = ({ dropdownItems }) => {
+const LinkDropdown = ({ dropdownItems }) => {
   const [open, setOpen] = useState(false);
   const { title, items } = dropdownItems;
 
   const toggleDropdown = () => setOpen(!open);
 
   return (
-    <div className="dropdown">
+    <div className="link-dropdown">
       <button onClick={toggleDropdown} onBlur={open && toggleDropdown} className={`dropdown-toggle ${title.injectedClassName}`}>
         {title.label}
         <svg
-          className={`${title.injectedClassName} caret ${open ? 'open' : ''}`}
+          className={`${title.injectedClassName} link-caret ${open ? 'open' : ''}`}
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -46,10 +46,10 @@ const Dropdown = ({ dropdownItems }) => {
         </svg>
       </button>
       {open && (
-        <ul className="dropdown-menu">
+        <ul className="link-dropdown-menu">
           {items.map(({ path, label, injectedClassName }, index) => (
-            <li key={index} className="dropdown-item">
-              <Link to={path} className={`dropdown-link ${injectedClassName}`}>
+            <li key={index} className="link-dropdown-item">
+              <Link to={path} className={`link-dropdown-link ${injectedClassName}`}>
                 {label}
               </Link>
             </li>
@@ -60,4 +60,4 @@ const Dropdown = ({ dropdownItems }) => {
   );
 };
 
-export default Dropdown;
+export default LinkDropdown;

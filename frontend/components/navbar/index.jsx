@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions/session_actions';
-import Dropdown from '../dropdown';
+import LinkDropdown from '../link_dropdown';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const Navbar = () => {
               <img className="logo-image navbar-link" src={window.stockflowLogo} />
             </Link>
             <div className="navbar-links">
-              <Dropdown dropdownItems={dropdownItems} />
+              <LinkDropdown dropdownItems={dropdownItems} />
               <Link className="navbar-link" to="/creditcard">Credit Card</Link>
               <Link className="navbar-link" to="/gold">Gold</Link>
               <Link className="navbar-link" to="/legend">Stockflow Legend</Link>

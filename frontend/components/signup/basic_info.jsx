@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FORM_FIELDS } from "./util";
 
 export const BasicInfo = () => (
   <>
@@ -16,8 +17,8 @@ export const BasicInfo = () => (
   </>
 );
 
-export const BasicInfoFormSection = ({ updateField, errors, formFields, userInfo }) => (
-  <>
+export const BasicInfoFormSection = ({ updateField, errors, userInfo }) => (
+  <div className="form-section-content">
     <div>
       <div className="form-section-info-text">
         Enter your first and last name as they appear on your government ID.
@@ -26,55 +27,54 @@ export const BasicInfoFormSection = ({ updateField, errors, formFields, userInfo
         <div className="form-section-basic-input">
           <div className="input-container shared-row-field">
             <input
-              className={`signup-form-input ${errors[formFields.FIRST_NAME] ? 'error-field' : ''}`}
+              className={`signup-form-input ${errors[FORM_FIELDS.FIRST_NAME] ? 'error-field' : ''}`}
               type="text"
               placeholder="First name"
-              value={userInfo[formFields.FIRST_NAME]}
-              onChange={updateField(formFields.FIRST_NAME)}
+              value={userInfo[FORM_FIELDS.FIRST_NAME]}
+              onChange={updateField(FORM_FIELDS.FIRST_NAME)}
             />
-            {errors[formFields.FIRST_NAME] && <div className="signup-form-field-error">
-              {errors[formFields.FIRST_NAME]}
+            {errors[FORM_FIELDS.FIRST_NAME] && <div className="signup-form-field-error">
+              {errors[FORM_FIELDS.FIRST_NAME]}
             </div>}
           </div>
           <div className="input-container shared-row-field">
             <input
-              className={`signup-form-input ${errors[formFields.LAST_NAME] ? 'error-field' : ''}`}
+              className={`signup-form-input ${errors[FORM_FIELDS.LAST_NAME] ? 'error-field' : ''}`}
               type="text"
               placeholder="Last name"
-              value={userInfo[formFields.LAST_NAME]}
-              onChange={updateField(formFields.LAST_NAME)}
+              value={userInfo[FORM_FIELDS.LAST_NAME]}
+              onChange={updateField(FORM_FIELDS.LAST_NAME)}
             />
-            {errors[formFields.LAST_NAME] && <div className="signup-form-field-error">
-              {errors[formFields.LAST_NAME]}
+            {errors[FORM_FIELDS.LAST_NAME] && <div className="signup-form-field-error">
+              {errors[FORM_FIELDS.LAST_NAME]}
             </div>}
           </div>
         </div>
         <div className="input-container">
           <input
-            className={`signup-form-input ${errors[formFields.EMAIL] ? 'error-field' : ''}`}
+            className={`signup-form-input ${errors[FORM_FIELDS.EMAIL] ? 'error-field' : ''}`}
             type="text"
             placeholder="Email address"
-            value={userInfo[formFields.EMAIL]}
-            onChange={updateField(formFields.EMAIL)}
+            value={userInfo[FORM_FIELDS.EMAIL]}
+            onChange={updateField(FORM_FIELDS.EMAIL)}
           />
-          {errors[formFields.EMAIL] && <div className="signup-form-field-error">
-            {errors[formFields.EMAIL]}
+          {errors[FORM_FIELDS.EMAIL] && <div className="signup-form-field-error">
+            {errors[FORM_FIELDS.EMAIL]}
           </div>}
         </div>
         <div className="input-container">
           <input
-            className={`signup-form-input ${errors[formFields.PASSWORD] ? 'error-field' : ''}`}
+            className={`signup-form-input ${errors[FORM_FIELDS.PASSWORD] ? 'error-field' : ''}`}
             type="password"
             placeholder="Password"
-            value={userInfo[formFields.PASSWORD]}
-            onChange={updateField(formFields.PASSWORD)}
+            value={userInfo[FORM_FIELDS.PASSWORD]}
+            onChange={updateField(FORM_FIELDS.PASSWORD)}
           />
-          {errors[formFields.PASSWORD] && <div className="signup-form-field-error">
-            {errors[formFields.PASSWORD]}
+          {errors[FORM_FIELDS.PASSWORD] && <div className="signup-form-field-error">
+            {errors[FORM_FIELDS.PASSWORD]}
           </div>}
         </div>
       </div>
-
       <div>
         <div className="login-redirect-text">
           Already Signed Up?
@@ -92,5 +92,28 @@ export const BasicInfoFormSection = ({ updateField, errors, formFields, userInfo
         This site is protected by reCAPTCHA and the Google Privacy Policy. Terms of Service apply.
       </div>
     </div>
-  </>
+  </div>
 );
+
+export const basicInfoValidations = {
+  [FORM_FIELDS.FIRST_NAME]: (firstName) => {
+    if (firstName.length <= 0) {
+      return 'Please enter your first name';
+    };
+  },
+  [FORM_FIELDS.LAST_NAME]: (lastName) => {
+    if (lastName.length <= 0) {
+      return 'Please enter your last name';
+    };
+  },
+  [FORM_FIELDS.EMAIL]: (email) => {
+    if (email.length <= 0) {
+      return 'Please enter your email';
+    };
+  },
+  [FORM_FIELDS.PASSWORD]: (password) => {
+    if (password.length <= 6) {
+      return 'Your password must be at least 6 characters';
+    };
+  },
+};

@@ -29,9 +29,14 @@
   font-size: 72px;
 }
 
+.signup-image {
+  max-width: 400px;
+}
+
 .form-section-container {
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 .form-section-content {
@@ -114,7 +119,6 @@
 .current-progress {
   background-color: white;
   height: 4px;
-  width: 2.5%;
 }
 
 .full-progress-bar {
@@ -137,6 +141,49 @@
   padding: 0px 44px;
 }
 
+.phone-input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.phone-nationality-select {
+  width: 50px;
+  background-color: black;
+  color: white;
+}
+
+.PhoneInput {
+  width: 100%;
+}
+
+.address-locale-info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.regional-info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.address-locale-input {
+  width: 92%;
+}
+
+.regional-input {
+  width: 90%;
+}
+
+.locale-container {
+  min-width: 50%;
+}
+
+.identity-citizenship-dropdown {
+  width: 105%;
+}
 
 @media (max-width: 1200px) {
   .form-section-basic-input {
@@ -150,6 +197,18 @@
 
   .shared-row-field {
     width: 100%;
+  }
+
+  .address-locale-info-container {
+    flex-direction: column;
+  }
+
+  .regional-input {
+    width: 90%;
+  }
+
+  .identity-citizenship-dropdown {
+    width: 107%;
   }
 
   .signup-form-footer {
@@ -196,10 +255,22 @@
     gap: 148px
   }
 
+  .regional-info-container {
+    flex-direction: column;
+  }
+
+  .regional-input {
+    width: 100%;
+  }
+
   .login-redirect-link,
   .login-redirect-text,
   .progress-bar-section {
     display: none;
+  }
+
+  .identity-citizenship-dropdown {
+    width: 104%;
   }
 
   .continue-form-container {
@@ -211,5 +282,9 @@
   .signup-form-continue-button {
     margin-left: 0px;
     width: 100%;
+  }
+
+  .shrink-gap {
+    gap: 0px;
   }
 }
