@@ -1,6 +1,16 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { EMPLYMENT_CONFLICT_OPTIONS, FAMILY_OPTIONS, FORM_FIELDS, FORM_PAGES } from "./util";
+import {
+  EMPLOYMENT_CONFLICT_OPTIONS,
+  EMPLOYMENT_OPTIONS,
+  FAMILY_OPTIONS,
+  FORM_FIELDS,
+  FORM_PAGES,
+  formFieldsErrorInitialState,
+  formFieldsInitialState,
+  OPTIONS_TRADING_AVAILABLE,
+} from "./util";
 import { BasicInfo, BasicInfoFormSection, basicInfoValidations } from "./basic_info";
 import { ContactInfo, ContactInfoFormSection, contactInfoValidations } from "./contact_info";
 import { IdentityInfo, IdentityInfoFormSection, identityInfoValidations } from "./identity_info";
@@ -15,90 +25,49 @@ import { ApplicationAgreementFormSection, ApplicationAgreementInfo, applicationA
 import { OptionalFeaturesFormSection, OptionalFeaturesInfo, optionalFeatureValidations } from "./optional_feature_agreements";
 import { FundAccountInfo, FundAccountInfoFormSection, fundAccountInfoValidations } from "./fund_account_info";
 import { fundAccountDetailsValidations, FundAccounttDetails, FundAccounttDetailsFormSection } from "./fund_account_details";
-import { useDispatch } from "react-redux";
+import { SalaryRangeInfo, SalaryRangeInfoFormSection, salaryRangeValidations } from "./salary_range_info";
+import { OptionsTradingInfo, OptionsTradingInfoFormSection, optionsTradingValidations } from "./options_trading_info";
+import { EmploymentDetails, EmploymentDetailsFormSection, employmentDetailsValidations } from "./employment_details";
+import { EmploymentLocationInfo, EmploymentLocationInfoFormSection, employmentLocationValidations } from "./employment_location_info";
 import { signup } from "../../util/session_api_util";
 
 export default Signup = () => {
   const dispatch = useDispatch();
-  const [currentFormPage, setCurrentFormPage] = useState(FORM_PAGES.OPTIONAL_FEATURE_AGREEMENTS)
-  const [userInfo, setUserInfo] = useState({
-    [FORM_FIELDS.FIRST_NAME]: '',
-    [FORM_FIELDS.LAST_NAME]: '',
-    [FORM_FIELDS.EMAIL]: '',
-    [FORM_FIELDS.PASSWORD]: '',
-    [FORM_FIELDS.PHONE_NUMBER]: '',
-    [FORM_FIELDS.ADDRESS]: '',
-    [FORM_FIELDS.ADDITIONAL_ADDRESS]: '',
-    [FORM_FIELDS.CITY]: '',
-    [FORM_FIELDS.STATE]: '',
-    [FORM_FIELDS.ZIP_CODE]: '',
-    [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
-    [FORM_FIELDS.DATE_OF_BIRTH]: '',
-    [FORM_FIELDS.CITIZENSHIP]: '',
-    [FORM_FIELDS.INVESTING_EXPERIENCE]: '',
-    [FORM_FIELDS.EMPLOYMENT_STATUS]: '',
-    [FORM_FIELDS.FAMILY_STATUS]: '',
-    [FORM_FIELDS.FAMIlY_EMPLOYMENT]: '',
-    [FORM_FIELDS.CONFLICT_FIRM_NAME]: '',
-    [FORM_FIELDS.CONFLICT_EMPLOYEE_NAME]: '',
-    [FORM_FIELDS.CONFLICT_RELATIONSHIP]: '',
-    [FORM_FIELDS.REPORTED_ALL_INCOME]: true,
-    [FORM_FIELDS.MARGIN_ACCOUNT]: true,
-    [FORM_FIELDS.DATA_SHARING]: true,
-    [FORM_FIELDS.ACCOUNT_FUNDS]: null,
-  });
-
-  const [errors, setErrors] = useState({
-    [FORM_FIELDS.FIRST_NAME]: '',
-    [FORM_FIELDS.LAST_NAME]: '',
-    [FORM_FIELDS.EMAIL]: '',
-    [FORM_FIELDS.PASSWORD]: '',
-    [FORM_FIELDS.PHONE_NUMBER]: '',
-    [FORM_FIELDS.ADDRESS]: '',
-    [FORM_FIELDS.ADDITIONAL_ADDRESS]: '',
-    [FORM_FIELDS.CITY]: '',
-    [FORM_FIELDS.STATE]: '',
-    [FORM_FIELDS.ZIP_CODE]: '',
-    [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
-    [FORM_FIELDS.DATE_OF_BIRTH]: '',
-    [FORM_FIELDS.CITIZENSHIP]: '',
-    [FORM_FIELDS.INVESTING_EXPERIENCE]: '',
-    [FORM_FIELDS.EMPLOYMENT_STATUS]: '',
-    [FORM_FIELDS.FAMILY_STATUS]: '',
-    [FORM_FIELDS.FAMIlY_EMPLOYMENT]: '',
-    [FORM_FIELDS.CONFLICT_FIRM_NAME]: '',
-    [FORM_FIELDS.CONFLICT_EMPLOYEE_NAME]: '',
-    [FORM_FIELDS.CONFLICT_RELATIONSHIP]: '',
-    [FORM_FIELDS.ACCOUNT_FUNDS]: '',
-  });
+  const [currentFormPage, setCurrentFormPage] = useState(FORM_PAGES.BASIC_INFO)
+  const [userInfo, setUserInfo] = useState(formFieldsInitialState);
+  const [errors, setErrors] = useState(formFieldsErrorInitialState);
 
   const updateField = (fieldName) => (e) => setUserInfo(prev => ({ ...prev, [fieldName]: e?.target?.value || '' }));
 
   const clearErrors = () => setErrors(Object.values(FORM_FIELDS).reduce((acc, curr) => ({ ...acc, [curr]: '' }), {}));
 
-  const validations = {
-    [FORM_PAGES.BASIC_INFO]: basicInfoValidations,
-    [FORM_PAGES.CONTACT_INFO]: contactInfoValidations,
-    [FORM_PAGES.IDENTITY_INFO]: identityInfoValidations,
-    [FORM_PAGES.EXPERIENCE_INFO]: experienceValidations,
-    [FORM_PAGES.EMPLOYMENT_INFO]: employmentValidations,
-    [FORM_PAGES.FAMILY_INFO]: familyValidations,
-    [FORM_PAGES.FAMILY_EMPLOYMENT_INFO]: familyEmploymentValidations,
-    [FORM_PAGES.EMPLOYMENT_CONFLICT_INFO]: employmentConflictValidations,
-    [FORM_PAGES.EMPLOYMENT_CONFLICT_DETAILS]: conflictDetailsValidations,
-    [FORM_PAGES.TAX_INFO]: taxInfoValidations,
-    [FORM_PAGES.APPLICATION_AGREEMENT_INFO]: applicationAgreementValidations,
-    [FORM_PAGES.OPTIONAL_FEATURE_AGREEMENTS]: optionalFeatureValidations,
-    [FORM_PAGES.FUND_ACCOUNT_INFO]: fundAccountInfoValidations,
-    [FORM_PAGES.FUND_ACCOUNT_DETAILS]: fundAccountDetailsValidations,
-  };
-
-  const checkValidations = () => Object.keys(validations[currentFormPage]).reduce((acc, curr) => ({
+  const checkValidations = () => Object.keys(formComponents[currentFormPage].validations).reduce((acc, curr) => ({
     ...acc,
-    [curr]: validations[currentFormPage][curr](userInfo[curr])
+    [curr]: formComponents[currentFormPage].validations[curr](userInfo[curr])
   }), {});
 
   const anyErrors = (errorObject) => Object.values(errorObject).some(e => e);
+
+  const skipPage = () => setCurrentFormPage(formComponents[currentFormPage].nextPage);
+
+  const handleContinue = () => {
+    clearErrors();
+    const newErrors = checkValidations();
+    setErrors(prev => ({ ...prev, ...newErrors }));
+
+    if (anyErrors(newErrors)) { return; }
+
+    if (formComponents[currentFormPage].nextPage) {
+      setCurrentFormPage(formComponents[currentFormPage].nextPage)
+    } else {
+      console.log({ userInfo })
+      dispatch(signup(userInfo))
+    }
+  };
+
+  const handlePrevious = () => setCurrentFormPage(formComponents[currentFormPage].previousPage);
+
+  console.log({ userInfo })
 
   const formComponents = {
     [FORM_PAGES.BASIC_INFO]: {
@@ -111,6 +80,7 @@ export default Signup = () => {
       completionPercentage: 2.5,
       previousPage: null,
       nextPage: FORM_PAGES.CONTACT_INFO,
+      validations: basicInfoValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.CONTACT_INFO]: {
@@ -123,6 +93,7 @@ export default Signup = () => {
       completionPercentage: 5,
       previousPage: FORM_PAGES.BASIC_INFO,
       nextPage: FORM_PAGES.IDENTITY_INFO,
+      validations: contactInfoValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.IDENTITY_INFO]: {
@@ -132,9 +103,10 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 15,
+      completionPercentage: 10,
       previousPage: FORM_PAGES.CONTACT_INFO,
       nextPage: FORM_PAGES.EXPERIENCE_INFO,
+      validations: identityInfoValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.EXPERIENCE_INFO]: {
@@ -144,9 +116,25 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 40,
+      completionPercentage: 15,
       previousPage: FORM_PAGES.IDENTITY_INFO,
+      nextPage: OPTIONS_TRADING_AVAILABLE.includes(userInfo[FORM_FIELDS.INVESTING_EXPERIENCE])
+        ? FORM_PAGES.OPTIONS_TRADING_INFO
+        : FORM_PAGES.EMPLOYMENT_INFO,
+      validations: experienceValidations,
+      continueButtonText: 'Continue',
+    },
+    [FORM_PAGES.OPTIONS_TRADING_INFO]: {
+      informationSection: <OptionsTradingInfo />,
+      formFieldSection: <OptionsTradingInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 20,
+      previousPage: FORM_PAGES.EXPERIENCE_INFO,
       nextPage: FORM_PAGES.EMPLOYMENT_INFO,
+      validations: optionsTradingValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.EMPLOYMENT_INFO]: {
@@ -156,9 +144,54 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 50,
-      previousPage: FORM_PAGES.EXPERIENCE_INFO,
+      completionPercentage: 25,
+      previousPage: OPTIONS_TRADING_AVAILABLE.includes(userInfo[FORM_FIELDS.INVESTING_EXPERIENCE])
+        ? FORM_PAGES.OPTIONS_TRADING_INFO
+        : FORM_PAGES.EXPERIENCE_INFO,
+      nextPage: FORM_PAGES.SALARY_RANGE_INFO,
+      validations: employmentValidations,
+      continueButtonText: 'Continue',
+    },
+    [FORM_PAGES.SALARY_RANGE_INFO]: {
+      informationSection: <SalaryRangeInfo />,
+      formFieldSection: <SalaryRangeInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 30,
+      previousPage: FORM_PAGES.EMPLOYMENT_INFO,
+      nextPage: userInfo[FORM_FIELDS.EMPLOYMENT_STATUS] === EMPLOYMENT_OPTIONS.EMPLOYED.toUpperCase()
+        ? FORM_PAGES.EMPLOYMENT_DETAILS
+        : FORM_PAGES.FAMILY_INFO,
+      validations: salaryRangeValidations,
+      continueButtonText: 'Continue',
+    },
+    [FORM_PAGES.EMPLOYMENT_DETAILS]: {
+      informationSection: <EmploymentDetails />,
+      formFieldSection: <EmploymentDetailsFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+      />,
+      completionPercentage: 35,
+      previousPage: FORM_PAGES.SALARY_RANGE_INFO,
+      nextPage: FORM_PAGES.EMPLOYMENT_LOCATION_INFO,
+      validations: employmentDetailsValidations,
+      continueButtonText: 'Continue',
+    },
+    [FORM_PAGES.EMPLOYMENT_LOCATION_INFO]: {
+      informationSection: <EmploymentLocationInfo />,
+      formFieldSection: <EmploymentLocationInfoFormSection
+        updateField={updateField}
+        errors={errors}
+        userInfo={userInfo}
+        skipPage={skipPage}
+      />,
+      completionPercentage: 40,
+      previousPage: FORM_PAGES.EMPLOYMENT_DETAILS,
       nextPage: FORM_PAGES.FAMILY_INFO,
+      validations: employmentLocationValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.FAMILY_INFO]: {
@@ -168,11 +201,14 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 65,
-      previousPage: FORM_PAGES.EMPLOYMENT_INFO,
-      nextPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.yes.toLowerCase()
+      completionPercentage: 45,
+      previousPage: userInfo[FORM_FIELDS.EMPLOYMENT_STATUS] === EMPLOYMENT_OPTIONS.EMPLOYED.toUpperCase()
+        ? FORM_PAGES.EMPLOYMENT_LOCATION_INFO
+        : FORM_PAGES.SALARY_RANGE_INFO,
+      nextPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.YES.toUpperCase()
         ? FORM_PAGES.FAMILY_EMPLOYMENT_INFO
         : FORM_PAGES.EMPLOYMENT_CONFLICT_INFO,
+      validations: familyValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.FAMILY_EMPLOYMENT_INFO]: {
@@ -182,9 +218,10 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 70,
+      completionPercentage: 50,
       previousPage: FORM_PAGES.FAMILY_INFO,
       nextPage: FORM_PAGES.EMPLOYMENT_CONFLICT_INFO,
+      validations: familyEmploymentValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.EMPLOYMENT_CONFLICT_INFO]: {
@@ -194,13 +231,14 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 75,
-      previousPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.yes.toLowerCase()
+      completionPercentage: 55,
+      previousPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.YES.toUpperCase()
         ? FORM_PAGES.FAMILY_EMPLOYMENT_INFO
         : FORM_PAGES.FAMILY_INFO,
-      nextPage: userInfo[FORM_FIELDS.EMPLOYMENT_CONFLICT] === EMPLYMENT_CONFLICT_OPTIONS.yes.toLowerCase()
+      nextPage: userInfo[FORM_FIELDS.EMPLOYMENT_CONFLICT] === EMPLOYMENT_CONFLICT_OPTIONS.YES.toUpperCase()
         ? FORM_PAGES.EMPLOYMENT_CONFLICT_DETAILS
         : FORM_PAGES.TAX_INFO,
+      validations: employmentConflictValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.EMPLOYMENT_CONFLICT_DETAILS]: {
@@ -210,11 +248,10 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 80,
-      previousPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.yes.toLowerCase()
-        ? FORM_PAGES.EMPLOYMENT_CONFLICT_INFO
-        : FORM_PAGES.FAMILY_EMPLOYMENT_INFO,
+      completionPercentage: 60,
+      previousPage: FORM_PAGES.EMPLOYMENT_CONFLICT_INFO,
       nextPage: FORM_PAGES.TAX_INFO,
+      validations: conflictDetailsValidations,
       continueButtonText: 'Continue',
     },
     [FORM_PAGES.TAX_INFO]: {
@@ -223,19 +260,21 @@ export default Signup = () => {
         updateField={updateField}
         userInfo={userInfo}
       />,
-      completionPercentage: 90,
-      previousPage: userInfo[FORM_FIELDS.FAMILY_STATUS] === FAMILY_OPTIONS.yes.toLowerCase()
-        ? FORM_PAGES.EMPLOYMENT_CONFLICT_INFO
-        : FORM_PAGES.FAMILY_EMPLOYMENT_INFO,
+      completionPercentage: 65,
+      previousPage: userInfo[FORM_FIELDS.EMPLOYMENT_CONFLICT] === EMPLOYMENT_CONFLICT_OPTIONS.YES.toUpperCase()
+        ? FORM_PAGES.EMPLOYMENT_CONFLICT_DETAILS
+        : FORM_PAGES.EMPLOYMENT_CONFLICT_INFO,
       nextPage: FORM_PAGES.APPLICATION_AGREEMENT_INFO,
+      validations: taxInfoValidations,
       continueButtonText: 'Agree and Accept',
     },
     [FORM_PAGES.APPLICATION_AGREEMENT_INFO]: {
       informationSection: <ApplicationAgreementInfo />,
       formFieldSection: <ApplicationAgreementFormSection />,
-      completionPercentage: 95,
+      completionPercentage: 70,
       previousPage: FORM_PAGES.TAX_INFO,
       nextPage: FORM_PAGES.OPTIONAL_FEATURE_AGREEMENTS,
+      validations: applicationAgreementValidations,
       continueButtonText: 'Agree and Accept',
     },
     [FORM_PAGES.OPTIONAL_FEATURE_AGREEMENTS]: {
@@ -244,17 +283,19 @@ export default Signup = () => {
         updateField={updateField}
         userInfo={userInfo}
       />,
-      completionPercentage: 97.5,
+      completionPercentage: 80,
       previousPage: FORM_PAGES.APPLICATION_AGREEMENT_INFO,
       nextPage: FORM_PAGES.FUND_ACCOUNT_INFO,
+      validations: optionalFeatureValidations,
       continueButtonText: 'Agree to selected features',
     },
     [FORM_PAGES.FUND_ACCOUNT_INFO]: {
       informationSection: <FundAccountInfo />,
       formFieldSection: <FundAccountInfoFormSection />,
-      completionPercentage: 98,
+      completionPercentage: 90,
       previousPage: FORM_PAGES.OPTIONAL_FEATURE_AGREEMENTS,
       nextPage: FORM_PAGES.FUND_ACCOUNT_DETAILS,
+      validations: fundAccountInfoValidations,
       continueButtonText: 'Fund Account',
     },
     [FORM_PAGES.FUND_ACCOUNT_DETAILS]: {
@@ -264,28 +305,13 @@ export default Signup = () => {
         errors={errors}
         userInfo={userInfo}
       />,
-      completionPercentage: 99.9,
+      completionPercentage: 95,
       previousPage: FORM_PAGES.FUND_ACCOUNT_INFO,
       nextPage: null,
+      validations: fundAccountDetailsValidations,
       continueButtonText: 'Submit and Create Account',
     },
   };
-
-  const handleContinue = () => {
-    clearErrors();
-    const newErrors = checkValidations();
-    setErrors(prev => ({ ...prev, ...newErrors }));
-
-    if (anyErrors(newErrors)) { return; }
-
-    if (formComponents[currentFormPage].nextPage) {
-      setCurrentFormPage(formComponents[currentFormPage].nextPage)
-    } else {
-      dispatch(signup(userInfo))
-    }
-  };
-
-  const handlePrevious = () => setCurrentFormPage(formComponents[currentFormPage].previousPage);
 
   return (
     <div className="signup-page-content">

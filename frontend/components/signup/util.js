@@ -1,7 +1,7 @@
 export const FORM_FIELDS = {
   FIRST_NAME: 'firstName',
   LAST_NAME: 'lastName',
-  EMAIL: 'email',
+  EMAIL_ADDRESS: 'emailAddress',
   PASSWORD: 'password',
   PHONE_NUMBER: 'phoneNumber',
   ADDRESS: 'address',
@@ -13,7 +13,17 @@ export const FORM_FIELDS = {
   DATE_OF_BIRTH: 'dateOfBirth',
   CITIZENSHIP: 'citizenship',
   INVESTING_EXPERIENCE: 'investingExperience',
+  OPTIONS_TRADING_PREFERENCE: 'optionsTradingPreference',
   EMPLOYMENT_STATUS: 'employmentStatus',
+  SALARY_RANGE: 'salaryRange',
+  EMPLOYER_NAME: 'employerName',
+  JOB_DESCRIPTION: 'jobDescription',
+  JOB_INDUSTRY: 'jobIndustry',
+  JOB_ADDRESS: 'jobAddress',
+  JOB_ADDITIONAL_ADDRESS: 'jobAdditionalAddress',
+  JOB_CITY: 'jobCity',
+  JOB_STATE: 'jobState',
+  JOB_ZIP_CODE: 'jobZipCode',
   FAMILY_STATUS: 'familyStatus',
   FAMIlY_EMPLOYMENT: 'familyEmployment',
   EMPLOYMENT_CONFLICT: 'employmentConflict',
@@ -23,39 +33,295 @@ export const FORM_FIELDS = {
   REPORTED_ALL_INCOME: 'reportedAllIncome',
   MARGIN_ACCOUNT: 'marginAccount',
   DATA_SHARING: 'dataSharing',
-  ACCOUNT_FUNDS: 'accountFunds'
-}
+  ACCOUNT_FUNDS: 'accountFunds',
+};
+
+export const formFieldsInitialState = {
+  [FORM_FIELDS.FIRST_NAME]: '',
+  [FORM_FIELDS.LAST_NAME]: '',
+  [FORM_FIELDS.EMAIL_ADDRESS]: '',
+  [FORM_FIELDS.PASSWORD]: '',
+  [FORM_FIELDS.PHONE_NUMBER]: '',
+  [FORM_FIELDS.ADDRESS]: '',
+  [FORM_FIELDS.ADDITIONAL_ADDRESS]: '',
+  [FORM_FIELDS.CITY]: '',
+  [FORM_FIELDS.STATE]: '',
+  [FORM_FIELDS.ZIP_CODE]: '',
+  [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
+  [FORM_FIELDS.DATE_OF_BIRTH]: '',
+  [FORM_FIELDS.CITIZENSHIP]: '',
+  [FORM_FIELDS.INVESTING_EXPERIENCE]: '',
+  [FORM_FIELDS.OPTIONS_TRADING_PREFERENCE]: '',
+  [FORM_FIELDS.EMPLOYMENT_STATUS]: '',
+  [FORM_FIELDS.SALARY_RANGE]: '',
+  [FORM_FIELDS.JOB_ADDRESS]: '',
+  [FORM_FIELDS.JOB_ADDITIONAL_ADDRESS]: '',
+  [FORM_FIELDS.JOB_CITY]: '',
+  [FORM_FIELDS.JOB_STATE]: '',
+  [FORM_FIELDS.JOB_ZIP_CODE]: '',
+  [FORM_FIELDS.EMPLOYER_NAME]: '',
+  [FORM_FIELDS.EMPLOYMENT_CONFLICT]: '',
+  [FORM_FIELDS.JOB_DESCRIPTION]: '',
+  [FORM_FIELDS.JOB_INDUSTRY]: '',
+  [FORM_FIELDS.FAMILY_STATUS]: '',
+  [FORM_FIELDS.FAMIlY_EMPLOYMENT]: '',
+  [FORM_FIELDS.CONFLICT_FIRM_NAME]: '',
+  [FORM_FIELDS.CONFLICT_EMPLOYEE_NAME]: '',
+  [FORM_FIELDS.CONFLICT_RELATIONSHIP]: '',
+  [FORM_FIELDS.REPORTED_ALL_INCOME]: true,
+  [FORM_FIELDS.MARGIN_ACCOUNT]: true,
+  [FORM_FIELDS.DATA_SHARING]: true,
+  [FORM_FIELDS.ACCOUNT_FUNDS]: null,
+};
+
+export const formFieldsErrorInitialState = {
+  [FORM_FIELDS.FIRST_NAME]: '',
+  [FORM_FIELDS.LAST_NAME]: '',
+  [FORM_FIELDS.EMAIL_ADDRESS]: '',
+  [FORM_FIELDS.PASSWORD]: '',
+  [FORM_FIELDS.PHONE_NUMBER]: '',
+  [FORM_FIELDS.ADDRESS]: '',
+  [FORM_FIELDS.ADDITIONAL_ADDRESS]: '',
+  [FORM_FIELDS.CITY]: '',
+  [FORM_FIELDS.STATE]: '',
+  [FORM_FIELDS.ZIP_CODE]: '',
+  [FORM_FIELDS.SOCIAL_SECURITY_NUMBER]: '',
+  [FORM_FIELDS.DATE_OF_BIRTH]: '',
+  [FORM_FIELDS.CITIZENSHIP]: '',
+  [FORM_FIELDS.INVESTING_EXPERIENCE]: '',
+  [FORM_FIELDS.OPTIONS_TRADING_PREFERENCE]: '',
+  [FORM_FIELDS.EMPLOYMENT_STATUS]: '',
+  [FORM_FIELDS.SALARY_RANGE]: '',
+  [FORM_FIELDS.JOB_ADDRESS]: '',
+  [FORM_FIELDS.JOB_ADDITIONAL_ADDRESS]: '',
+  [FORM_FIELDS.JOB_CITY]: '',
+  [FORM_FIELDS.JOB_STATE]: '',
+  [FORM_FIELDS.JOB_ZIP_CODE]: '',
+  [FORM_FIELDS.EMPLOYER_NAME]: '',
+  [FORM_FIELDS.EMPLOYMENT_CONFLICT]: '',
+  [FORM_FIELDS.JOB_DESCRIPTION]: '',
+  [FORM_FIELDS.JOB_INDUSTRY]: '',
+  [FORM_FIELDS.FAMILY_STATUS]: '',
+  [FORM_FIELDS.FAMIlY_EMPLOYMENT]: '',
+  [FORM_FIELDS.CONFLICT_FIRM_NAME]: '',
+  [FORM_FIELDS.CONFLICT_EMPLOYEE_NAME]: '',
+  [FORM_FIELDS.CONFLICT_RELATIONSHIP]: '',
+  [FORM_FIELDS.ACCOUNT_FUNDS]: '',
+};
+
+const NONE = 'NONE';
+const BEGINNER = 'BEGINNER';
+const INTERMEDIATE = 'INTERMEDIATE';
+const EXPERT = 'EXPERT';
+const YES = 'YES';
+const NO = 'NO';
+const EMPLOYED = 'EMPLOYED';
+const UNEMPLOYED = 'UNEMPLOYED';
+const RETIRED = 'RETIRED';
+const STUDENT = 'STUDENT';
+const VERY_LOW_INCOME = 'VERY_LOW_INCOME';
+const LOW_INCOME = 'LOW_INCOME';
+const MODERTATE_INCOME = 'MODERTATE_INCOME';
+const MID_INCOME = 'MID_INCOME';
+const HIGH_INCOME = 'HIGH_INCOME';
+const VERY_HIGH_INCOME = 'VERY_HIGH_INCOME';
 
 export const EXPERIENCE_OPTIONS = {
-  none: 'None',
-  beginner: 'Not Much',
-  intermediate: 'I know what I\'m doing',
-  expert: 'I\'m an expert',
-}
+  [NONE]: 'None',
+  [BEGINNER]: 'Not Much',
+  [INTERMEDIATE]: 'I know what I\'m doing',
+  [EXPERT]: 'I\'m an expert',
+};
+
+export const OPTIONS_TRADING_AVAILABLE = [
+  INTERMEDIATE,
+  EXPERT
+];
+
+export const OPTIONS_TRADING_PREFERENCES = {
+  [YES]: 'Yes',
+  [NO]: 'No',
+};
 
 export const EMPLOYMENT_OPTIONS = {
-  employed: 'Employed',
-  unemployed: 'Unemployed',
-  retired: 'Retired',
-  student: 'Student',
-}
+  [EMPLOYED]: 'Employed',
+  [UNEMPLOYED]: 'Unemployed',
+  [RETIRED]: 'Retired',
+  [STUDENT]: 'Student',
+};
+
+export const INCOME_RANGE_OPTIONS = {
+  [VERY_LOW_INCOME]: '$24,999 or less',
+  [LOW_INCOME]: '$25,000 to $49,999',
+  [MODERTATE_INCOME]: '$50,0000 to $99,999',
+  [MID_INCOME]: '$100,000 to $199,999',
+  [HIGH_INCOME]: '$200,000 to $499,999',
+  [VERY_HIGH_INCOME]: '$500,000 or more',
+};
 
 export const FAMILY_OPTIONS = {
-  yes: 'Yes',
-  no: 'No',
-}
+  [YES]: 'Yes',
+  [NO]: 'No',
+};
 
-export const EMPLYMENT_CONFLICT_OPTIONS = {
-  yes: 'Yes',
-  no: 'No',
-}
+export const EMPLOYMENT_CONFLICT_OPTIONS = {
+  [YES]: 'Yes',
+  [NO]: 'No',
+};
+
+export const OCCUPATION_DESCRIPTION = [
+  'Accountant/Auditor/Bookkeeper',
+  'Adjuster',
+  'Advertiser/Marketer/PR Professional',
+  'Air Traffic Controller',
+  'Ambassador/Consulate Professional',
+  'Analyst',
+  'Appraiser',
+  'Architect/Designer',
+  'Artist/Performer/Actor/Dancer',
+  'Assistant/Executive Assistant',
+  'Athlete',
+  'Attorney/Judge/Legal Professional',
+  'Auctioneer',
+  'Banker/Lending Professional',
+  'Barber/Beautician/Hairstylist',
+  'Broker/Registered Rep',
+  'Business Executive',
+  'Business Owner',
+  'Caregiver',
+  'Carpenter/Construction Worker/Contractor',
+  'Cashier',
+  'Chef/Cook',
+  'Chiropractor',
+  'Civil Servant',
+  'Clergy',
+  'Clerk',
+  'Compliance/Regulatory Professional',
+  'Consultant',
+  'Counselor/Therapist',
+  'Customer Service Representative',
+  'Dealer',
+  'Dentist',
+  'Distributor',
+  'Doctor/Surgeon/Physician',
+  'Driver',
+  'Engineer',
+  'Exterminator',
+  'Factory/Warehouse Worker',
+  'Farmer/Rancher',
+  'Financial Planner/Advisor',
+  'Flight Attendant',
+  'Human Resources Professional',
+  'Importer/Exporter',
+  'Inspector/Investigator',
+  'Investor',
+  'IT Professional/IT Associate',
+  'Janitor',
+  'Jeweler',
+  'Laborer',
+  'Landscaper',
+  'Mechanic',
+  'Military, Officer or Associated',
+  'Mortician/Funeral Director',
+  'Nurse',
+  'Office Associate',
+  'Pharmacist',
+  'Physical Therapist',
+  'Pilot',
+  'Police Officer/Firefighter/Law Enforcement Professional',
+  'Politician',
+  'Project Manager',
+  'Real Estate Professional',
+  'Researcher',
+  'Salesperson',
+  'Scientist',
+  'Seamstress/Tailor',
+  'Security Guard',
+  'Social Worker',
+  'Teacher/Professor',
+  'Technician',
+  'Teller',
+  'Tradesperson/Craftsperson',
+  'Trainer/Instructor',
+  'Underwriter',
+  'Veterinarian',
+  'Writer/Journalist/Editor',
+  'Other',
+];
+
+export const OCCUPATION_INDUSTRY = [
+  'Accounting',
+  'Advertising/Marketing',
+  'Aerospace/Defense',
+  'Agriculture/Forestry',
+  'Amusement and Recreation',
+  'Animal Services and Veterinary',
+  'Architecture/Design',
+  'Arts/Antiques',
+  'Athletics/Fitness',
+  'Automotive',
+  'Aviation',
+  'Bar/Nightclub/Adult Entertainment Club',
+  'Childcare',
+  'Cleaning/Janitorial/Housekeeping',
+  'Communications/Telecommunications',
+  'Construction/Carpentry/Landscaping',
+  'Convenience Store/Liquor Store/Gas Station',
+  'Customer Service and Support',
+  'Education',
+  'Embassy/Consulate',
+  'Energy',
+  'Engineering',
+  'Fashion/Clothing',
+  'Financial Services',
+  'Firearms and Explosives',
+  'Gaming/Casino/Card Club',
+  'Government/Public Administration',
+  'Grocery/Supermarket',
+  'Healthcare/Medical Services',
+  'Hotel/Hospitality',
+  'Import/Export',
+  'Information Technology',
+  'Insurance',
+  'Jewelry, Gems, and Precious Metals',
+  'Legal Services/Public Safety',
+  'Logistics/Supply Chain',
+  'Manufacturing',
+  'Maritime',
+  'Media/Entertainment',
+  'Mining, Oil, and Gas',
+  'Money Services Businesses',
+  'Non-Profit/NGO/Charity',
+  'Parking and Car Washes',
+  'Pawn Shops/Brokers',
+  'Personal Care/Hygiene',
+  'Pharmaceuticals',
+  'Printing/Publishing',
+  'Professional/Civic Organizations',
+  'Real Estate',
+  'Religious Organization',
+  'Repair Services',
+  'Restaurant/Food Service',
+  'Retail Sales/Retail Trade',
+  'Science and Biotechnology',
+  'Security',
+  'Transportation',
+  'Travel',
+  'Utilities',
+  'Wholesale Sales/Trade',
+  'Other',
+]
 
 export const FORM_PAGES = {
   BASIC_INFO: 'basicInfo',
   CONTACT_INFO: 'contactInfo',
   IDENTITY_INFO: 'identityInfo',
   EXPERIENCE_INFO: 'experienceInfo',
+  OPTIONS_TRADING_INFO: 'optionsTradingInfo',
   EMPLOYMENT_INFO: 'employmentInfo',
+  SALARY_RANGE_INFO: 'salaryRangeInfo',
+  EMPLOYMENT_DETAILS: 'employmentDetails',
+  EMPLOYMENT_LOCATION_INFO: 'employmentLocationInfo',
   FAMILY_INFO: 'familyInfo',
   FAMILY_EMPLOYMENT_INFO: 'familyEmploymentInfo',
   EMPLOYMENT_CONFLICT_INFO: 'employmentConflictInfo',
@@ -65,7 +331,7 @@ export const FORM_PAGES = {
   OPTIONAL_FEATURE_AGREEMENTS: 'optionalFeatureAgreements',
   FUND_ACCOUNT_INFO: 'fundAccountInfo',
   FUND_ACCOUNT_DETAILS: 'fundAccountDetails',
-}
+};
 
 export const countryPhoneData = {
   AF: { name: "Afghanistan", areaCode: "+93", maxDigitsAllowed: 9 },
@@ -309,6 +575,5 @@ export const countryPhoneData = {
   EH: { name: "Western Sahara", areaCode: "+212", maxDigitsAllowed: 9 },
   YE: { name: "Yemen", areaCode: "+967", maxDigitsAllowed: 9 },
   ZM: { name: "Zambia", areaCode: "+260", maxDigitsAllowed: 9 },
-  ZW: { name: "Zimbabwe", areaCode: "+263", maxDigitsAllowed: 9 }
+  ZW: { name: "Zimbabwe", areaCode: "+263", maxDigitsAllowed: 9 },
 };
-

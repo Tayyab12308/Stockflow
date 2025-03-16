@@ -52,14 +52,14 @@ export const BasicInfoFormSection = ({ updateField, errors, userInfo }) => (
         </div>
         <div className="input-container">
           <input
-            className={`signup-form-input ${errors[FORM_FIELDS.EMAIL] ? 'error-field' : ''}`}
+            className={`signup-form-input ${errors[FORM_FIELDS.EMAIL_ADDRESS] ? 'error-field' : ''}`}
             type="text"
             placeholder="Email address"
-            value={userInfo[FORM_FIELDS.EMAIL]}
-            onChange={updateField(FORM_FIELDS.EMAIL)}
+            value={userInfo[FORM_FIELDS.EMAIL_ADDRESS]}
+            onChange={updateField(FORM_FIELDS.EMAIL_ADDRESS)}
           />
-          {errors[FORM_FIELDS.EMAIL] && <div className="signup-form-field-error">
-            {errors[FORM_FIELDS.EMAIL]}
+          {errors[FORM_FIELDS.EMAIL_ADDRESS] && <div className="signup-form-field-error">
+            {errors[FORM_FIELDS.EMAIL_ADDRESS]}
           </div>}
         </div>
         <div className="input-container">
@@ -106,7 +106,7 @@ export const basicInfoValidations = {
       return 'Please enter your last name';
     };
   },
-  [FORM_FIELDS.EMAIL]: (email) => {
+  [FORM_FIELDS.EMAIL_ADDRESS]: (email) => {
     if (email.length <= 0) {
       return 'Please enter your email';
     };

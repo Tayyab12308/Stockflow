@@ -1,7 +1,6 @@
 import React from "react";
 import { FORM_FIELDS } from "./util";
 
-
 export const EmploymentConflictDetails = () => (
   <>
     <img className="signup-stockflow-logo" src={window.stockflowLogo} />
@@ -13,7 +12,7 @@ export const EmploymentConflictDetails = () => (
         We're required by law to collect certain information that helps us know it's you when you log in to Stockflow.
         It's all about keeping your account safe.
       </div>
-      <img className="signup-image" src={window.signupContactInfoImage} />
+      <img className="signup-image" src={window.signupInvestingExperienceImage} />
     </div>
   </>
 );

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FORM_FIELDS, countryPhoneData } from "./util";
 import PhoneInput from 'react-phone-number-input';
 import ItemDropdown from "../item_dropdown";

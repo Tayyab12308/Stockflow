@@ -1,5 +1,5 @@
 import React from "react";
-import { EMPLYMENT_CONFLICT_OPTIONS, FORM_FIELDS } from "./util";
+import { EMPLOYMENT_CONFLICT_OPTIONS, FORM_FIELDS } from "./util";
 
 export const EmploymentConflictInfo = () => (
   <>
@@ -28,7 +28,7 @@ export const EmploymentConflictFormSection = ({ updateField, errors, userInfo })
       <div className="form-fields-section">
         <div className="input-container">
           <div className="experience-radio-group">
-            {Object.keys(EMPLYMENT_CONFLICT_OPTIONS).map((expLevel, idx) => {
+            {Object.keys(EMPLOYMENT_CONFLICT_OPTIONS).map((expLevel, idx) => {
               return (
                 <label className={`experience-radio-label ${userInfo[FORM_FIELDS.EMPLOYMENT_CONFLICT] === expLevel ? 'selected-experience' : ''}`} key={idx}>
                   <input
@@ -39,7 +39,7 @@ export const EmploymentConflictFormSection = ({ updateField, errors, userInfo })
                     checked={userInfo[FORM_FIELDS.EMPLOYMENT_CONFLICT] === expLevel}
                     onChange={updateField(FORM_FIELDS.EMPLOYMENT_CONFLICT)}
                   />
-                  <span>{EMPLYMENT_CONFLICT_OPTIONS[expLevel]}</span>
+                  <span>{EMPLOYMENT_CONFLICT_OPTIONS[expLevel]}</span>
                 </label>
               )
             })}

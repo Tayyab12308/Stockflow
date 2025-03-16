@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { convertKeysToSnakeCase } from './util';
 
 const csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -34,7 +35,8 @@ export const logout = () => {
 };
 
 export const signup = (user) => {
-  const data = serializeUser(user);
+  const snakeCaseData = convertKeysToSnakeCase(user);
+  const data = serializeUser(snakeCaseData);
   return axios.post('/api/users', data, {
     headers: {
       'X-CSRF-Token': csrfToken,

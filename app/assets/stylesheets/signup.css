@@ -333,6 +333,15 @@ ol.tax-info-body-item {
   margin-bottom: 5px;
 }
 
+.skip-step-text-button {
+  border: none;
+  background: none;
+  color: rgb(145, 159, 166);
+  text-decoration: underline;
+  padding: 0px 4px;
+  font-weight: 600;
+}
+
 @media (max-width: 1200px) {
   .form-section-basic-input {
     flex-direction: column;

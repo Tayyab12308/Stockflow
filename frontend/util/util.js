@@ -112,3 +112,29 @@ export const fetchValidPricesForTicker = async (ticker, maxAttempts = 5) => {
   }
   return prices;
 };
+
+// Helper to convert camelCase string to snake_case
+const camelToSnake = (str) =>
+  str
+    // Insert underscore between a lowercase letter or digit and an uppercase letter.
+    .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+    // Insert underscore between a letter and a digit.
+    .replace(/([a-zA-Z])([0-9])/g, '$1_$2')
+    .toLowerCase();
+
+// Recursive function to convert keys of an object to snake_case
+export const convertKeysToSnakeCase = (obj) => {
+  if (Array.isArray(obj)) {
+    // Recursively process each element in the array
+    return obj.map(convertKeysToSnakeCase);
+  } else if (obj !== null && typeof obj === 'object') {
+    // Process each key in the object
+    return Object.keys(obj).reduce((acc, key) => {
+      const snakeKey = camelToSnake(key);
+      acc[snakeKey] = convertKeysToSnakeCase(obj[key]);
+      return acc;
+    }, {});
+  }
+  // Return the value if it's not an object or array
+  return obj;
+}
