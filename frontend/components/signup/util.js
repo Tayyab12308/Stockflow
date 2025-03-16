@@ -11,13 +11,60 @@ export const FORM_FIELDS = {
   ZIP_CODE: 'zipCode',
   SOCIAL_SECURITY_NUMBER: 'socialSecurityNumber',
   DATE_OF_BIRTH: 'dateOfBirth',
-  CITIZENSHIP: 'citizenship'
+  CITIZENSHIP: 'citizenship',
+  INVESTING_EXPERIENCE: 'investingExperience',
+  EMPLOYMENT_STATUS: 'employmentStatus',
+  FAMILY_STATUS: 'familyStatus',
+  FAMIlY_EMPLOYMENT: 'familyEmployment',
+  EMPLOYMENT_CONFLICT: 'employmentConflict',
+  CONFLICT_FIRM_NAME: 'conflictFirmName',
+  CONFLICT_EMPLOYEE_NAME: 'conflictEmployeeName',
+  CONFLICT_RELATIONSHIP: 'conflictRelationship',
+  REPORTED_ALL_INCOME: 'reportedAllIncome',
+  MARGIN_ACCOUNT: 'marginAccount',
+  DATA_SHARING: 'dataSharing',
+  ACCOUNT_FUNDS: 'accountFunds'
+}
+
+export const EXPERIENCE_OPTIONS = {
+  none: 'None',
+  beginner: 'Not Much',
+  intermediate: 'I know what I\'m doing',
+  expert: 'I\'m an expert',
+}
+
+export const EMPLOYMENT_OPTIONS = {
+  employed: 'Employed',
+  unemployed: 'Unemployed',
+  retired: 'Retired',
+  student: 'Student',
+}
+
+export const FAMILY_OPTIONS = {
+  yes: 'Yes',
+  no: 'No',
+}
+
+export const EMPLYMENT_CONFLICT_OPTIONS = {
+  yes: 'Yes',
+  no: 'No',
 }
 
 export const FORM_PAGES = {
   BASIC_INFO: 'basicInfo',
   CONTACT_INFO: 'contactInfo',
   IDENTITY_INFO: 'identityInfo',
+  EXPERIENCE_INFO: 'experienceInfo',
+  EMPLOYMENT_INFO: 'employmentInfo',
+  FAMILY_INFO: 'familyInfo',
+  FAMILY_EMPLOYMENT_INFO: 'familyEmploymentInfo',
+  EMPLOYMENT_CONFLICT_INFO: 'employmentConflictInfo',
+  EMPLOYMENT_CONFLICT_DETAILS: 'employmentConlfictDetails',
+  TAX_INFO: 'taxInfo',
+  APPLICATION_AGREEMENT_INFO: 'applicationAgreementInfo',
+  OPTIONAL_FEATURE_AGREEMENTS: 'optionalFeatureAgreements',
+  FUND_ACCOUNT_INFO: 'fundAccountInfo',
+  FUND_ACCOUNT_DETAILS: 'fundAccountDetails',
 }
 
 export const countryPhoneData = {

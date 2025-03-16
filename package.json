@@ -7,6 +7,7 @@
     "@babel/preset-react": "^7.22.5",
     "@reduxjs/toolkit": "^2.6.0",
     "awesome-phonenumber": "^7.4.0",
+    "axios": "^1.8.3",
     "babel-loader": "^9.1.2",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",

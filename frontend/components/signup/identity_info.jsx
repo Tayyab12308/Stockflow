@@ -9,7 +9,7 @@ const CitizenshipDropdown = ({ selected, onSelect, errors }) => {
   }));
 
   // Determine the label for the currently selected country.
-  const selectedLabel = selected  ||  "Citizenship";
+  const selectedLabel = selected || "Citizenship";
 
   return (
     <ItemDropdown
@@ -39,7 +39,6 @@ export const IdentityInfo = () => (
 );
 
 export const IdentityInfoFormSection = ({ updateField, errors, userInfo }) => {
-  const [selectedCountry, setSelectedCountry] = useState("US");
   const [ssnPlaceholder, setSSNPlaceholder] = useState('Social Security Number');
   const [dobPlaceholder, setDOBPlaceholder] = useState('Date of Birth');
 
@@ -48,8 +47,6 @@ export const IdentityInfoFormSection = ({ updateField, errors, userInfo }) => {
 
   const handleDOBFocus = () => setDOBPlaceholder('MM/DD/YYYY');
   const handleDOBBlur = () => setDOBPlaceholder('Date of Birth');
-
-  console.log({ userInfo })
 
   const handleSSNChange = (e) => {
     // Remove all non-digit characters.
@@ -65,7 +62,7 @@ export const IdentityInfoFormSection = ({ updateField, errors, userInfo }) => {
       if (p3) result += '-' + p3;
       return result;
     });
-    updateField(FORM_FIELDS.SOCIAL_SECURITY_NUMBER)({ target: { value: formatted }});
+    updateField(FORM_FIELDS.SOCIAL_SECURITY_NUMBER)({ target: { value: formatted } });
   };
 
   const handleDOBChange = (e) => {
@@ -82,7 +79,7 @@ export const IdentityInfoFormSection = ({ updateField, errors, userInfo }) => {
       if (p3) result += '/' + p3;
       return result;
     });
-    updateField(FORM_FIELDS.DATE_OF_BIRTH)({ target: { value: formatted }});
+    updateField(FORM_FIELDS.DATE_OF_BIRTH)({ target: { value: formatted } });
   };
 
   return (
@@ -117,9 +114,9 @@ export const IdentityInfoFormSection = ({ updateField, errors, userInfo }) => {
           </div>}
         </div>
         <div className="input-container">
-          <CitizenshipDropdown 
-            selected={userInfo[FORM_FIELDS.CITIZENSHIP]} 
-            onSelect={(name) => updateField(FORM_FIELDS.CITIZENSHIP)({ target: { value: name }})} 
+          <CitizenshipDropdown
+            selected={userInfo[FORM_FIELDS.CITIZENSHIP]}
+            onSelect={(name) => updateField(FORM_FIELDS.CITIZENSHIP)({ target: { value: name } })}
             errors={errors}
           />
           {errors[FORM_FIELDS.CITIZENSHIP] && <div className="signup-form-field-error">

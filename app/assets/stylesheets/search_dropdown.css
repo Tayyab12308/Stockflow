@@ -1,0 +1,48 @@
+.search-dropdown {
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 285px;
+  overflow-y: auto;
+  background-color: rgb(30, 30, 30);
+  border: 1px solid black;
+  border-top: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+  width: 106%;
+  color: white;
+}
+
+.search-result-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.stacked-result {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-item-name {
+  color: rgb(156, 171, 178);
+}
+
+.search-result-item:hover {
+  background-color: #2d2d2d;
+}

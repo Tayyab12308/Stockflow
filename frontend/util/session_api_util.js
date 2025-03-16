@@ -1,36 +1,44 @@
-const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+import axios from 'axios';
 
-export const login = user => (
-  $.ajax({
-    method: "POST",
-    url: '/api/session',
+const csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
+
+// Helper function to serialize the "user" object as Rails expects.
+const serializeUser = (user) => {
+  const params = new URLSearchParams();
+  // Rails expects nested params like user[name]=John
+  Object.entries(user).forEach(([key, value]) => {
+    params.append(`user[${key}]`, value);
+  });
+  return params;
+};
+
+export const login = (user) => {
+  const data = serializeUser(user);
+  return axios.post('/api/session', data, {
     headers: {
       'X-CSRF-Token': csrfToken,
       'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    data: { user },
-  })
-);
+    }
+  });
+};
 
-export const logout = () => (
-  $.ajax({
-    method: "DELETE",
-    url: '/api/session',
+export const logout = () => {
+  return axios.delete('/api/session', {
     headers: {
       'X-CSRF-Token': csrfToken,
       'Content-Type': 'application/json'
-    },
-  })
-);
+    }
+  });
+};
 
-export const signup = user => (
-  $.ajax({
-    method: "POST",
-    url: '/api/users',
+export const signup = (user) => {
+  const data = serializeUser(user);
+  return axios.post('/api/users', data, {
     headers: {
       'X-CSRF-Token': csrfToken,
-      'Content-Type': "application/x-www-form-urlencoded"
-    },
-    data: { user },
-  })
-);
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+};

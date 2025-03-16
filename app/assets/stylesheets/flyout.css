@@ -1,0 +1,75 @@
+.flyout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.flyout-modal {
+  position: relative;
+  width: 500px;
+  max-height: 500px;
+  background-color: rgb(39, 39, 39);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.flyout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.flyout-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.flyout-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.flyout-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.flyout-button-container {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flyout-button {
+  padding: 10px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 44px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.flyout-button.inverted {
+  background-color: white;
+  color: black;
+}

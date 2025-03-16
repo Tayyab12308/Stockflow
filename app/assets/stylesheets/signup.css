@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 }
 
 .information-section-container {
@@ -27,6 +28,11 @@
 
 .information-section-headline {
   font-size: 72px;
+  line-height: 80px;
+}
+
+.information-section-details {
+  line-height: 20px;
 }
 
 .signup-image {
@@ -51,6 +57,13 @@
 .form-section-info-text {
   font-size: 21px;
   margin-bottom: 48px;
+  line-height: 28px;
+}
+
+.form-section-info-sub-text {
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 20px;
 }
 
 .form-fields-section {
@@ -131,7 +144,17 @@
   padding: 36px 24px;
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: space-between;
+}
+
+.signup-form-previous-button {
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: white;
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
 }
 
 .signup-form-continue-button {
@@ -185,6 +208,131 @@
   width: 105%;
 }
 
+.experience-form-content {
+  gap: 235px;
+}
+
+.experience-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.experience-radio-label {
+  border: 1px solid rgb(48, 54, 58);
+  padding: 25px;
+  border-radius: 15px;
+  font-size: 12px;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+}
+
+/* Hide the native radio button */
+.experience-radio-label input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.selected-experience {
+  background-color: white;
+  color: black;
+}
+
+.disclaimers-footer.experience {
+  margin-bottom: 15px;
+  line-height: 16px;
+}
+
+.scrollable-tax-info {
+  background-color: #262525;
+  height: 500px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #262525;
+  border-radius: 6px;
+}
+
+.tax-info-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #3e3e3e;
+}
+
+.tax-info-papers-image {
+  width: auto;
+  height: auto;
+  max-width: 60px;
+  max-height: 91px;
+}
+
+.tax-certification-container {
+  height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tax-info-body-item {
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.tax-info-body-item.bold {
+  font-weight: 600;
+}
+
+.tax-info-body-item.bold.tall {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.tax-info-body-item-ul {
+  display: block !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  margin-left: 40px !important;
+}
+
+.tax-info-body-item-ul > li {
+  font-size: 14px;
+  padding-bottom: 5px;
+  line-height: 20px;
+}
+
+.form-agreement-item {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.tax-info-link {
+  color: white;
+  padding: 0px 5px;
+  font-weight: 600;
+}
+
+ol.tax-info-body-item {
+  list-style-type: decimal;
+  padding-left: 20px; /* ensure there's enough space for the numbers */
+}
+
+.fund-account-form-content {
+  gap: 265px;
+}
+
+.fund-detail-container {
+  margin-bottom: 20px;
+}
+
+.fund-detail-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
 @media (max-width: 1200px) {
   .form-section-basic-input {
     flex-direction: column;
@@ -214,6 +362,36 @@
   .signup-form-footer {
     margin-top: 14px;
   }
+
+  .experience-form-content {
+    gap: 365px;
+  }
+}
+
+@media (min-width: 767px) {
+  .continue-form-container.bottom-sticky-continue-button {
+    display: none;
+  }
+
+  .form-section-container {
+    position: relative;
+    height: 100vh; /* or a fixed height that works for your layout */
+    overflow: hidden; /* prevent the footer from being pushed out */
+  }
+
+  /* This container scrolls if content is too tall */
+  .form-section-scrollable-form-content {
+    overflow-y: auto;
+    height: calc(100% - 100px); /* adjust 100px to the actual height of your sticky footer */
+  }
+
+  /* Sticky footer stays at the bottom of the form container */
+  .form-section-sticky-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: black;
+    z-index: 1000;
+  }
 }
 
 @media (max-width: 767px) {
@@ -240,14 +418,25 @@
 
   .information-section-headline {
     font-size: 40px;
+    line-height: 50px;
   }
 
   .information-section-details {
-    font-size: 12px;
+    line-height: 24px;
+    font-size: 16px;
   }
 
   .form-section-container {
-    width: 95%;
+    width: 100%;
+    margin-bottom: 150px;
+  }
+
+  .form-section-info-text {
+    line-height: 24px;
+  }
+
+  .form-section-info-sub-text {
+    margin-bottom: 50px;
   }
 
   .form-section-content {
@@ -263,6 +452,10 @@
     width: 100%;
   }
 
+  .experience-radio-label {
+    font-size: 14px;
+  }
+
   .login-redirect-link,
   .login-redirect-text,
   .progress-bar-section {
@@ -273,10 +466,22 @@
     width: 104%;
   }
 
-  .continue-form-container {
+  .continue-form-container.flex-button {
+    display: none;
+  }
+
+  .continue-form-container.bottom-sticky-continue-button {
     padding: 19px 24px;
     align-self: center;
-    width: 250px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black; /* match your page background */
+    z-index: 1000;  /* ensure it sits on top */
+    display: flex;
+    justify-content: center;
   }
 
   .signup-form-continue-button {
@@ -286,5 +491,9 @@
 
   .shrink-gap {
     gap: 0px;
+  }
+
+  .experience-form-content {
+    gap: 330px;
   }
 }
