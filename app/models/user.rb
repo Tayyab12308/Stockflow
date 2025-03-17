@@ -17,7 +17,7 @@
 #
 
 class User < ApplicationRecord
-  validates :first_name, :last_name, :password_digest, :funds, :address, :phone_number, presence: true
+  validates :first_name, :last_name, :password_digest, :funds, :address, :city, :state, :zip_code, :social_security_number, :date_of_birth, :citizenship, :investing_experience, :employment_status, :salary_range, :employment_conflict, :family_status, :reported_all_income, :margin_account, :data_sharing, :phone_number, presence: true
   validates :email_address, :session_token, presence: true, uniqueness: true
   validates :password, length: { minimum: 6, allow_nil: true }
   after_initialize :ensure_session_token

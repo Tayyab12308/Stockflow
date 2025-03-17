@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   EMPLOYMENT_CONFLICT_OPTIONS,
   EMPLOYMENT_OPTIONS,
@@ -30,9 +29,11 @@ import { OptionsTradingInfo, OptionsTradingInfoFormSection, optionsTradingValida
 import { EmploymentDetails, EmploymentDetailsFormSection, employmentDetailsValidations } from "./employment_details";
 import { EmploymentLocationInfo, EmploymentLocationInfoFormSection, employmentLocationValidations } from "./employment_location_info";
 import { signup } from "../../util/session_api_util";
+import { useNavigate } from "react-router-dom";
 
 export default Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currentFormPage, setCurrentFormPage] = useState(FORM_PAGES.BASIC_INFO)
   const [userInfo, setUserInfo] = useState(formFieldsInitialState);
   const [errors, setErrors] = useState(formFieldsErrorInitialState);
@@ -60,14 +61,11 @@ export default Signup = () => {
     if (formComponents[currentFormPage].nextPage) {
       setCurrentFormPage(formComponents[currentFormPage].nextPage)
     } else {
-      console.log({ userInfo })
-      dispatch(signup(userInfo))
+      dispatch(signup(userInfo)).then(() => navigate("/dashboard"));
     }
   };
 
   const handlePrevious = () => setCurrentFormPage(formComponents[currentFormPage].previousPage);
-
-  console.log({ userInfo })
 
   const formComponents = {
     [FORM_PAGES.BASIC_INFO]: {

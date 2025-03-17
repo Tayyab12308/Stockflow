@@ -5,22 +5,16 @@ const csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 
-// Helper function to serialize the "user" object as Rails expects.
-const serializeUser = (user) => {
-  const params = new URLSearchParams();
-  // Rails expects nested params like user[name]=John
-  Object.entries(user).forEach(([key, value]) => {
-    params.append(`user[${key}]`, value);
-  });
-  return params;
-};
-
 export const login = (user) => {
-  const data = serializeUser(user);
-  return axios.post('/api/session', data, {
+  const snakeCaseData = convertKeysToSnakeCase(user);
+  return axios.post(
+    '/api/session',
+    { user: snakeCaseData }, 
+    {
     headers: {
       'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
   });
 };
@@ -36,11 +30,11 @@ export const logout = () => {
 
 export const signup = (user) => {
   const snakeCaseData = convertKeysToSnakeCase(user);
-  const data = serializeUser(snakeCaseData);
-  return axios.post('/api/users', data, {
+  return axios.post('/api/users', { user: snakeCaseData }, {
     headers: {
       'X-CSRF-Token': csrfToken,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
   });
 };

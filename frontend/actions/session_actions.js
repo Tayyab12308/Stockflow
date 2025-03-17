@@ -27,7 +27,9 @@ export const clearSessionErrors = () => ({
 });
 
 export const login = user => dispatch => (
-  APIUtil.login(user).then(user => dispatch(receiveCurrentUser(user)), error => dispatch(receiveSessionErrors(error.responseJSON)))
+  APIUtil.login(user).then(user => {
+    console.log({ user });
+    dispatch(receiveCurrentUser(user.data))}, error => dispatch(receiveSessionErrors(error.responseJSON)))
 );
 
 export const addToWatchlist = watchlist => dispatch => (

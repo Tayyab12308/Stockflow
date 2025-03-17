@@ -6,6 +6,7 @@ import SplashComponent from './splash';
 import CreditCard from './static_pages/credit_card';
 import Login from './login';
 import Signup from './signup';
+import Dashboard from './dashboard';
 
 const MainLayout = () => {
   return (
@@ -53,6 +54,14 @@ const App = () => (
           <AuthRoute>
             <SplashComponent />
           </AuthRoute>
+        }
+      />
+      <Route
+        path='/dashboard'
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
         }
       />
     </Route>

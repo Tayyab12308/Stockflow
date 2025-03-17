@@ -23,14 +23,17 @@ export const FundAccounttDetailsFormSection = ({ updateField, errors, userInfo }
     <div className="form-fields-section">
       <div className="input-container">
         <input
-          className={`signup-form-input ${errors[FORM_FIELDS.ACCOUNT_FUNDS] ? 'error-field' : ''}`}
+          className={`signup-form-input ${errors[FORM_FIELDS.FUNDS] ? 'error-field' : ''}`}
           type="number"
           placeholder="Enter amount to fund account"
-          value={userInfo[FORM_FIELDS.ACCOUNT_FUNDS]}
-          onChange={updateField(FORM_FIELDS.ACCOUNT_FUNDS)}
+          value={userInfo[FORM_FIELDS.FUNDS]}
+          onChange={(e) => {
+            updateField(FORM_FIELDS.FUNDS)(e)
+            updateField(FORM_FIELDS.PORTFOLIO_VALUE)(e)
+          }}
         />
-        {errors[FORM_FIELDS.ACCOUNT_FUNDS] && <div className="signup-form-field-error">
-          {errors[FORM_FIELDS.ACCOUNT_FUNDS]}
+        {errors[FORM_FIELDS.FUNDS] && <div className="signup-form-field-error">
+          {errors[FORM_FIELDS.FUNDS]}
         </div>}
       </div>
     </div>

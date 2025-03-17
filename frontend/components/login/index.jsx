@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import LoginImage from './login-image';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../actions/session_actions";
 
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isChecked, setIsChecked] = useState(false);
@@ -17,7 +18,7 @@ const Login = () => {
 
   const loginUser = () => {
     console.log({ email, password })
-    // dispatch(login({ email, password }))
+    dispatch(login({ email, password })).then(() => navigate("/dashboard"))
   }
 
   useEffect(() => {
@@ -101,7 +102,7 @@ const Login = () => {
     clearErrors()
     setEmail('tonystark@email.com');
     setPassword('password')
-    loginUser()
+    // loginUser()
   }
 
   return (

@@ -33,7 +33,8 @@ export const FORM_FIELDS = {
   REPORTED_ALL_INCOME: 'reportedAllIncome',
   MARGIN_ACCOUNT: 'marginAccount',
   DATA_SHARING: 'dataSharing',
-  ACCOUNT_FUNDS: 'accountFunds',
+  FUNDS: 'funds',
+  PORTFOLIO_VALUE: 'portfolioValue',
 };
 
 export const formFieldsInitialState = {
@@ -71,7 +72,7 @@ export const formFieldsInitialState = {
   [FORM_FIELDS.REPORTED_ALL_INCOME]: true,
   [FORM_FIELDS.MARGIN_ACCOUNT]: true,
   [FORM_FIELDS.DATA_SHARING]: true,
-  [FORM_FIELDS.ACCOUNT_FUNDS]: null,
+  [FORM_FIELDS.FUNDS]: null,
 };
 
 export const formFieldsErrorInitialState = {
@@ -106,7 +107,7 @@ export const formFieldsErrorInitialState = {
   [FORM_FIELDS.CONFLICT_FIRM_NAME]: '',
   [FORM_FIELDS.CONFLICT_EMPLOYEE_NAME]: '',
   [FORM_FIELDS.CONFLICT_RELATIONSHIP]: '',
-  [FORM_FIELDS.ACCOUNT_FUNDS]: '',
+  [FORM_FIELDS.FUNDS]: '',
 };
 
 const NONE = 'NONE';
