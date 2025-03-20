@@ -20,8 +20,8 @@ build({
   globalName: 'Stockflow',
   // Automatically resolve .js and .jsx files
   loader: {
-    '.js': 'jsx',
-    '.jsx': 'jsx'
+    '.ts': 'tsx',
+    '.tsx': 'tsx'
   },
   // Target a set of JavaScript versions (adjust if needed)
   target: ['es2015'],

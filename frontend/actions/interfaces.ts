@@ -1,0 +1,5 @@
+
+interface BackendErrorResponse {
+  errors: string[];
+}
+

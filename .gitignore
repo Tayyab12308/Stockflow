@@ -36,5 +36,7 @@ bundle.js.map
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+dist
+
 
 legacy_frontend/
