@@ -1,113 +1,240 @@
+/* Navbar stays at the top, 72px height */
 .navbar {
-  height: 72px;
-  display: flex;
   position: fixed;
-  align-items: center;
-  width: 100%;
-  letter-spacing: 1.25px;
   top: 0;
-  flex-direction: row;
-  background-color: white;
-  z-index: 100;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  background-color: #222;
+  z-index: 1000; /* Ensures it stays above other content */
+  overflow: visible;
 }
 
-.navbar-right {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 7.5%;
-}
-
-.navbar-logo {
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #20ce9a;
-}
-
-.navbar-logo:hover {
-  text-decoration: none;
-}
-
+/* Container for nav elements, vertically centered */
 .nav-elements {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 0 5%;
-  line-height: 3;
+  align-items: center; /* Vertically centers elements */
+  justify-content: space-between; /* Left and right elements apart */
+  height: 100%; /* Fills navbar height */
+  padding: 0 20px; /* Horizontal padding */
 }
 
-.navbar-buttons {
+/* Left-fixed section stays on the left */
+.navbar-left-fixed {
   display: flex;
-  text-decoration: none;
-  justify-content: space-between;
-  width: 70%;
-  margin: 0% 5%;
+  align-items: center;
+  width: 900px; /* Fixed width as requested */
+  flex-shrink: 0; /* Prevents shrinking on resize */
+  max-width: 100%;
+  min-width: 0; /* Prevents cutoff by allowing shrinkage */
 }
 
+.navbar-left-fixed.logged-in {
+  width: 45%;
+}
+
+/* Links within navbar-left-fixed */
 .navbar-links {
   display: flex;
-  margin-right: 15%;
-}
-
-
-.navbar-links a, .navbar-session-buttons a {
-  margin: 0 15px;
-  font-weight: 900;
-}
-
-.signup-button {
-  border: 1px solid #20ce9a;
-  background: #20ce9a;
-  padding: 10px 15px;
-  border-radius: 36px;
-  color: white;
-}
-
-.signup-button:hover {
-  color: white;
+  align-items: center;
+  margin-left: 20px; /* Space between logo and links */
 }
 
 .logo-image {
-  width: 25px;
-  height: 35px;
-  padding-top: 8px;  
+  width: 150px;
+  height: 24px;
 }
 
-.logged-in-links {
-  margin-right: 0;
+.logged-in-logo-image {
+  width: 150px;
+  height: 40px;
+}
+
+.navbar-search-container {
+  width: 65%
+}
+
+.navbar-links.logged-in-links,
+.navbar-link.logged-in {
   font-size: 12px;
-  margin-top: 1%;
+  font-weight: 600;
 }
 
-.logged-in-links a {
-  text-decoration: none;  
+/* Individual links with spacing */
+.navbar-link {
+  margin-right: 20px; /* Space between links */
+  text-decoration: none;
+  color: white;
+  white-space: nowrap; /* Keeps text on one line */
 }
 
-.logged-in-links a:hover {
-  color: #f45531;
+.menu-link:hover,
+.navbar-link:hover {
+  color: #adf15e;
 }
 
-.search-results-false {
-  display: none;
-}
-
-#nav-log-in-links a:hover {
-    color: #f45531 !important;
-}
-
-.transition-logo {
-  background-color: white;
-  padding: 0;
-  margin-top: 8px;
-}
-
-.transition-logo:hover {
-  background-color:  #f45531;
-  transition: 0.25s; 
-}
-
-.navbar-left {
+/* Right-side session buttons */
+.navbar-session-buttons {
   display: flex;
-  width: 50%;
-  justify-content: space-between;
+  align-items: center;
+}
+
+/* Style the signup button */
+.signup-button {
+  margin-left: 10px; /* Space from previous element */
+  text-decoration: none;
+  color: black; /* Adjust styling as needed */
+  white-space: nowrap; /* Keeps text on one line */
+  border-radius: 36px;
+  border: 2px solid black;
+  padding: 0px 32px;
+  background-color: white;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-button:hover {
+  background-color: #e3e3e3;
+}
+
+/* Hamburger container (hidden on large screens) */
+.hamburger-container {
+  display: none;
+  align-items: center;
+}
+
+/* Hamburger icon with two lines */
+.hamburger-icon {
+  width: 30px;
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+}
+
+.login-button {
+  border: 1px solid white;
+  border-radius: 36px;
+  padding: 0px 32px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: white; /* Adjust color as needed */
+  transition: transform 0.3s ease; /* Animation for transform */
+}
+
+.hamburger-icon::before {
+  top: 0; /* Top line */
+}
+
+.hamburger-icon::after {
+  bottom: 0; /* Bottom line */
+}
+
+.hamburger-icon.open::before {
+  transform: translateY(7px) rotate(45deg); /* Forms top part of X */
+}
+
+.hamburger-icon.open::after {
+  transform: translateY(-9px) rotate(-45deg); /* Forms bottom part of X */
+}
+
+/* Full-page menu (hidden by default) */
+.menu {
+  display: none;
+  position: fixed;
+  top: 72px; /* Below navbar */
+  left: 0;
+  width: 100%;
+  height: calc(100% - 72px); /* Full height minus navbar */
+  background-color: black; /* Adjust color as needed */
+  z-index: 999; /* Below navbar but above content */
+  padding: 20px;
+}
+
+/* Show menu when open */
+.menu.open {
+  display: block;
+}
+
+/* Menu links stacked on the left */
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Individual menu links */
+.menu-link {
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: white; /* Adjust color as needed */
+  font-size: 18px; /* Larger for mobile readability */
+  white-space: nowrap; /* Keeps text on one line */
+  width: 100%;
+}
+
+@media (max-width: 300px) {
+  .signup-button {
+    font-size: 12px;
+    padding: 0px 8px;
+  }
+}
+
+@media (max-width: 385px) {
+  .signup-button {
+    padding: 0px 8px;
+  }
+}
+
+/* Responsive behavior for smaller screens */
+@media (max-width: 1190px) {
+  .navbar-left-fixed {
+    width: auto; /* Overrides 1200px on small screens */
+  }
+
+  .navbar-links {
+    display: none; /* Hides links on small screens */
+  }
+
+  .navbar-session-buttons {
+    display: none; /* Hides session buttons on small screens */
+  }
+
+  .hamburger-container {
+    display: flex; /* Shows signup button and hamburger icon */
+  }
+
+  .menu-link {
+    font-size: 30px;
+  }
+
+  .hamburger-container .signup-button {
+    margin-right: 24px; /* Space between signup button and hamburger icon */
+  }
+}
+
+@media (max-width: 330px) {
+  .signup-button {
+    padding: 0px, 5px;
+    font-size: 12px;
+  }
+
+  .hamburger-container .signup-button {
+    margin-right: 5px; /* Space between signup button and hamburger icon */
+  }
 }

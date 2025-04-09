@@ -1,0 +1,166 @@
+.investing-section {
+  height: 800px;
+  position: relative;
+}
+
+.investing-background {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.investing-text {
+  position: absolute;
+  left: 50%;
+  transform: translate(-5%, -75.1%);
+  z-index: 2; /* Ensures the text is on top of the video */
+  text-align: center;
+  height: 100%;
+  text-align: left;
+  width: 340px;
+}
+
+.investing-headline {
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 34px;
+  opacity: 0.4;
+  color: #a09f9d;
+}
+
+.investing-catchphrase {
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 36px;
+}
+
+.investing-description {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  line-height: 28px;
+}
+
+.investing-disclosures {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 19px;
+  color: #4D4A46;
+}
+
+.investing-separator {
+  height: 16px;
+}
+
+.investing-medium-separator {
+  height: 24px;
+}
+
+.investing-button {
+  display: inline-flex;
+  line-height: 22px;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.1px;
+  border: 1px solid #CCFF00;
+  background-color: #CCFF00;
+  margin-left: 0px;
+}
+
+.investing-xl-separator {
+  height: 225px;
+}
+
+.investing-disclaimer {
+  font-family: Phonic, Helvetica, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 19px;
+  color: #34322e;
+}
+
+@media (min-width: 767px) {
+  .investing-text {
+    margin-left: 3%;
+    margin-right: 5%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .investing-text {
+    margin-left: 7%;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .investing-text {
+    width: 310px;
+  }
+
+  .investing-headline {
+    font-size: 28px;
+  }
+
+  .investing-catchphrase {
+    font-size: 33px;
+    line-height: 34px;
+  }
+
+  .investing-description {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .investing-xl-separator {
+    height: 275px;
+  }
+}
+
+@media (max-width: 767px) {
+  .investing-section {
+    height: 986px;
+  }
+
+  .investing-text {
+    transform: translate(-54%, -95.1%);
+    width: 82%;
+  }
+
+  .investing-xl-separator {
+    height: 690px;
+  }
+}
+
+@media (max-width: 715px) {
+  .investing-xl-separator {
+    height: 625px;
+  }
+}
+
+@media (max-width: 425px) {
+  .investing-xl-separator {
+    height: 620px;
+  }
+}
+
+@media (max-width: 415px) {
+  .investing-section {
+    height: 1200px;
+  }
+
+  .investing-xl-separator {
+    height: 775px;
+  }
+}
+
+@media (max-width: 350px) {
+  .investing-xl-separator {
+    height: 730px;
+  }
+}

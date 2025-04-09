@@ -1,0 +1,88 @@
+<svg viewBox="10 90 400 10" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style type="text/css">
+      <![CDATA[
+        @import url("https://fonts.googleapis.com/css2?family=Rambla:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+        .logo-text {
+          font-family: 'Rambla', sans-serif;
+        }
+      ]]>
+    </style>
+    <!-- Inner shadow filter for the text -->
+    <filter id="innerShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feOffset in="blur" dx="2" dy="2" result="offsetBlur"/>
+      <feComposite in="offsetBlur" in2="SourceAlpha" operator="out" result="inverse"/>
+      <feFlood flood-color="black" flood-opacity="0.5" result="color"/>
+      <feComposite in="color" in2="inverse" operator="in" result="shadow"/>
+      <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+    </filter>
+    <!-- Composite filter for the icon: first thicken then apply an inner shadow -->
+    <filter id="iconFilter">
+      <!-- Thicken the icon slightly -->
+      <feMorphology in="SourceAlpha" operator="dilate" radius="0.5" result="thickened"/>
+      <!-- Create a blurred version of the thickened shape -->
+      <feGaussianBlur in="thickened" stdDeviation="2" result="blur"/>
+      <feOffset in="blur" dx="2" dy="2" result="offsetBlur"/>
+      <!-- Subtract the thickened shape from the blurred offset to isolate the shadow -->
+      <feComposite in="offsetBlur" in2="thickened" operator="out" result="inverse"/>
+      <feFlood flood-color="black" flood-opacity="0.5" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="inverse" operator="in" result="shadow"/>
+      <!-- Composite the original graphic over the shadow -->
+      <feComposite in="SourceGraphic" in2="shadow" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- 
+       Icon group:
+       - The provided path’s bounding box is roughly 181 units tall.
+       - To match a capital “S” of about 72px tall, we use a scale factor ≈ 72/181 ≈ 0.397.
+       - The rightmost x value of the original icon is about 214; scaled it becomes ~85.1.
+       - Translating horizontally by ~9.84 puts the right edge at 95px, which is where the text starts.
+       - The vertical translation (≈58.53) centers the icon with the text.
+  -->
+  <g id="icon" transform="translate(9.84,58.53) scale(0.369)" filter="url(#iconFilter)" style="width: 100%; height: 200px;">
+    <path fill="#c5ae74" opacity="1.000000" stroke="none"
+      d="
+M44.498085,177.498398 
+	C38.746120,183.295609 33.244152,188.842834 27.074024,195.063705 
+	C26.814268,193.080582 26.528152,191.909988 26.527056,190.739120 
+	C26.501736,163.742844 26.478512,136.746460 26.578320,109.750534 
+	C26.584379,108.111176 27.138350,105.997383 28.235403,104.907928 
+	C58.840969,74.514076 89.549751,44.224159 120.378090,13.782241 
+	C120.942757,14.203861 121.495430,14.523627 121.934914,14.957938 
+	C151.792221,44.463829 181.659332,73.959915 211.428772,103.554230 
+	C212.794128,104.911545 214.041199,107.154678 214.051987,108.992813 
+	C214.215149,136.821350 214.163376,164.651123 214.148392,192.480621 
+	C214.148148,192.931931 213.978668,193.383148 213.748383,194.531479 
+	C182.539032,163.776184 151.672211,133.358429 120.455383,102.595757 
+	C95.173149,127.525787 69.960617,152.387085 44.498085,177.498398 
+M186.257980,95.242355 
+	C166.541077,75.708275 146.824158,56.174194 126.158966,35.700619 
+	C126.158966,54.590130 126.092026,71.722321 126.263939,88.852119 
+	C126.280869,90.539665 127.381096,92.591949 128.620316,93.835243 
+	C147.069504,112.345093 165.610886,130.763260 184.168198,149.165054 
+	C190.111679,155.058716 196.165054,160.841553 202.841080,167.329025 
+	C202.841080,155.677246 202.851181,145.071625 202.837692,134.466034 
+	C202.827942,126.808441 204.857208,118.303238 202.168243,111.735466 
+	C199.561523,105.368591 192.091919,100.992676 186.257980,95.242355 
+M38.157127,130.500763 
+	C38.157127,142.251190 38.157127,154.001617 38.157127,166.780334 
+	C40.032982,165.267975 41.217720,164.472656 42.213505,163.486526 
+	C65.411842,140.513123 88.632492,117.561691 111.679626,94.437386 
+	C113.297661,92.813942 114.362938,89.896103 114.399254,87.560181 
+	C114.637558,72.234024 114.528435,56.902363 114.511528,41.572525 
+	C114.509956,40.146896 114.360771,38.721436 114.243103,36.641460 
+	C110.345963,40.315922 106.911888,43.429611 103.615318,46.682644 
+	C85.594376,64.465569 68.013680,82.722763 49.426712,99.891373 
+	C40.896828,107.770348 36.013496,115.870522 38.141880,127.504555 
+	C38.259869,128.149475 38.157127,128.834793 38.157127,130.500763 
+z"/>
+  </g>
+  
+  <!-- Text element: its left edge aligns with the icon’s right edge (~95px) -->
+  <text x="95" y="100" dominant-baseline="middle" class="logo-text" font-size="72"
+        fill="#c5ae74" filter="url(#innerShadow)" text-anchor="start">
+    Stockflow
+  </text>
+</svg>

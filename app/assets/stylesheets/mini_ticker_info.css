@@ -1,0 +1,42 @@
+.mini-ticker-link {
+  text-decoration: none;
+  z-index: 999;
+}
+
+.mini-ticker-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0px 10px;
+}
+
+
+.hover-green:hover {
+  color: rgb(0, 200, 5);
+}
+
+.hover-red:hover {
+  color: rgb(255, 80, 0);
+}
+
+
+.green-up-triangle {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid rgb(0, 200, 5);
+  margin: 0px 5px;
+}
+
+.red-down-triangle {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid rgb(255, 80, 0);
+  margin: 0px 5px;
+}

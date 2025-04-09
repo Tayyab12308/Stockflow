@@ -1,63 +1,179 @@
-.login-page {
+.login-page-content {
+  background-color: black;
   display: flex;
+  flex-direction: row;
 }
 
-.login_image {
-  width: 50vw;
-  height: 100vh;
+.login-form-container {
+  width: 50%;
 }
 
-.login-header {
-  font-size: 24px;
-  padding-bottom: 20px;
-  font-weight: 900;
+.login-message {
+  color: white;
+  font-size: 20px;
+  margin: 12px 0px 36px 0px;
 }
 
-.form-section {
+.login-form-floating-box {
+  transform: translate(14%, 28%);
+  width: 80%
+}
+
+.login-form-fields {
+  color: white;
+  display: grid;
+  gap: 24px;
+}
+
+.input-label {
+  margin-bottom: 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 50px;
-  width: 30vw;
+  flex-direction: row;
+  font-size: 12px;
 }
 
+.session-error {
+  font-size: 12px;
+  color: rgb(192, 15, 15);
+  padding-left: 5px;
+}
 
 .login-input {
   width: 100%;
-  height: 20px;
-  margin: 10px 0;
-  padding: 15px 20px;
-  border-radius: 5px;
-  border: none;
-  background-color : #fafafa;
+  background: black;
+  border: 1px solid rgb(48, 54, 58);
+  border-radius: 6px;
+  height: 34px;
+  color: white;
+  font-size: 16px;
+  padding: 0px 5px;
 }
 
-.login-input:focus {
-  outline: none;
-  border: 1px solid #20ce9a;
-  background-color: #ffffff; 
+.remember-checkbox-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
 }
 
-button {
-  padding: 20px 25px;
-  background-color: #20ce9a;
-  border-radius: 5px;
-  margin-top: 50px;
+.checkbox-label-text {
+  font-size: 12px;
+  display: contents;
+}
+
+.login-checkbox-input {
+  margin-right: 12px;
+}
+
+.warning-message-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid rgb(30, 33, 36);
+  border-radius: 4px;
+  padding: 12px;
+  background-color: rgb(30, 33, 36);
+  align-items: center;
+}
+
+.warning-text {
+  font-size: 12px;
+  padding-left: 12px;
+}
+
+.login-help-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 48px 0px;
+  justify-content: space-between;
+}
+
+.login-action-button {
+  width: 47%;
+  margin-left: 0px;
+}
+
+.help-button {
+  width: 47%;
+  margin-left: 0px;
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+}
+
+.separator-text {
+  color: gray;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: anchor-center;
+}
+
+.gray-dash {
+  border-color: gray;
+  border-top-style: solid;
+  border-top-width: 1px;
+  flex: 1 1 0%;
+  height: 1px;
+}
+
+.or-text {
+  padding: 0px 10px;
+}
+
+.demo-button {
+  max-width: 420px;
   min-width: 120px;
-  max-width: 130px;
-  color: #ffffff;
-  cursor: pointer;
+  margin: 40px 0px;
 }
 
-button:hover {
-  background-color: #00ea9c;
+.demo-button,
+.login-action-button,
+.help-button {
+  font-weight: 600;
 }
 
-.login-errors {
-  font-size: 11px;
-  font-weight: 700;
+.signup-redirect-text {
+  color: white;
+  font-size: 12px;
 }
 
-.error-icon {
-  width: 11px;
+.signup-redirect-link {
+  color: white;
+  font-size: 12px;
+  padding-left: 5px;
+}
+
+.site-protection-disclaimer {
+  font-size: 12px;
+  color: white;
+  margin-top: 24px;
+}
+
+@media (max-width: 767px) {
+  .login-image {
+    display: none;
+  }
+
+  .login-page-content {
+    height: 100vh;
+  }
+
+  .login-form-container {
+    width: 100%;
+  }
+
+  .login-form-floating-box {
+    transform: translate(14%, 28%);
+  }
+}
+
+@media (max-width: 540px) {
+  .login-help-buttons {
+    flex-direction: column;
+    height: 100px;
+    justify-content: space-between;
+  }
+
+  .demo-button, .login-action-button, .help-button {
+    width: 100%;
+  }
 }

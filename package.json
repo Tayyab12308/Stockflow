@@ -5,13 +5,20 @@
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
+    "@polygon.io/client-js": "^7.4.0",
+    "@reduxjs/toolkit": "^2.6.0",
+    "awesome-phonenumber": "^7.4.0",
+    "axios": "^1.8.3",
     "babel-loader": "^9.1.2",
     "jquery": "^3.7.1",
+    "js-sdsl": "^4.4.2",
+    "lightweight-charts": "^5.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-odometerjs": "^2.1.1",
+    "react-phone-number-input": "^3.4.12",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.14.1",
     "recharts": "^2.5.0",
@@ -30,8 +37,8 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "postinstall": "yarn build",
-    "build": "node esbuild.config.js"
+    "build:dev": "tsc && node esbuild.dev.js",
+    "build:prod": "NODE_ENV=production node esbuild.config.mjs"
   },
   "engines": {
     "node": "18.16.0",
@@ -53,12 +60,17 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/lodash": "^4.17.16",
+    "@types/node": "^22.13.10",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/redux-logger": "^3.0.13",
     "babel-jest": "^29.7.0",
+    "dotenv": "^16.4.7",
     "esbuild": "^0.25.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "redux-mock-store": "^1.5.5"
+    "redux-mock-store": "^1.5.5",
+    "typescript": "^5.8.2"
   }
 }

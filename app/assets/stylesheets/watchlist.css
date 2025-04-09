@@ -1,0 +1,42 @@
+.watchlist-container {
+  display: initial;
+  flex: 0 0 calc(25% - 24px);
+  visibility: visible;
+  width: calc(25% - 24px);
+  box-sizing: content-box;
+  height: calc(100vh - 64px - 48px);
+  margin-left: -12px;
+  margin-right: -12px;
+  overflow-y: auto;
+  padding: 36px 24px 24px;
+  position: sticky;
+  scrollbar-width: none;
+  top: 64px;
+}
+
+.watchlist-container:last-child {
+  margin-bottom: -64px;
+}
+
+.watchlist-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.symbol {
+  width: 100px;
+  font-weight: bold;
+}
+
+.watchlist-chart-container {
+  width: 100px;
+  height: 100px;
+}
+
+.price {
+  width: 100px;
+  text-align: right;
+}

@@ -1,0 +1,47 @@
+.news-item-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
+  padding: 25px 24px;
+  font-size: 14px;
+  border-bottom: 1px solid #30363a;
+}
+
+.header-section {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 12px;
+}
+
+.news-item-publisher {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.news-item-time-since {
+  margin-left: 10px;
+  font-size: 12px;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.news-item-title {
+  max-width: 850px;
+  line-height: 20px;
+}
+
+.news-item-image {
+  width: 125px;
+  height: fit-content;
+}
+
+.ticker-info {
+  display: flex;
+  flex-direction: row;
+}

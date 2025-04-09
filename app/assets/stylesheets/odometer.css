@@ -1,0 +1,76 @@
+.price-odometer {
+  font-family: monospace;
+  display: inline-flex;
+}
+
+.digit-container {
+  position: relative;
+  display: inline-block;
+  width: 1ch;
+  height: 1em;
+  overflow: hidden;
+}
+
+.digit {
+  display: block;
+  line-height: 1em;
+  text-align: center;
+  color: white; /* Default color when not animating */
+}
+
+.digit-wrapper.animating .digit {
+  color: inherit; /* Inherit color from wrapper during animation */
+}
+
+.old-digit,
+.new-digit {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+/* Upward animations */
+@keyframes slide-up-old {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up-new {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Downward animations */
+@keyframes slide-down-old {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-down-new {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

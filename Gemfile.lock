@@ -210,6 +210,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.9)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -252,6 +254,9 @@ GEM
       ffi (~> 1.0)
     rdoc (6.12.0)
       psych (>= 4.0.0)
+    redis (4.8.1)
+    redis-namespace (1.11.0)
+      redis (>= 4)
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
@@ -324,6 +329,7 @@ DEPENDENCIES
   capybara (>= 3.35)
   chromedriver-helper
   coffee-rails (~> 5.0)
+  connection_pool
   jbuilder (~> 2.7)
   jquery-rails
   jsbundling-rails
@@ -331,7 +337,10 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pry-rails
   puma (~> 6.0)
+  rack-attack
   rails (~> 7.0)
+  redis (~> 4.8)
+  redis-namespace
   sass-rails (>= 6)
   selenium-webdriver
   spring (~> 3.0.0)

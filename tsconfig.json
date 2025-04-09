@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist", // <-- Specify where TypeScript should place compiled JavaScript files
+    "rootDir": "./frontend" // <-- Define where TypeScript should look for source files
+  },
+  "include": ["frontend"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,13 +1,26 @@
-a {
+.dark-theme {
+  background-color: black;
+  color: white;
+}
+
+.stockflow-button {
+  margin-left: 10px; /* Space from previous element */
   text-decoration: none;
-  color: black;
+  color: black; /* Adjust styling as needed */
+  white-space: nowrap; /* Keeps text on one line */
+  border-radius: 36px;
+  border: 1px solid black;
+  padding: 0px 32px;
+  background-color: white;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-a:hover {
-  color: #20ce9a;
-  text-decoration: underline;
-}
-
-button:focus, input:focus {
-  outline: none;
+@media (max-width: 425px) {
+  .stockflow-button {
+    padding: 0px, 5px;
+    font-size: 12px;
+  }
 }

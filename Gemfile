@@ -28,6 +28,11 @@ gem "jsbundling-rails"
 # Use Jquery-rails 
 gem 'jquery-rails'
 
+gem 'redis', '~> 4.8'
+gem 'redis-namespace'
+gem 'connection_pool'
+gem 'rack-attack'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

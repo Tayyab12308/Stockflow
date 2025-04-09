@@ -1,0 +1,158 @@
+.crypto-section {
+  height: 800px;
+  position: relative;
+}
+
+.crypto-background {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.crypto-text {
+  position: absolute;
+  left: 50%;
+  transform: translate(-7%, -83%);
+  z-index: 2; /* Ensures the text is on top of the video */
+  text-align: center;
+  height: 100%;
+  text-align: left;
+  width: 340px;
+}
+
+.crypto-logo {
+  width: 90%;
+  max-width: 300px;
+}
+
+.crypto-catchphrase {
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 36px;
+}
+
+.crypto-description {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  line-height: 28px;
+}
+
+.crypto-disclosures {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 19px;
+  color: #4D4A46;
+}
+
+.crypto-separator {
+  height: 16px;
+}
+
+.crypto-medium-separator {
+  height: 24px;
+}
+
+.crypto-button {
+  display: inline-flex;
+  line-height: 22px;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.1px;
+  border: 1px solid #110E08;
+  background-color: #110E08;
+  margin-left: 0px;
+  color: white;
+}
+
+.crypto-xl-separator {
+  height: 225px;
+}
+
+.crypto-disclaimer {
+  font-family: Phonic, Helvetica, system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.1px;
+  line-height: 19px;
+  color: #34322e;
+}
+
+@media (min-width: 767px) {
+  .crypto-text {
+    margin-left: 3%;
+    margin-right: 5%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .crypto-text {
+    margin-left: 7%;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .crypto-text {
+    width: 310px;
+  }
+
+  .crypto-logo {
+    font-size: 28px;
+  }
+
+  .crypto-catchphrase {
+    font-size: 33px;
+    line-height: 34px;
+  }
+
+  .crypto-description {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .crypto-xl-separator {
+    height: 260px;
+  }
+}
+
+@media (max-width: 767px) {
+  .crypto-section {
+    height: 986px;
+  }
+
+  .crypto-text {
+    transform: translate(-54%, -95.1%);
+    width: 82%;
+  }
+
+  .crypto-xl-separator {
+    height: 600px;
+  }
+}
+
+
+@media (max-width: 715px) {
+  .crypto-xl-separator {
+    height: 550px;
+  }
+}
+
+@media (max-width: 425px) {
+  .crypto-xl-separator {
+    height: 512px;
+  }
+}
+
+@media (max-width: 415px) {
+  .crypto-section {
+    height: 1200px;
+  }
+
+  .crypto-xl-separator {
+    height: 605px;
+  }
+}
