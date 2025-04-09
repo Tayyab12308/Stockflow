@@ -3,6 +3,7 @@ import { CountryCode, CountryPhoneInfo, FormFields, FormFieldsType, countryPhone
 import PhoneInput from 'react-phone-number-input';
 import ItemDropdown from "../itemDropdown";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 interface CustomPhoneInputProps {
   value: string;
@@ -56,7 +57,7 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({
 
 export const ContactInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Help us verify your identity
@@ -65,7 +66,7 @@ export const ContactInfo: React.FC = (): React.JSX.Element => (
         We're required by law to collect certain information that helps us know it's you when you log in to Stockflow.
         It's all about keeping your account safe.
       </div>
-      <img className="signup-image" src={window.signupContactInfoImage} />
+      <img className="signup-image" src={assetService.getImage('signupContactInfoImage')} />
     </div>
   </>
 );

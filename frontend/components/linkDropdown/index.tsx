@@ -10,12 +10,26 @@ const LinkDropdown: React.FC<LinkDropdownProps> = ({
 
   const toggleDropdown = (): void => setOpen(!open);
 
+  const handleItemClick = (onClick?: () => void) => {
+    if (onClick) {
+      onClick();
+    }
+    setOpen(false);
+  };
+
   return (
     <div className="link-dropdown">
-      <button onClick={toggleDropdown} onBlur={open ? toggleDropdown : undefined} className={`link-dropdown-toggle ${title.injectedClassName}`}>
+      <button 
+        onClick={toggleDropdown} 
+        onBlur={(e) => {
+          // Add a delay to check if focus moved to dropdown item
+          setTimeout(() => setOpen(false), 100);
+        }} 
+        className={`link-dropdown-toggle ${title.injectedClassName || ''}`}
+      >
         {title.label}
         <svg
-          className={`${title.injectedClassName} link-caret ${open ? 'open' : ''}`}
+          className={`${title.injectedClassName || ''} link-caret ${open ? 'open' : ''}`}
           version="1.1"
           id="Layer_1"
           xmlns="http://www.w3.org/2000/svg"
@@ -50,11 +64,28 @@ const LinkDropdown: React.FC<LinkDropdownProps> = ({
       </button>
       {open && (
         <ul className="link-dropdown-menu">
-          {items.map(({ path, label, injectedClassName }: DropdownItem, index: number): React.JSX.Element => (
+          {items.map(({ path, label, injectedClassName, onClick }: DropdownItem, index: number): React.JSX.Element => (
             <li key={index} className="link-dropdown-item">
-              <Link to={path} className={`link-dropdown-link ${injectedClassName}`}>
-                {label}
-              </Link>
+              {onClick ? (
+                <a 
+                  href="#" 
+                  className={`link-dropdown-link ${injectedClassName || ''}`} 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleItemClick(onClick);
+                  }}
+                >
+                  {label}
+                </a>
+              ) : (
+                <Link 
+                  to={path} 
+                  className={`link-dropdown-link ${injectedClassName || ''}`}
+                  onClick={() => handleItemClick()}
+                >
+                  {label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

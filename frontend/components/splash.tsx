@@ -1,34 +1,35 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from './carousel';
+import assetService from '../services/assetService';
 
 const Splash = () => {
   const protectionBlocks = [
     <div className='protection-block'>
       <picture className='protection-block-image'>
-        <source srcSet={window.protectionSectionCube} />
-        <img alt='We work hard to keep your data safe and secure.' src={window.protectionSectionCube} />
+        <source srcSet={assetService.getImage('protectionSectionCube')} />
+        <img alt='We work hard to keep your data safe and secure.' src={assetService.getImage('protectionSectionCube')} />
       </picture>
       <div className='protection-block-text'>We work hard to keep your data safe and secure.</div>
     </div>,
     <div className='protection-block'>
       <picture className='protection-block-image'>
-        <source srcSet={window.protectionSectionLayerCircle} />
-        <img alt='We protect your account from unauthorized activity.' src={window.protectionSectionLayerCircle} />
+        <source srcSet={assetService.getImage('protectionSectionLayerCircle')} />
+        <img alt='We protect your account from unauthorized activity.' src={assetService.getImage('protectionSectionLayerCircle')} />
       </picture>
       <div className='protection-block-text'>We protect your account from unauthorized activity.</div>
     </div>,
     <div className='protection-block'>
       <picture className='protection-block-image'>
-        <source srcSet={window.protectionSectionSecureCircle} />
-        <img alt='We provide multi-factor authentication on all accounts.' src={window.protectionSectionSecureCircle} />
+        <source srcSet={assetService.getImage('protectionSectionSecureCircle')} />
+        <img alt='We provide multi-factor authentication on all accounts.' src={assetService.getImage('protectionSectionSecureCircle')} />
       </picture>
       <div className='protection-block-text'>We provide multi-factor authentication on all accounts.</div>
     </div>,
     <div className='protection-block'>
       <picture className='protection-block-image'>
-        <source srcSet={window.protectionSectionChat} />
-        <img alt="We've got your back. We're available to you 24/7." src={window.protectionSectionChat} />
+        <source srcSet={assetService.getImage('protectionSectionChat')} />
+        <img alt="We've got your back. We're available to you 24/7." src={assetService.getImage('protectionSectionChat')} />
       </picture>
       <div className='protection-block-text'>We've got your back. We're available to you 24/7.</div>
     </div>
@@ -38,11 +39,11 @@ const Splash = () => {
     <div className='splash-page-content'>
       <div className='retirement-section'>
         <video className='retirement-background' autoPlay loop muted playsInline preload="auto">
-          <source src={window.stockflowRetirementBackground} type="video/webm" />
+          <source src={assetService.getVideo('stockflowRetirementBackground')} type="video/webm" />
         </video>
         <div className='retirement-text'>
           <div className='retirement-text-container'>
-            <h1 className='stockflow-retirement-logo'>Stockflow Retirement</h1>
+            <img className="retirement-logo" src={assetService.getImage('stockflowRetirementLogo')} />
             <div className='retirement-text-separator'></div>
             <div className='retirement-headline'>Progress is gold. Get an IRA boost.</div>
             <div className='retirement-text-separator'></div>
@@ -53,7 +54,7 @@ const Splash = () => {
         </div>
       </div>
       <div className='stockflow-gold-section'>
-        <img className='stockflow-gold-background' src={window.stockflowGoldBackground} />
+        <img className='stockflow-gold-background' src={assetService.getImage('stockflowGoldBackground')} />
         <div className='stockflow-gold-text'>
           <div className='stockflow-gold-text-container'>
             <div className='stockflow-gold-info'>With Stockflow Gold, get a 3% IRA boost of up to $420 when you max out your 2024 contributions by April 15th—and stack on your max contributions for 2025. Non-Gold? Enjoy a 1% match.</div>
@@ -66,11 +67,11 @@ const Splash = () => {
       </div>
       <div className='investing-section'>
         <picture className='investing-background'>
-          <source className='investing-background' media="(min-width: 1280px)" srcSet={window.investingHeroLargeBackground} />
-          <source className='investing-background' media="(max-width: 425px)" srcSet={window.investingHeroSmallBackground} />
-          <source className='investing-background' media="(max-width: 767px)" srcSet={window.investingHeroMediumBackground} />
-          <source className='investing-background' srcSet={window.investingHeroDefaultBackground} />
-          <img className='investing-background' src={window.investingHeroMediumBackground} alt="Investing background" />
+          <source className='investing-background' media="(min-width: 1280px)" srcSet={assetService.getImage('investingHeroLargeBackground')} />
+          <source className='investing-background' media="(max-width: 425px)" srcSet={assetService.getImage('investingHeroSmallBackground')} />
+          <source className='investing-background' media="(max-width: 767px)" srcSet={assetService.getImage('investingHeroMediumBackground')} />
+          <source className='investing-background' srcSet={assetService.getImage('investingHeroDefaultBackground')} />
+          <img className='investing-background' src={assetService.getImage('investingHeroMediumBackground')} alt="Investing background" />
         </picture>
         <div className='investing-text'>
           <div className='investing-container'>
@@ -89,15 +90,15 @@ const Splash = () => {
       </div>
       <div className='crypto-section'>
         <picture className='crypto-background'>
-          <source className='crypto-background' media="(min-width: 1280px)" srcSet={window.cryptoHeroLargeBackground} />
-          <source className='crypto-background' media="(max-width: 425px)" srcSet={window.cryptoHeroSmallBackground} />
-          <source className='crypto-background' media="(max-width: 767px)" srcSet={window.cryptoHeroMediumBackground} />
-          <source className='crypto-background' srcSet={window.cryptoHeroDefaultBackground} />
-          <img className='crypto-background' src={window.cryptoHeroMediumBackground} alt="crypto background" />
+          <source className='crypto-background' media="(min-width: 1280px)" srcSet={assetService.getImage('cryptoHeroLargeBackground')} />
+          <source className='crypto-background' media="(max-width: 425px)" srcSet={assetService.getImage('cryptoHeroSmallBackground')} />
+          <source className='crypto-background' media="(max-width: 767px)" srcSet={assetService.getImage('cryptoHeroMediumBackground')} />
+          <source className='crypto-background' srcSet={assetService.getImage('cryptoHeroDefaultBackground')} />
+          <img className='crypto-background' src={assetService.getImage('cryptoHeroMediumBackground')} alt="crypto background" />
         </picture>
         <div className='crypto-text'>
           <div className='crypto-container'>
-            <img className="crypto-logo" src={window.stockflowCryptoLogo} />
+            <img className="crypto-logo" src={assetService.getImage('stockflowCryptoLogo')} />
             <div className='crypto-catchphrase'>Get started with Stockflow Crypto. Trade crypto 24/7</div>
             <div className='crypto-separator'></div>
             <div className='crypto-description'>Start with as little as $1. Buy, sell, and transfer BTC, ETH, XRP, SOL, DOGE, SHIB, and more.</div>
@@ -132,15 +133,15 @@ const Splash = () => {
           <Link className='stockflow-button stockflow-learn-button' to='/signup'>Sign up to Access Stockflow Learn</Link>
           <div className='stockflow-learn-large-separator'></div>
           <picture className='stockflow-learn-phone-image'>
-            <source className='stockflow-learn-phone-image' media='(max-width: 425px)' srcSet={window.stockflowLearnPhoneSmall}/>
-            <source className='stockflow-learn-phone-image' srcSet={window.stockflowLearnPhoneDefault}/>
-            <img className='stockflow-learn-phone-image' alt='Learn On Phone' src={window.stockflowLearnPhoneDefault}/>
+            <source className='stockflow-learn-phone-image' media='(max-width: 425px)' srcSet={assetService.getImage('stockflowLearnPhoneSmall')}/>
+            <source className='stockflow-learn-phone-image' srcSet={assetService.getImage('stockflowLearnPhoneDefault')}/>
+            <img className='stockflow-learn-phone-image' alt='Learn On Phone' src={assetService.getImage('stockflowLearnPhoneDefault')}/>
           </picture>
         </div>
       </div>
       <div className='new-gen-section'>
         <video className='new-gen-background' autoPlay loop muted playsInline preload="auto">
-          <source src={window.stockflowNewGenInvestorsBackground} type="video/webm" />
+          <source src={assetService.getVideo('stockflowNewGenInvestorsBackground')} type="video/webm" />
         </video>
         <div className='new-gen-text'>
           <div className='new-gen-text-container'>

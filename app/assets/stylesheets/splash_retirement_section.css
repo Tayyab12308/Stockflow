@@ -14,11 +14,12 @@
   position: absolute;
   top: 72%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -66%);
   z-index: 2; /* Ensures the text is on top of the video */
   text-align: center;
   color: #fff;
   height: 100%;
+  width: 65%;
 }
 
 .retirement-text-separator {
@@ -26,9 +27,8 @@
   height: 32px;
 }
 
-.retirement-headline {
-  width: 1030px;
-  color: #9e8b55;
+.retirement-logo {
+  width: 61%;
 }
 
 .retirement-disclosure {
@@ -70,10 +70,10 @@
 
 @media (min-width: 1040px) {
   .retirement-headline {
-      font-size: 132px;
+      font-size: 107px;
       font-weight: 400;
       letter-spacing: -1px;
-      line-height: 143px;
+      line-height: 115px;
   }
 }
 
@@ -106,6 +106,7 @@
   }
 
   .retirement-text {
+    transform: translate(-50%, -50%);
     top: 63%;
   }
 

@@ -12,4 +12,5 @@ export interface DropdownItem {
   path: string;
   label: string;
   injectedClassName?: string;
+  onClick?: () => void;
 }

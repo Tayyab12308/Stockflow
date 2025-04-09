@@ -29,6 +29,10 @@
   min-width: 0; /* Prevents cutoff by allowing shrinkage */
 }
 
+.navbar-left-fixed.logged-in {
+  width: 45%;
+}
+
 /* Links within navbar-left-fixed */
 .navbar-links {
   display: flex;
@@ -39,6 +43,21 @@
 .logo-image {
   width: 150px;
   height: 24px;
+}
+
+.logged-in-logo-image {
+  width: 150px;
+  height: 40px;
+}
+
+.navbar-search-container {
+  width: 65%
+}
+
+.navbar-links.logged-in-links,
+.navbar-link.logged-in {
+  font-size: 12px;
+  font-weight: 600;
 }
 
 /* Individual links with spacing */

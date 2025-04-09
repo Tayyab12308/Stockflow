@@ -8,6 +8,7 @@ import { UserSessionDetails } from "../../interfaces";
 import LoginInput from "./LoginInput";
 import LoginCheckbox from "./LoginCheckbox";
 import type { AppDispatch } from "../../store";
+import assetService from "../../services/assetService";
 
 const Login = () => {
   useAnimatedSVG();
@@ -64,7 +65,7 @@ const Login = () => {
 
             {isChecked && 
               <div className="warning-message-container">
-                <img className="warning-icon" src={window.warningIcon} alt="Warning Icon"/>
+                <img className="warning-icon" src={assetService.getImage('whiteWarningIcon')} alt="Warning Icon"/>
                 <div className="warning-text">Only select this option if you trust this device and are not logging on from a shared computer.</div>
               </div>
             }

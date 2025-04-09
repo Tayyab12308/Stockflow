@@ -4,10 +4,11 @@ import { searchStock } from "../../util/stock_api_util";
 import SearchDropdown from "../searchDropdown";
 import { SignUpComponentProps } from "./signup.interfaces";
 import { SearchResult } from "../searchDropdown/searchDropdown.interfaces";
+import assetService from "../../services/assetService";
 
 export const FamilyEmploymentInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Answer a few questions about investing
@@ -15,7 +16,7 @@ export const FamilyEmploymentInfo: React.FC = (): React.JSX.Element => (
       <div className="information-section-details">
         To help you open a Robinhood account, we need to ask a few questions about you and your experience with investing.
       </div>
-      <img className="signup-image" src={window.signupInvestingExperienceImage} />
+      <img className="signup-image" src={assetService.getImage('signupInvestingExperienceImage')} />
     </div>
   </>
 );
@@ -53,7 +54,7 @@ export const FamilyEmploymentInfoFormSection: React.FC<SignUpComponentProps> = (
                 searchFunction={searchStock}
                 resultFormatter={formatResults}
                 clearOnSelect={false}
-                searchBarClassName={`signup-form-input ${errors[FormFields.familyEmployment] ? 'error-field' : ''}`}       // custom class for search bar
+                searchBarClassName={`signup-form-input ${errors[FormFields.familyEmployment] ? 'error-field' : ''}`}
                 resultsContainerClassName="my-search-results" // custom class for dropdown results
                 searchResultItemClassName="stacked-result"
                 placeholder="Stock symbol of company"

@@ -1,8 +1,9 @@
 import React from "react";
+import assetService from "../../services/assetService";
 
 export const ApplicationAgreementInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Review agreements
@@ -10,7 +11,7 @@ export const ApplicationAgreementInfo: React.FC = (): React.JSX.Element => (
       <div className="information-section-details">
         Take a few minutes to review these agreements, which go over important details about the services we offer.
       </div>
-      <img className="signup-image" src={window.signupTaxInfoImage} />
+      <img className="signup-image" src={assetService.getImage('signupTaxInfoImage')} />
     </div>
   </>
 );
@@ -22,7 +23,7 @@ export const ApplicationAgreementFormSection: React.FC = (): React.JSX.Element =
         <div className="input-container">
           <div className="scrollable-tax-info">
             <div className="tax-info-header">
-              <img className="tax-info-papers-image" src={window.applicationAgreementInfo} />
+              <img className="tax-info-papers-image" src={assetService.getImage('applicationAgreementInfo')} />
               <div className="tax-certification-container">
                 <div className="tax-certification-headline">
                   Application agreement

@@ -1,10 +1,11 @@
 import React from "react";
 import { FormFields, FormFieldsType } from "./util";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 export const EmploymentConflictDetails: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Help us verify your identity
@@ -13,7 +14,7 @@ export const EmploymentConflictDetails: React.FC = (): React.JSX.Element => (
         We're required by law to collect certain information that helps us know it's you when you log in to Stockflow.
         It's all about keeping your account safe.
       </div>
-      <img className="signup-image" src={window.signupInvestingExperienceImage} />
+      <img className="signup-image" src={assetService.getImage('signupInvestingExperienceImage')} />
     </div>
   </>
 );

@@ -3,7 +3,8 @@ export { }
 
 declare global {
   interface Window {
-    warningIcon: string;
+    whiteWarningIcon: string;
+    grayWarningIcon: string;
     stockflowLogo: string;
     protectionSectionCube: string;
     protectionSectionLayerCircle: string;
@@ -24,7 +25,6 @@ declare global {
     stockflowCryptoLogo: string;
     stockflowLearnPhoneSmall: string;
     stockflowLearnPhoneDefault: string;
-    stockflowLearnPhoneDefault: string;
     stockflowNewGenInvestorsBackground: string;
     signupTaxInfoImage: string;
     applicationAgreementInfo: string;
@@ -33,27 +33,58 @@ declare global {
     signupContactInfoImage: string;
     signupFundAccountImage: string;
     taxPapersInfo: string;
-    finModelPrepAPIKeyOne: string;
-    finModelPrepAPIKeyTwo: string;
-    finModelPrepAPIKeyThree: string;
-    finModelPrepAPIKeyFour: string;
-    finModelPrepAPIKeyFive: string;
-    finModelPrepAPIKeySix: string;
-    finModelPrepAPIKeySeven: string;
-    finModelPrepAPIKeyEight: string;
-    finModelPrepAPIKeyNine: string;
-    alphaVantageAPIKeyOne: string;
-    alphaVantageAPIKeyTwo: string;
-    alphaVantageAPIKeyThree: string;
-    alphaVantageAPIKeyFour: string;
-    alphaVantageAPIKeyFive: string;
-    alphaVantageAPIKeySix: string;
-    alphaVantageAPIKeySeven: string;
-    alphaVantageAPIKeyEight: string;
-    alphaVantageAPIKeyNine: string;
-    alphaVantageAPIKeyTen: string;
-    newsAPIKey: string;
     currentUser: any;
     Stockflow: any;
+    stockflowIcon: string;
+    stockflowRetirementLogo: string;
+    dashboardGraphReplacementBackground: string;
+    newlyListedCryptoIcon: string;
+    tradableCryptoIcon: string;
+    ipoAccessIcon: string;
+    altcoinsIcon: string;
+    hundredMostPopularIcon: string;
+    dailyMoversIcon: string;
+    cannabisIcon: string;
+    upcomingEarningsIcon: string;
+    twentyFourHourMarketIcon: string;
+    techMediaTelecomIcon: string;
+    etfIcon: string;
+    energyIcon: string;
+    pharmaIcon: string;
+    growthValueEtfIcon: string;
+    energyWaterIcon: string;
+    healthcareIcon: string;
+    consumerGoodsIcon: string;
+    realEstateIcon: string;
+    businessIcon: string;
+    softwareIcon: string;
+    sectorETFsIcon: string;
+    automotiveIcon: string;
+    realEstateETFsIcon: string;
+    bankingIcon: string;
+    bondETFsIcon: string;
+    financeIcon: string;
+    healthcareSuppliesIcon: string;
+    commoditiesETFsIcon: string;
+    whiteStar: string;
+    cryptoBasicsTileIcon: string;
+    cryptoTaxLossHarvestingTileIcon: string;
+    differentInvestmentsTileIcon: string;
+    etfBasicsTileIcon: string;
+    goalsTileIcon: string;
+    investingMythbustersTileIcon: string;
+    ipoBasicsTileIcon: string;
+    stockBasicsTileIcon: string;
+    stockMarketInfoTileIcon: string;
+    understandingRiskTileIcon: string;
+    whyInvestTileIcon: string;
   }
+};
+
+interface ImportMetaEnv {
+  readonly REACT_APP_POLYGON_API_KEY: boolean;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
 }

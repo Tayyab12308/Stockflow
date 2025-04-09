@@ -1,10 +1,11 @@
 import React from "react";
 import { FormFields } from "./util";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 export const OptionalFeaturesInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Review agreements
@@ -12,7 +13,7 @@ export const OptionalFeaturesInfo: React.FC = (): React.JSX.Element => (
       <div className="information-section-details">
         Take a few minutes to review these agreements, which go over important details about the services we offer.
       </div>
-      <img className="signup-image" src={window.signupTaxInfoImage} />
+      <img className="signup-image" src={assetService.getImage('signupTaxInfoImage')} />
     </div>
   </>
 );
@@ -27,7 +28,7 @@ export const OptionalFeaturesFormSection: React.FC<SignUpComponentProps> = ({
         <div className="input-container">
           <div className="scrollable-tax-info">
             <div className="tax-info-header">
-              <img className="tax-info-papers-image" src={window.taxPapersInfo} />
+              <img className="tax-info-papers-image" src={assetService.getImage('taxPapersInfo')} />
               <div className="tax-certification-container">
                 <div className="tax-certification-headline">
                   Optional feature agreements
@@ -44,10 +45,7 @@ export const OptionalFeaturesFormSection: React.FC<SignUpComponentProps> = ({
                 </div>
                 <input
                   className="login-checkbox-input"
-                  onChange={() =>  {
-                    console.log({ mA: userInfo[FormFields.marginAccount], mAF: !userInfo[FormFields.marginAccount] });
-                    updateField(FormFields.marginAccount)({ target: { value: !userInfo[FormFields.marginAccount] } })
-                  }}
+                  onChange={() =>  updateField(FormFields.marginAccount)({ target: { value: !userInfo[FormFields.marginAccount] } })}
                   checked={userInfo[FormFields.marginAccount]}
                   type="checkbox"
                   required

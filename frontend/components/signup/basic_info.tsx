@@ -2,10 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FormFields, FormFieldsType } from "./util";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 export const BasicInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Create your login
@@ -13,7 +14,7 @@ export const BasicInfo: React.FC = (): React.JSX.Element => (
       <div className="information-section-details">
         We'll need your name, email address, and a unique password. You'll use this login to access Stockflow next time.
       </div>
-      <img className="signup-image" src={window.signupBasicInfoImage} />
+      <img className="signup-image" src={assetService.getImage('signupBasicInfoImage')} />
     </div>
   </>
 );

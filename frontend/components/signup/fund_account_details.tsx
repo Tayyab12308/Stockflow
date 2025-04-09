@@ -1,11 +1,12 @@
 import React from "react";
 import { FormFields } from "./util";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 
 export const FundAccountDetails: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Fund your account
@@ -14,7 +15,7 @@ export const FundAccountDetails: React.FC = (): React.JSX.Element => (
         Link your bank account and transfer funds to get more out of Robinhood. It's secure, quick,
         and easy to start with an amount that works for you.
       </div>
-      <img className="signup-image" src={window.signupFundAccountImage} />
+      <img className="signup-image" src={assetService.getImage('signupFundAccountImage')} />
     </div>
   </>
 );

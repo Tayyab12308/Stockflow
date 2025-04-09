@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { getApiKeys } from '../services/apiKeyService';
 
 export enum API_NAMES {
   FINANCIAL_MODEL_PREP_API = "FINANCIAL_MODEL_PREP_API",
@@ -11,41 +12,60 @@ interface ApiDetails {
   keys: string[];
 }
 
+
 export const API_DETAILS: Record<API_NAMES, ApiDetails> = {
   [API_NAMES.FINANCIAL_MODEL_PREP_API]: {
     lastValidIndex: 0,
-    keys: [
-      window.finModelPrepAPIKeyOne,
-      window.finModelPrepAPIKeyTwo,
-      window.finModelPrepAPIKeyThree,
-      window.finModelPrepAPIKeyFour,
-      window.finModelPrepAPIKeyFive,
-      window.finModelPrepAPIKeySix,
-      window.finModelPrepAPIKeySeven,
-      window.finModelPrepAPIKeyEight,
-      window.finModelPrepAPIKeyNine,
-    ],
+    keys: [],
   },
   [API_NAMES.ALPHA_VANTAGE_API]: {
     lastValidIndex: 0,
-    keys: [
-      window.alphaVantageAPIKeyOne,
-      window.alphaVantageAPIKeyTwo,
-      window.alphaVantageAPIKeyThree,
-      window.alphaVantageAPIKeyFour,
-      window.alphaVantageAPIKeyFive,
-      window.alphaVantageAPIKeySix,
-      window.alphaVantageAPIKeySeven,
-      window.alphaVantageAPIKeyEight,
-      window.alphaVantageAPIKeyNine,
-      window.alphaVantageAPIKeyTen,
-    ],
+    keys: [],
   },
+};
+
+// Initialize API keys from secure backend
+let keysInitialized = false;
+const initializeApiKeys = async () => {
+  if (keysInitialized) return;
+
+  try {
+    const apiKeys = await getApiKeys();
+
+    API_DETAILS[API_NAMES.FINANCIAL_MODEL_PREP_API].keys = [
+      ...(apiKeys.fin_model_prep_api_key_one ? [apiKeys.fin_model_prep_api_key_one] : []),
+      ...(apiKeys.fin_model_prep_api_key_two ? [apiKeys.fin_model_prep_api_key_two] : []),
+      ...(apiKeys.fin_model_prep_api_key_three ? [apiKeys.fin_model_prep_api_key_three] : []),
+      ...(apiKeys.fin_model_prep_api_key_four ? [apiKeys.fin_model_prep_api_key_four] : []),
+      ...(apiKeys.fin_model_prep_api_key_five ? [apiKeys.fin_model_prep_api_key_five] : []),
+      ...(apiKeys.fin_model_prep_api_key_six ? [apiKeys.fin_model_prep_api_key_six] : []),
+      ...(apiKeys.fin_model_prep_api_key_seven ? [apiKeys.fin_model_prep_api_key_seven] : []),
+      ...(apiKeys.fin_model_prep_api_key_eight ? [apiKeys.fin_model_prep_api_key_eight] : []),
+      ...(apiKeys.fin_model_prep_api_key_nine ? [apiKeys.fin_model_prep_api_key_nine] : []),
+    ]
+
+    API_DETAILS[API_NAMES.ALPHA_VANTAGE_API].keys = [
+      ...(apiKeys.alphavantage_api_key_one ? [apiKeys.alphavantage_api_key_one] : []),
+      ...(apiKeys.alphavantage_api_key_two ? [apiKeys.alphavantage_api_key_two] : []),
+      ...(apiKeys.alphavantage_api_key_three ? [apiKeys.alphavantage_api_key_three] : []),
+      ...(apiKeys.alphavantage_api_key_four ? [apiKeys.alphavantage_api_key_four] : []),
+      ...(apiKeys.alphavantage_api_key_five ? [apiKeys.alphavantage_api_key_five] : []),
+      ...(apiKeys.alphavantage_api_key_six ? [apiKeys.alphavantage_api_key_six] : []),
+      ...(apiKeys.alphavantage_api_key_seven ? [apiKeys.alphavantage_api_key_seven] : []),
+      ...(apiKeys.alphavantage_api_key_eight ? [apiKeys.alphavantage_api_key_eight] : []),
+      ...(apiKeys.alphavantage_api_key_nine ? [apiKeys.alphavantage_api_key_nine] : []),
+      ...(apiKeys.alphavantage_api_key_ten ? [apiKeys.alphavantage_api_key_ten] : []),
+    ]
+
+    keysInitialized = true;
+  } catch (error) {
+    console.error('Failed to initialize API keys:', error);
+  }
 };
 
 class ApiLimitExceededError extends Error {
   status: number;
-  
+
   constructor(message: string, status: number) {
     super(message);
     this.status = status;
@@ -54,6 +74,8 @@ class ApiLimitExceededError extends Error {
 }
 
 const makeRequestWithCachedKey = async (axiosOptions: AxiosRequestConfig, apiName: API_NAMES) => {
+  await initializeApiKeys();
+
   const tryKey = async (keyIndex: number) => {
     const currentKey = API_DETAILS[apiName].keys[keyIndex];
     if (!currentKey) {
@@ -105,7 +127,6 @@ export const fetchPrices = async ({
     {
       method: "GET",
       url: `https://financialmodelingprep.com/api/v3/historical-chart/${timeFrame}/${ticker}?from=${startDate}&to=${endDate}&apikey=REPLACE_API_KEY`,
-      // Axios defaults to JSON parsing so dataType is not needed.
     },
     API_NAMES.FINANCIAL_MODEL_PREP_API
   );
@@ -137,20 +158,6 @@ export const fetchKeyStats = async (symbol: string): Promise<any> =>
     API_NAMES.ALPHA_VANTAGE_API
   );
 
-export const fetchNews = async (symbol: string): Promise<any> => {
-  return axios({
-    method: "GET",
-    url: `https://newsapi.org/v2/top-headlines?q=${symbol}&pageSize=10&apiKey=${window.newsAPIKey}`,
-  }).then(response => response.data);
-};
-
-export const fetchAllNews = async (): Promise<any> => {
-  return axios({
-    method: "GET",
-    url: `https://newsapi.org/v2/top-headlines?country=us&category=business&articles=15&apiKey=${window.newsAPIKey}`,
-  }).then(response => response.data);
-};
-
 export const fetchCompanyProfile = async (symbol: string): Promise<any> =>
   await makeRequestWithCachedKey(
     {
@@ -159,3 +166,4 @@ export const fetchCompanyProfile = async (symbol: string): Promise<any> =>
     },
     API_NAMES.FINANCIAL_MODEL_PREP_API
   );
+

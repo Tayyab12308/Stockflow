@@ -1,3 +1,4 @@
+import { PriorityQueue } from "js-sdsl";
 import { fetchPrices } from "./stock_api_util";
 
 export type Period = `${number}${'D' | 'W' | 'M' | 'Y'}`;
@@ -24,9 +25,9 @@ export const getDateRange = (period: Period) => {
     const unit = period.slice(-1).toLowerCase();
 
     const adjustDate: Record<typeof unit, () => void> = {
-      W: () => startDate.setDate(startDate.getDate() - value * 7),
-      M: () => startDate.setMonth(startDate.getMonth() - value),
-      Y: () => startDate.setFullYear(startDate.getFullYear() - value),
+      w: () => startDate.setDate(startDate.getDate() - value * 7),
+      m: () => startDate.setMonth(startDate.getMonth() - value),
+      y: () => startDate.setFullYear(startDate.getFullYear() - value),
     };
 
     if (adjustDate[unit]) adjustDate[unit]();
@@ -58,12 +59,12 @@ export interface TickerQuery {
 
 export const getTickerQuery = (ticker: string, range: Period): TickerQuery => {
   const rangeSettings: Record<Period, { value: string; timeFrame: string; }> = {
-    "1D": { value: '1D', timeFrame: "1min" },
-    "5D": { value: '1W', timeFrame: "5min" },
-    "1M": { value: '1M', timeFrame: "15min" },
-    "3M": { value: '3M', timeFrame: "30min" },
-    "1Y": { value: '1Y', timeFrame: "1hour" },
-    "5Y": { value: '5Y', timeFrame: "4hour" },
+    "1D": { value: '1D', timeFrame: "1 minute" },
+    "1W": { value: '1W', timeFrame: "5 minute" },
+    "1M": { value: '1M', timeFrame: "15 minute" },
+    "3M": { value: '3M', timeFrame: "30 minute" },
+    "1Y": { value: '1Y', timeFrame: "1 hour" },
+    "5Y": { value: '5Y', timeFrame: "4 hour" },
   }
   
   return {
@@ -194,3 +195,77 @@ export const convertKeysToSnakeCase = (obj: any): any => convertKeys(obj, camelT
 
 export const convertKeysToCamelCase = (obj: any): any => convertKeys(obj, snakeToCamel);
 
+export const formatNumber = (num: number) => {
+  const _suffix = ["K", "M", "B", "T"]
+  if (num > 1000) {
+    let i = 0
+    while (num > 1000) {
+      num /= 1000
+      i += 1
+    }
+    return `${num.toFixed(2)}${_suffix[i - 1]}`
+  }
+  return num
+}
+
+export const timeSince = (timestamp: string): string => {
+  const now = new Date();
+  const past = new Date(timestamp);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  const units = [
+    { label: 'y', seconds: 31536000 }, // 1 year = 31536000 seconds
+    { label: 'mo', seconds: 2592000 }, // 1 month = 2592000 seconds
+    { label: 'w', seconds: 604800 },   // 1 week = 604800 seconds
+    { label: 'd', seconds: 86400 },    // 1 day = 86400 seconds
+    { label: 'h', seconds: 3600 },     // 1 hour = 3600 seconds
+    { label: 'm', seconds: 60 },       // 1 minute = 60 seconds
+    { label: 's', seconds: 1 }         // 1 second = 1 second
+  ];
+
+  for (const unit of units) {
+    const interval = Math.floor(diffInSeconds / unit.seconds);
+    if (interval >= 1) {
+      return `${interval}${unit.label}`;
+    }
+  }
+  return '0s'; // If the difference is less than 1 second
+}
+
+/**
+ * Finds the top k stocks with the largest absolute percentage changes.
+ * @param stocks - Array of stock objects
+ * @param k - Number of top elements to return (default: 6)
+ * @returns Array of top k stocks in descending order of absolute percentage change
+ */
+export const findTopStocks = <T,>(stocks: T[], k: number = 6, comparator: any, heapRemovalComparator: (heap: PriorityQueue<T>, stock: T) => boolean): T[] => {
+  // Initialize a min-heap with a comparator based on absolute percentage change
+  const minHeap = new PriorityQueue<T>(
+    [],
+    comparator
+  );
+
+  // Process each stock in the dataset
+  for (const stock of stocks) {
+    if (minHeap.size() < k) {
+      // If heap has fewer than k elements, add the stock
+      minHeap.push(stock);
+    } else if (heapRemovalComparator(minHeap, stock)) {
+      // If heap is full and current stock has a larger absolute change than the smallest,
+      // remove the smallest and add the current stock
+      minHeap.pop();
+      minHeap.push(stock);
+    }
+  }
+
+  // Extract all elements from the heap
+  const topStocks: T[] = [];
+  while (minHeap.size() > 0) {
+    topStocks.push(minHeap.pop()!);
+  }
+
+  // Sort in descending order of absolute percentage change
+  topStocks.sort(comparator);
+
+  return topStocks;
+}

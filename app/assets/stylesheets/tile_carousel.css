@@ -1,0 +1,136 @@
+/* Main container for the carousel */
+.tile-carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Horizontal scroller for tiles */
+.tile-carousel-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+/* Each tile in the carousel */
+.tile-carousel-tile {
+  position: relative;
+  min-width: 207px;
+  height: 157px;
+  background-color: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  margin-right: 16px;
+  transition: background-color 0.2s;
+}
+
+.tile-carousel-tile:hover {
+  background-color: #ddd;
+}
+
+/* Container for the image on the right side */
+.tile-carousel-tile-image-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35%; /* roughly 72px of 207px */
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Tile image fills its container */
+.tile-carousel-tile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tile title fixed at bottom left with padding */
+.tile-carousel-tile-title {
+  position: absolute;
+  left: 12px;
+  bottom: 16px;
+  font-size: 14px;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 2px;
+  max-width: 50%;
+}
+
+/* Arrow button styling */
+.tile-carousel-arrow-button {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  border-radius: 4px;
+}
+
+.tile-carousel-arrow-button-left {
+  left: 0;
+}
+
+.tile-carousel-arrow-button-right {
+  right: 0;
+}
+
+/* Full-screen flyout overlay */
+.tile-carousel-flyout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Flyout content container covers the entire screen */
+.tile-carousel-flyout-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  overflow-y: auto;
+  color: white;
+}
+
+/* Close (X) button in the flyout */
+.tile-carousel-flyout-close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Inner container for flyout content */
+.tile-carousel-flyout-inner {
+  padding: 16px;
+  font-size: 16px;
+}
+
+/* Responsive adjustments: reduce font size on small screens */
+@media (max-width: 767px) {
+  .tile-carousel-flyout-inner {
+    font-size: 14px;
+  }
+}

@@ -40,7 +40,6 @@ export const login = (user: UserSessionDetails) => async (dispatch: AppDispatch)
     const response: AxiosResponse<any, any> = await APIUtil.login(user);
     dispatch(receiveCurrentUser(response.data.user));
   } catch (error: any) {
-    console.log({ error })
     dispatch(receiveSessionErrors(error.response.data));
   }
 };
@@ -72,8 +71,9 @@ export const createTransaction = (transaction: TransactionParams) => async (disp
   }
 };
 
-export const logout = () => async (dispatch: AppDispatch) => {
+export const logoutUser = () => async (dispatch: AppDispatch) => {
   try {
+    console.log('trying to log out');
     await APIUtil.logout();
     dispatch(logoutCurrentUser());
   } catch (error: any) {

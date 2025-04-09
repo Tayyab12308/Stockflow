@@ -10,6 +10,14 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def current
+    if current_user
+      render :current, locals: { user: current_user }
+    else
+      render json: { logged_in: false }, status: :unauthorized
+    end
+  end
+
   private
 
   def user_params

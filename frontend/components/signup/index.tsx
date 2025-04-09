@@ -54,8 +54,6 @@ const Signup: React.FC = (): React.JSX.Element => {
   const [userInfo, setUserInfo] = useState<User>(formFieldsInitialState);
   const [errors, setErrors] = useState<Record<keyof User, string>>(formFieldsErrorInitialState);
 
-  console.log({ formFieldsInitialState, userInfo, errors })
-
   const updateField = <K extends keyof User>(fieldName: K) => (e: React.ChangeEvent<HTMLInputElement>) => setUserInfo(prev => ({ ...prev, [fieldName]: e?.target?.value }));
 
   const clearErrors = (): void => setErrors(Object.values(FormFields).reduce((acc, curr) => ({ ...acc, [curr]: '' }), {} as Record<keyof User, string>));

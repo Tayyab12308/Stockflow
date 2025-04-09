@@ -21,7 +21,6 @@ const usersReducer = (
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      console.log({ user: action.user, action })
       const camelUser = convertKeysToCamelCase(action.user) as User;
       return merge({}, {[camelUser.id]: camelUser });
     default:

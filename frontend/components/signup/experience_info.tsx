@@ -1,10 +1,11 @@
 import React from "react";
 import { EXPERIENCE_OPTIONS_LABELS, FormFields, FormFieldsType } from "./util";
 import { SignUpComponentProps } from "./signup.interfaces";
+import assetService from "../../services/assetService";
 
 export const ExperienceInfo: React.FC = (): React.JSX.Element => (
   <>
-    <img className="signup-stockflow-logo" src={window.stockflowLogo} />
+    <img className="signup-stockflow-logo" src={assetService.getImage('stockflowLogo')} />
     <div className="information-section-content">
       <div className="information-section-headline">
         Answer a few questions about investing
@@ -12,7 +13,7 @@ export const ExperienceInfo: React.FC = (): React.JSX.Element => (
       <div className="information-section-details">
         To help you open a Robinhood account, we need to ask a few questions about you and your experience with investing.
       </div>
-      <img className="signup-image" src={window.signupInvestingExperienceImage} />
+      <img className="signup-image" src={assetService.getImage('signupInvestingExperienceImage')} />
     </div>
   </>
 );

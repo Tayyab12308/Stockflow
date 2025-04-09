@@ -21,6 +21,7 @@ export const login = (userCredentials: UserSessionDetails) => {
 };
 
 export const logout = () => {
+  console.log('really about to send log out now')
   return axios.delete('/api/session', {
     headers: {
       'X-CSRF-Token': csrfToken,
