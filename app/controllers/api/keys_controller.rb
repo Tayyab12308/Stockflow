@@ -144,6 +144,7 @@ class Api::KeysController < ApplicationController
       # More flexible IP checking for production
       stored_ip = token_data[:ip]
       current_ip = client_ip
+      raw_ip = request.remote_ip
 
       # Log all available IP information
       API_KEY_LOGGER.info("IP Details - Stored: #{stored_ip}, Current: #{current_ip}, Raw: #{raw_ip}")
