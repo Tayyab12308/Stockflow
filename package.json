@@ -38,7 +38,7 @@
   "scripts": {
     "test": "jest --coverage",
     "build:dev": "tsc && node esbuild.dev.js",
-    "build:prod": "NODE_ENV=production node esbuild.config.mjs"
+    "build": "NODE_ENV=production node esbuild.config.mjs"
   },
   "engines": {
     "node": "18.16.0",
