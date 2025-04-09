@@ -1,3 +1,6 @@
+// app/frontend/services/apiKeyService.ts
+import axios from 'axios';
+
 interface ApiKeyResponse {
   polygon_api_key: string;
   fin_model_prep_api_key_one: string;
@@ -26,75 +29,174 @@ interface TokenResponse {
   expires_at: number;
 }
 
-// Cache for the API keys, stored in memory only
-let apiKeyCache: ApiKeyResponse | null = null;
-let tokenExpiryTime: number = 0;
+class ApiKeyService {
+  private apiKeyCache: ApiKeyResponse | null = null;
+  private tokenExpiryTime: number = 0;
+  private isLoading: boolean = false;
+  private loadPromise: Promise<ApiKeyResponse> | null = null;
 
-export async function getApiKeys(): Promise<ApiKeyResponse> {
-  const currentTime = Math.floor(Date.now() / 1000);
-  
-  // Return cached keys if they exist and aren't about to expire
-  if (apiKeyCache && tokenExpiryTime > currentTime + 30) {
-    return apiKeyCache;
+  constructor() {
+    console.log('[ApiKeyService] Initializing');
+  }
+
+  private getCsrfToken(): string {
+    console.log('[ApiKeyService] Getting CSRF token');
+    const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    console.log('[ApiKeyService] CSRF token found:', token ? 'Yes' : 'No');
+    return token;
+  }
+
+  public async getApiKeys(): Promise<ApiKeyResponse> {
+    console.log('[ApiKeyService] getApiKeys called');
+    
+    const currentTime = Math.floor(Date.now() / 1000);
+    console.log('[ApiKeyService] Current time:', currentTime);
+    console.log('[ApiKeyService] Token expiry time:', this.tokenExpiryTime);
+    
+    // Return cached keys if they exist and aren't about to expire
+    if (this.apiKeyCache && this.tokenExpiryTime > currentTime + 30) {
+      console.log('[ApiKeyService] Using cached API keys, valid for', this.tokenExpiryTime - currentTime, 'seconds');
+      return this.apiKeyCache;
+    }
+    
+    // If there's already a request in progress, return that promise
+    if (this.isLoading && this.loadPromise) {
+      console.log('[ApiKeyService] Request already in progress, returning existing promise');
+      return this.loadPromise;
+    }
+    
+    console.log('[ApiKeyService] Cache invalid or expired, fetching new keys');
+    
+    // Clear any existing cache
+    this.apiKeyCache = null;
+    this.isLoading = true;
+    
+    try {
+      const csrfToken = this.getCsrfToken();
+      
+      console.log('[ApiKeyService] Step 1: Requesting API key token');
+      this.loadPromise = (async () => {
+        try {
+          // Step 1: Get a temporary token
+          const tokenResponse = await axios.get('/api/keys/token', {
+            headers: {
+              'Accept': 'application/json',
+              'X-CSRF-Token': csrfToken,
+            },
+            withCredentials: true, // Include cookies for authentication
+          });
+          
+          console.log('[ApiKeyService] Token response status:', tokenResponse.status);
+          
+          const { token, expires_at } = tokenResponse.data as TokenResponse;
+          console.log('[ApiKeyService] Received token, expires at:', new Date(expires_at * 1000).toISOString());
+          
+          // Step 2: Exchange the token for actual API keys
+          console.log('[ApiKeyService] Step 2: Exchanging token for API keys');
+          const keysResponse = await axios.post('/api/keys/exchange', {}, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'X-CSRF-Token': csrfToken,
+              'X-API-Token': token,
+            },
+            withCredentials: true,
+          });
+          
+          console.log('[ApiKeyService] Keys response status:', keysResponse.status);
+          
+          // Store the keys in memory (not localStorage/sessionStorage for security)
+          this.apiKeyCache = keysResponse.data as ApiKeyResponse;
+          this.tokenExpiryTime = expires_at;
+          
+          console.log('[ApiKeyService] API keys received and cached');
+          console.log('[ApiKeyService] Cache valid until:', new Date(expires_at * 1000).toISOString());
+          
+          if (!this.apiKeyCache) {
+            throw new Error('API keys response was empty or invalid');
+          }
+          
+          // Log a sanitized summary of the keys we received
+          const keySummary = Object.keys(this.apiKeyCache).map(key => {
+            const value = this.apiKeyCache?.[key as keyof ApiKeyResponse] || '';
+            return `${key}: ${value.substring(0, 3)}...${value.substring(value.length - 3)}`;
+          });
+          console.log('[ApiKeyService] API keys summary:', keySummary);
+          
+          return this.apiKeyCache;
+        } catch (error) {
+          console.error('[ApiKeyService] Error in API key fetch process:');
+          this.handleError(error);
+          throw error;
+        } finally {
+          this.isLoading = false;
+        }
+      })();
+      
+      return this.loadPromise;
+    } catch (error) {
+      this.isLoading = false;
+      this.handleError(error);
+      throw error;
+    }
   }
   
-  // Clear any existing cache
-  apiKeyCache = null;
+  // Clear the cache (useful for testing or force-refreshing)
+  public clearApiKeyCache(): void {
+    console.log('[ApiKeyService] Clearing API key cache');
+    this.apiKeyCache = null;
+    this.tokenExpiryTime = 0;
+    this.loadPromise = null;
+  }
   
-  try {
-    // Step 1: Get a temporary token
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    
-    const tokenResponse = await fetch('/api/keys/token', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'X-CSRF-Token': csrfToken,
-      },
-      credentials: 'same-origin', // Include cookies for authentication
-    });
-    
-    if (!tokenResponse.ok) {
-      const error = await tokenResponse.text();
-      throw new Error(`Failed to obtain API key token: ${tokenResponse.status} ${error}`);
+  // Method to format and log errors
+  private handleError(error: any): void {
+    if (axios.isAxiosError(error)) {
+      console.error('[ApiKeyService] Axios error details:');
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('[ApiKeyService] Error status:', error.response.status);
+        console.error('[ApiKeyService] Error headers:', error.response.headers);
+        console.error('[ApiKeyService] Error data:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('[ApiKeyService] No response received:', error.request);
+      } else {
+        // Something happened in setting up the request
+        console.error('[ApiKeyService] Error message:', error.message);
+      }
+    } else {
+      console.error('[ApiKeyService] Non-Axios error:', error);
     }
-    
-    const { token, expires_at }: TokenResponse = await tokenResponse.json();
-    
-    // Step 2: Exchange the token for actual API keys
-    const keysResponse = await fetch('/api/keys/exchange', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-CSRF-Token': csrfToken,
-        'X-API-Token': token,
-      },
-      credentials: 'same-origin',
-    });
-    
-    if (!keysResponse.ok) {
-      const error = await keysResponse.text();
-      throw new Error(`Failed to exchange token for API keys: ${keysResponse.status} ${error}`);
-    }
-    
-    // Store the keys in memory (not localStorage/sessionStorage for security)
-    apiKeyCache = await keysResponse.json();
-    tokenExpiryTime = expires_at;
-
-    if (apiKeyCache === null) {
-      throw new Error('Failed to retrieve API keys');
-    }
-    
-    return apiKeyCache;
-  } catch (error) {
-    console.error('Error fetching API keys:', error);
-    throw error;
+    console.error('[ApiKeyService] Error stack:', error.stack);
+  }
+  
+  // Get debug information about the current state
+  public debugInfo(): object {
+    const currentTime = Math.floor(Date.now() / 1000);
+    return {
+      hasCache: !!this.apiKeyCache,
+      isLoading: this.isLoading,
+      hasPendingPromise: !!this.loadPromise,
+      timeUntilExpiry: this.tokenExpiryTime > 0 ? this.tokenExpiryTime - currentTime : 0,
+      expiryTimestamp: this.tokenExpiryTime > 0 ? new Date(this.tokenExpiryTime * 1000).toISOString() : 'none',
+      apiKeyCount: this.apiKeyCache ? Object.keys(this.apiKeyCache).length : 0,
+      documentHasCsrfMeta: !!document.querySelector("meta[name='csrf-token']"),
+      csrfToken: this.getCsrfToken().substring(0, 6) + '...' // Show just the beginning for security
+    };
   }
 }
 
-// Optional: Add a method to clear the cache if needed
+// Create and export a singleton instance
+const apiKeyService = new ApiKeyService();
+export default apiKeyService;
+
+// For backward compatibility with existing code
+export async function getApiKeys(): Promise<ApiKeyResponse> {
+  return apiKeyService.getApiKeys();
+}
+
 export function clearApiKeyCache(): void {
-  apiKeyCache = null;
-  tokenExpiryTime = 0;
+  apiKeyService.clearApiKeyCache();
 }

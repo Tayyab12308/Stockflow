@@ -1,8 +1,9 @@
 class Api::AssetsController < ApplicationController
   # Skip CSRF protection for this API endpoint
-  # skip_before_action :verify_authenticity_token, only: [:index]
+  skip_before_action :verify_authenticity_token, only: [:index]
   
   def index
+    puts("fetching assets")
     render json: {
       images: {
         whiteWarningIcon: helpers.asset_url("white_warning_icon.svg"),

@@ -1,3 +1,6 @@
+// app/frontend/services/assetService.ts
+import axios from 'axios';
+
 // Define interfaces for the asset structure with specific keys
 type ImageKey = 
   | 'whiteWarningIcon'
@@ -87,32 +90,86 @@ class AssetService {
   private assets: AssetsResponse | null = null;
   private loading: boolean = false;
   private loadPromise: Promise<AssetsResponse> | null = null;
+  private defaultImageValues: Record<string, string> = {};  // Fallback values for critical assets
+
+  constructor() {
+    console.log('[AssetService] Initializing');
+  }
+
+  private getCsrfToken(): string | null | undefined {
+    console.log('[AssetService] Getting CSRF token');
+    const token = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
+    console.log('[AssetService] CSRF token found:', token ? 'Yes' : 'No');
+    return token;
+  }
 
   // Load assets and cache them
   public async loadAssets(): Promise<AssetsResponse> {
+    console.log('[AssetService] loadAssets called');
+    
     if (this.assets) {
+      console.log('[AssetService] Using cached assets');
       return this.assets;
     }
 
     if (this.loadPromise) {
+      console.log('[AssetService] Request already in progress, returning existing promise');
       return this.loadPromise;
     }
 
+    console.log('[AssetService] Starting new request to fetch assets');
     this.loading = true;
-    this.loadPromise = fetch('/api/assets')
-      .then((response: Response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load assets: ${response.status} ${response.statusText}`);
+    
+    const csrfToken = this.getCsrfToken();
+    console.log('[AssetService] Preparing request with CSRF token:', csrfToken);
+
+    this.loadPromise = axios.get('/api/assets', {
+      headers: {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: true
+    })
+      .then(response => {
+        console.log('[AssetService] Request successful', response.status);
+        console.log('[AssetService] Response data structure:', 
+          Object.keys(response.data).join(', '),
+          'images count:', Object.keys(response.data.images || {}).length,
+          'videos count:', Object.keys(response.data.videos || {}).length
+        );
+        
+        // Additional validation for asset data structure
+        if (!response.data.images || !response.data.videos) {
+          console.error('[AssetService] Invalid response structure - missing images or videos');
+          throw new Error('Invalid asset response structure');
         }
-        return response.json();
-      })
-      .then((data: AssetsResponse) => {
-        this.assets = data;
+        
+        this.assets = response.data as AssetsResponse;
         this.loading = false;
-        return data;
+        
+        // Log a few sample assets to verify content
+        const sampleImages = Object.keys(this.assets.images).slice(0, 3);
+        console.log('[AssetService] Sample image URLs:', 
+          sampleImages.map(key => `${key}: ${this.assets?.images[key as ImageKey]?.substring(0, 30)}...`)
+        );
+        
+        return this.assets;
       })
-      .catch((error: Error) => {
-        console.error('Error loading assets:', error);
+      .catch(error => {
+        console.error('[AssetService] Error loading assets:');
+        
+        if (error.response) {
+          console.error('[AssetService] Error status:', error.response.status);
+          console.error('[AssetService] Error data:', error.response.data);
+        } else if (error.request) {
+          console.error('[AssetService] No response received from server');
+          console.error('[AssetService] Request details:', error.request);
+        } else {
+          console.error('[AssetService] Error setting up request:', error.message);
+        }
+        
+        console.error('[AssetService] Stack trace:', error.stack);
         this.loading = false;
         throw error;
       });
@@ -123,32 +180,68 @@ class AssetService {
   // Get an image by key with strong typing
   public getImage(key: ImageKey): string {
     if (!this.assets) {
-      console.warn('Assets not loaded yet. Call loadAssets() first');
+      console.warn(`[AssetService] Assets not loaded yet when requesting '${key}'. Call loadAssets() first`);
+      // Return fallback value if available
+      if (this.defaultImageValues[key]) {
+        console.log(`[AssetService] Using fallback value for '${key}'`);
+        return this.defaultImageValues[key];
+      }
+      this.loadAssets().catch(err => console.error('[AssetService] Failed to load assets:', err));
       return '';
     }
-    return this.assets.images[key] || '';
+    
+    if (!this.assets.images[key]) {
+      console.warn(`[AssetService] Image with key '${key}' not found`);
+      return this.defaultImageValues[key] || '';
+    }
+    
+    return this.assets.images[key];
   }
   
   // Get a video by key with strong typing
   public getVideo(key: VideoKey): string {
     if (!this.assets) {
-      console.warn('Assets not loaded yet. Call loadAssets() first');
+      console.warn(`[AssetService] Assets not loaded yet when requesting video '${key}'. Call loadAssets() first`);
+      this.loadAssets().catch(err => console.error('[AssetService] Failed to load assets:', err));
       return '';
     }
-    return this.assets.videos[key] || '';
+    
+    if (!this.assets.videos[key]) {
+      console.warn(`[AssetService] Video with key '${key}' not found`);
+      return '';
+    }
+    
+    return this.assets.videos[key];
   }
 
   // For backward compatibility - get any asset by string key
   public getAsset(type: 'images' | 'videos', key: string): string {
+    console.log(`[AssetService] getAsset called for ${type}/${key}`);
+    
     if (!this.assets) {
-      console.warn('Assets not loaded yet. Call loadAssets() first');
+      console.warn(`[AssetService] Assets not loaded yet when requesting ${type}/${key}. Call loadAssets() first`);
+      
+      if (type === 'images' && this.defaultImageValues[key]) {
+        console.log(`[AssetService] Using fallback value for ${type}/${key}`);
+        return this.defaultImageValues[key];
+      }
+      
+      this.loadAssets().catch(err => console.error('[AssetService] Failed to load assets:', err));
       return '';
     }
     
     if (type === 'images') {
-      return this.assets.images[key as ImageKey] || '';
+      if (!this.assets.images[key as ImageKey]) {
+        console.warn(`[AssetService] Image '${key}' not found`);
+        return this.defaultImageValues[key] || '';
+      }
+      return this.assets.images[key as ImageKey];
     } else if (type === 'videos') {
-      return this.assets.videos[key as VideoKey] || '';
+      if (!this.assets.videos[key as VideoKey]) {
+        console.warn(`[AssetService] Video '${key}' not found`);
+        return '';
+      }
+      return this.assets.videos[key as VideoKey];
     }
     
     return '';
@@ -156,12 +249,36 @@ class AssetService {
 
   // Check if assets are loaded
   public isLoaded(): boolean {
-    return this.assets !== null;
+    const loaded = this.assets !== null;
+    console.log('[AssetService] isLoaded check:', loaded);
+    return loaded;
   }
 
   // Check if assets are currently loading
   public isLoading(): boolean {
+    console.log('[AssetService] isLoading check:', this.loading);
     return this.loading;
+  }
+  
+  // Force reload assets (useful for debugging or after long sessions)
+  public async reloadAssets(): Promise<AssetsResponse> {
+    console.log('[AssetService] Force reloading assets');
+    this.assets = null;
+    this.loadPromise = null;
+    return this.loadAssets();
+  }
+  
+  // Get debug information
+  public debugInfo(): object {
+    return {
+      hasAssets: !!this.assets,
+      isLoading: this.loading,
+      hasPendingPromise: !!this.loadPromise,
+      imageKeysCount: this.assets ? Object.keys(this.assets.images).length : 0,
+      videoKeysCount: this.assets ? Object.keys(this.assets.videos).length : 0,
+      documentHasCsrfMeta: !!document.querySelector("meta[name='csrf-token']"),
+      csrfToken: this.getCsrfToken()?.substring(0, 10) + '...' // Show just the beginning for security
+    };
   }
 }
 

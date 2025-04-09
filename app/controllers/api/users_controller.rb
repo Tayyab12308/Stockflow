@@ -11,7 +11,10 @@ class Api::UsersController < ApplicationController
   end
 
   def current
+    puts("fetching current user")
     if current_user
+      puts("current user found")
+      puts(current_user)
       render :current, locals: { user: current_user }
     else
       render json: { logged_in: false }, status: :unauthorized
