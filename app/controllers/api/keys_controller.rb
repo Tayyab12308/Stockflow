@@ -125,20 +125,57 @@ class Api::KeysController < ApplicationController
       render json: { error: 'Forbidden origin' }, status: :forbidden
     end
   end
+
+  def client_ip
+    # Get the original client IP, considering forwarding headers
+    forwarded = request.env['HTTP_X_FORWARDED_FOR']
+    return forwarded.split(',').first.strip if forwarded.present?
+    request.remote_ip
+  end
   
   def valid_token_data?(token_data)
     # Check user ID matches
-    return false unless token_data[:user_id] == current_user.id
+    user_match = token_data[:user_id] == current_user.id
+    API_KEY_LOGGER.info("User ID match: #{user_match} (Token: #{token_data[:user_id]}, Current: #{current_user.id})")
+    return false unless user_match
     
     # Check IP address matches (with potential allowance for proxies in production)
-    return false unless token_data[:ip] == request.remote_ip
+    if Rails.env.production?
+      # More flexible IP checking for production
+      stored_ip = token_data[:ip]
+      current_ip = client_ip
+
+      # Log all available IP information
+      API_KEY_LOGGER.info("IP Details - Stored: #{stored_ip}, Current: #{current_ip}, Raw: #{raw_ip}")
+      API_KEY_LOGGER.info("X-Forwarded-For: #{request.env['HTTP_X_FORWARDED_FOR'] || 'none'}")
+      API_KEY_LOGGER.info("CF-Connecting-IP: #{request.headers['CF-Connecting-IP'] || 'none'}")
+      API_KEY_LOGGER.info("True-Client-IP: #{request.headers['True-Client-IP'] || 'none'}")
+      
+      # Check if IPs are from the same subnet (first two octets match)
+      stored_subnet = stored_ip.split('.')[0..1].join('.')
+      current_subnet = current_ip.split('.')[0..1].join('.')
+      return false unless stored_subnet == current_subnet
+      
+    else
+      ip_match = token_data[:ip] == request.remote_ip
+      API_KEY_LOGGER.info("IP match: #{ip_match} (Token: #{token_data[:ip]}, Request: #{request.remote_ip})")
+      return false unless ip_match
+    end
     
     # Check user agent matches
-    return false unless token_data[:user_agent] == request.user_agent
+    agent_match = token_data[:user_agent] == request.user_agent
+    API_KEY_LOGGER.info("User agent match: #{agent_match}")
+    if !agent_match
+      API_KEY_LOGGER.info("User agent mismatch - Token: '#{token_data[:user_agent].truncate(100)}', Current: '#{request.user_agent.truncate(100)}'")
+    end
+    return false unless agent_match
     
     # Check if token is expired
-    return false if Time.now.to_i > token_data[:expires_at]
-    
-    true
+  not_expired = Time.now.to_i <= token_data[:expires_at]
+  API_KEY_LOGGER.info("Token expiration check: #{not_expired} (Current time: #{Time.now.to_i}, Expires: #{token_data[:expires_at]})")
+  return false unless not_expired
+  
+  API_KEY_LOGGER.info("All token validations passed successfully")
+  true
   end
 end
