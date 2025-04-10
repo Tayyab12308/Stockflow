@@ -125,13 +125,6 @@ class Api::KeysController < ApplicationController
       render json: { error: 'Forbidden origin' }, status: :forbidden
     end
   end
-
-  def client_ip
-    # Get the original client IP, considering forwarding headers
-    forwarded = request.env['HTTP_X_FORWARDED_FOR']
-    return forwarded.split(',').first.strip if forwarded.present?
-    request.remote_ip
-  end
   
   def valid_token_data?(token_data)
     # Check user ID matches
@@ -141,22 +134,21 @@ class Api::KeysController < ApplicationController
     
     # Check IP address matches (with potential allowance for proxies in production)
     if Rails.env.production?
-      # More flexible IP checking for production
-      stored_ip = token_data[:ip]
-      current_ip = client_ip
-      raw_ip = request.remote_ip
-
+      
       # Log all available IP information
-      API_KEY_LOGGER.info("IP Details - Stored: #{stored_ip}, Current: #{current_ip}, Raw: #{raw_ip}")
       API_KEY_LOGGER.info("X-Forwarded-For: #{request.env['HTTP_X_FORWARDED_FOR'] || 'none'}")
       API_KEY_LOGGER.info("CF-Connecting-IP: #{request.headers['CF-Connecting-IP'] || 'none'}")
       API_KEY_LOGGER.info("True-Client-IP: #{request.headers['True-Client-IP'] || 'none'}")
+      API_KEY_LOGGER.info("CF-Ray: #{request.headers['CF-Ray'] || 'none'}")
       
-      # Check if IPs are from the same subnet (first two octets match)
-      stored_subnet = stored_ip.split('.')[0..1].join('.')
-      current_subnet = current_ip.split('.')[0..1].join('.')
-      return false unless stored_subnet == current_subnet
-      
+      if request.headers['CF-Ray'].present?
+      # This is a Cloudflare request, so the IP might change
+      # Just log and proceed
+      API_KEY_LOGGER.info("Cloudflare request: stored IP #{token_data[:ip]}, current IP #{request.remote_ip}")
+      else
+        # Non-Cloudflare request, apply normal IP check
+        return false unless token_data[:ip] == request.remote_ip
+      end
     else
       ip_match = token_data[:ip] == request.remote_ip
       API_KEY_LOGGER.info("IP match: #{ip_match} (Token: #{token_data[:ip]}, Request: #{request.remote_ip})")
