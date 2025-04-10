@@ -8,7 +8,7 @@ export const isDaylightSavingTime = (date: Date): boolean => {
   // Create two dates: Jan 1 (always standard time) and Jul 1 (always daylight time)
   const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
   const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-  
+
   // If they're different, determine which one applies based on current date
   return date.getTimezoneOffset() === Math.min(jan, jul);
 };
@@ -39,20 +39,6 @@ export const getMarketHoursTimestampRange = (): { from: UTCTimestamp; to: UTCTim
 };
 
 /**
- * Check if a timestamp is within market hours (4:00 AM to 4:00 PM EST)
- */
-export const isWithinMarketHours = (timestamp: number): boolean => {
-  // Get the market hours range
-  const { from, to } = getMarketHoursTimestampRange();
-  
-  // Convert input timestamp to seconds if in milliseconds
-  const timestampSec = timestamp > 1000000000000 ? Math.floor(timestamp / 1000) : Math.floor(timestamp);
-  
-  // Check if timestamp is within range
-  return timestampSec >= from && timestampSec <= to;
-};
-
-/**
  * Format price for display
  */
 export const formatPrice = (price: number | string | null | undefined): string => {
@@ -66,27 +52,27 @@ export const formatPrice = (price: number | string | null | undefined): string =
  * For second-level data, this function samples points to get approximately
  * one point per minute to make the chart more readable
  */
-export const downsampleTimeSeriesData = <T extends {time: Time, [key: string]: any}>(
+export const downsampleTimeSeriesData = <T extends { time: Time, [key: string]: any }>(
   data: T[],
   targetPointCount: number = 1000 // One trading day (6.5 hours = 390 minutes)
 ): T[] => {
   if (!data || data.length <= targetPointCount) return data;
-  
+
   // Calculate sampling interval
   const samplingInterval = Math.ceil(data.length / targetPointCount);
-  
+
   // Sample the data
   const sampledData: T[] = [];
   for (let i = 0; i < data.length; i += samplingInterval) {
     sampledData.push(data[i]);
   }
-  
+
   // Always include the last point
-  if (sampledData.length > 0 && data.length > 0 && 
-      sampledData[sampledData.length - 1] !== data[data.length - 1]) {
+  if (sampledData.length > 0 && data.length > 0 &&
+    sampledData[sampledData.length - 1] !== data[data.length - 1]) {
     sampledData.push(data[data.length - 1]);
   }
-  
+
   return sampledData;
 };
 
@@ -94,25 +80,25 @@ export const downsampleTimeSeriesData = <T extends {time: Time, [key: string]: a
  * Format indicator data for chart display with robust null handling
  */
 export const formatIndicatorData = (
-  indicatorData: any[], 
-  indicator: IndicatorKeys, 
+  indicatorData: any[],
+  indicator: IndicatorKeys,
   priceData: any[]
 ): { time: Time, value: number }[] => {
   if (!indicatorData || !Array.isArray(indicatorData) || indicatorData.length === 0) {
     return [];
   }
-  
+
   const formattedData: { time: Time, value: number }[] = [];
-  
+
   // Process data based on indicator type
   indicatorData.forEach(item => {
     if (!item) return;
-    
+
     let value: number | null | undefined;
     let timestamp = item.timestamp || item.t;
-    
+
     if (!timestamp) return;
-    
+
     // Extract the appropriate value based on indicator type
     switch (indicator) {
       case 'RSI':
@@ -128,24 +114,22 @@ export const formatIndicatorData = (
       default:
         value = item.value;
     }
-    
+
     // Skip any null or undefined or NaN values
     if (value === null || value === undefined || Number.isNaN(value)) {
       return;
     }
-    
+
     // Convert timestamp to EST
     const estTimestamp = convertToUTCSeconds(timestamp);
-    
+
     // Only add points within market hours
-    if (isWithinMarketHours(timestamp)) {
-      formattedData.push({
-        time: estTimestamp as Time,
-        value: value
-      });
-    }
+    formattedData.push({
+      time: estTimestamp as Time,
+      value: value
+    });
   });
-  
+
   // Sort by time to ensure proper sequence
   return formattedData.sort((a, b) => (a.time as number) - (b.time as number));
 };

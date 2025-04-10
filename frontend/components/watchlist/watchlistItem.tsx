@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { createChart, IChartApi, ISeriesApi, Time, LineSeries, ColorType } from 'lightweight-charts';
 import { PolygonWebsocketService } from '../../websocket/polygonWebsocketService';
-import { fetchTodayData } from '../../util/polygon_api_util';
-import { convertToUTCSeconds, isWithinMarketHours } from '../../util/chart_util';
+import { fetchValidPricesForTicker } from '../../util/polygon_api_util';
+import { convertToUTCSeconds } from '../../util/chart_util';
 
 interface WatchlistItemProps {
   symbol: string;
@@ -19,9 +19,8 @@ const WatchlistItem: React.FC<WatchlistItemProps> = ({ symbol }) => {
       if (!chartContainerRef.current) return;
 
       // Fetch historical data for today
-      const data = await fetchTodayData(symbol);
+      const data = await fetchValidPricesForTicker(symbol);
       const chartData = data
-        .filter(d => isWithinMarketHours(d.t))
         .map(d => ({
           time: convertToUTCSeconds(d.t) as Time,
           value: d.c,
@@ -69,7 +68,7 @@ const WatchlistItem: React.FC<WatchlistItemProps> = ({ symbol }) => {
 
     // WebSocket subscription for real-time updates
     const handleData = (data: any) => {
-      if (data.sym === symbol && data.c && isWithinMarketHours(data.t)) {
+      if (data.sym === symbol && data.c) {
         const time = convertToUTCSeconds(data.t) as Time;
         const value = data.c;
         seriesRef.current?.update({ time, value });

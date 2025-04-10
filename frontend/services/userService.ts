@@ -1,6 +1,7 @@
 // app/frontend/services/userService.ts
 import axios from 'axios';
 import { User } from '../interfaces';
+import { createDebugger } from '../util/debug'
 
 
 interface UserResponse {
@@ -11,36 +12,37 @@ class UserService {
   private currentUser: User | null = null;
   private loading: boolean = false;
   private loadPromise: Promise<User | null> | null = null;
+  private debug = createDebugger({ namespace: 'service:user', prefix: '[ApiKeyService] ' });
 
   constructor() {
-    console.log('[UserService] Initializing');
+    this.debug.log('[UserService] Initializing');
   }
 
   private getCsrfToken(): string | null | undefined {
-    console.log('[UserService] Getting CSRF token');
+    this.debug.log('[UserService] Getting CSRF token');
     const token = document.querySelector("meta[name='csrf-token']")?.getAttribute("content");
-    console.log('[UserService] CSRF token found:', token ? 'Yes' : 'No');
+    this.debug.log('[UserService] CSRF token found:', token ? 'Yes' : 'No');
     return token;
   }
 
   public async getCurrentUser(): Promise<User | null> {
-    console.log('[UserService] getCurrentUser called');
+    this.debug.log('[UserService] getCurrentUser called');
     
     if (this.currentUser) {
-      console.log('[UserService] Returning cached user');
+      this.debug.log('[UserService] Returning cached user');
       return this.currentUser;
     }
 
     if (this.loadPromise) {
-      console.log('[UserService] Request already in progress, returning existing promise');
+      this.debug.log('[UserService] Request already in progress, returning existing promise');
       return this.loadPromise;
     }
 
-    console.log('[UserService] Starting new request to fetch user');
+    this.debug.log('[UserService] Starting new request to fetch user');
     this.loading = true;
     
     const csrfToken = this.getCsrfToken();
-    console.log('[UserService] Preparing request headers with CSRF token:', csrfToken);
+    this.debug.log('[UserService] Preparing request headers with CSRF token:', csrfToken);
     
     this.loadPromise = axios.get('/api/users/current', {
       headers: {
@@ -51,40 +53,40 @@ class UserService {
       withCredentials: true
     })
       .then(response => {
-        console.log('[UserService] Request successful', response.status);
-        console.log('[UserService] Response data:', response.data);
+        this.debug.log('[UserService] Request successful', response.status);
+        this.debug.log('[UserService] Response data:', response.data);
         
         const data = response.data as UserResponse;
         if (data && data.user) {
-          console.log('[UserService] User found in response');
+          this.debug.log('[UserService] User found in response');
           this.currentUser = data.user;
         } else {
-          console.log('[UserService] No user data in response');
+          this.debug.log('[UserService] No user data in response');
         }
         
         this.loading = false;
         return data.user || null;
       })
       .catch(error => {
-        console.log('[UserService] Request failed');
+        this.debug.log('[UserService] Request failed');
         
         // Handle different types of errors
         if (error.response) {
-          console.log('[UserService] Error status:', error.response.status);
-          console.log('[UserService] Error data:', error.response.data);
+          this.debug.log('[UserService] Error status:', error.response.status);
+          this.debug.log('[UserService] Error data:', error.response.data);
           
           if (error.response.status === 401) {
-            console.log('[UserService] User not authenticated (401)');
+            this.debug.log('[UserService] User not authenticated (401)');
             return null; // Not logged in
           }
         } else if (error.request) {
-          console.log('[UserService] No response received from server');
-          console.log('[UserService] Request details:', error.request);
+          this.debug.log('[UserService] No response received from server');
+          this.debug.log('[UserService] Request details:', error.request);
         } else {
-          console.log('[UserService] Error setting up request:', error.message);
+          this.debug.log('[UserService] Error setting up request:', error.message);
         }
         
-        console.log('[UserService] Stack trace:', error.stack);
+        this.debug.log('[UserService] Stack trace:', error.stack);
         this.loading = false;
         return null;
       });
@@ -94,12 +96,12 @@ class UserService {
 
   public isLoggedIn(): boolean {
     const loggedIn = this.currentUser !== null;
-    console.log('[UserService] isLoggedIn check:', loggedIn);
+    this.debug.log('[UserService] isLoggedIn check:', loggedIn);
     return loggedIn;
   }
 
   public clearCurrentUser(): void {
-    console.log('[UserService] Clearing current user');
+    this.debug.log('[UserService] Clearing current user');
     this.currentUser = null;
     this.loadPromise = null;
   }

@@ -13,6 +13,8 @@ export const fetchAllAggregatesUsingAxios = async (
   options: Record<string, any> = {}
 ): Promise<any[]> => {
   try {
+
+    console.log('[fetchAllAggreatesUsingAxios]', { ticker, multiplier, timespan, from, to, options })
     // Securely get API key
     const apiKeys = await getApiKeys();
     const API_KEY = apiKeys.polygon_api_key;
@@ -147,15 +149,33 @@ export const formatDate = (date: Date): string => {
 export const fetchValidPricesForTicker = async (ticker: string, maxAttempts = 5) => {
   let attempt = 0;
   let prices = [];
-  let date = new Date();
+  
+  // Get current date in New York time (market time)
+  const nyOptions = { timeZone: 'America/New_York' };
+  let date = new Date(new Date().toLocaleString('en-US', nyOptions));
 
   while (attempt < maxAttempts) {
-    const currentDate = formatDate(date);
+    // Format current date in YYYY-MM-DD format
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const currentDate = `${year}-${month}-${day}`;
+    
+    // Calculate next day
     const nextDay = new Date(date);
     nextDay.setDate(nextDay.getDate() + 1);
-    const nextDate = formatDate(nextDay);
+    const nextYear = nextDay.getFullYear();
+    const nextMonth = String(nextDay.getMonth() + 1).padStart(2, '0');
+    const nextDay2 = String(nextDay.getDate()).padStart(2, '0');
+    const nextDate = `${nextYear}-${nextMonth}-${nextDay2}`;
 
-    console.log({ currentDate, nextDay, nextDate });
+    console.log('[fetchValidPricesForTicker]', { 
+      currentDate, 
+      nextDate, 
+      attempt,
+      nyTime: date.toLocaleString('en-US', nyOptions),
+      browserTime: new Date().toISOString()
+    });
 
     try {
       prices = await fetchAllAggregatesUsingAxios(
@@ -170,6 +190,8 @@ export const fetchValidPricesForTicker = async (ticker: string, maxAttempts = 5)
           limit: 5000,
         }
       );
+
+      console.log({ prices });
 
       if (prices?.length > 0) {
         break;
@@ -205,16 +227,39 @@ export const fetchTickerNews = async (ticker: string) => {
 };
 
 export const fetchTodayData = async (ticker: string) => {
-  const today = new Date().toISOString().split('T')[0];
-  const nextDay = new Date();
+  // Create date formatter for Eastern Time
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  
+  // Get today's date in US Eastern Time (market time)
+  const now = new Date();
+  const [month, day, year] = formatter.format(now).split('/');
+  const todayString = `${year}-${month}-${day}`;
+  
+  // Get next day - add one day to the numeric day value
+  const nextDay = new Date(now);
   nextDay.setDate(nextDay.getDate() + 1);
-  const nextDate = nextDay.toISOString().split('T')[0];
+  const [nextMonth, nextDay2, nextYear] = formatter.format(nextDay).split('/');
+  const nextDateString = `${nextYear}-${nextMonth}-${nextDay2}`;
+
+  console.log('[fetchTodayData]', { 
+    requestedDate: todayString, 
+    nextDate: nextDateString,
+    browserDate: now.toISOString().split('T')[0],
+    currentTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    easternTime: formatter.format(now)
+  });
+  
   return fetchAllAggregatesUsingAxios(
     ticker,
     1,
     'minute',
-    today,
-    nextDate,
+    todayString,
+    nextDateString,
     { adjusted: 'true', sort: 'asc', limit: 5000 }
   );
 };
