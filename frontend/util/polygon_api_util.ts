@@ -155,6 +155,8 @@ export const fetchValidPricesForTicker = async (ticker: string, maxAttempts = 5)
     nextDay.setDate(nextDay.getDate() + 1);
     const nextDate = formatDate(nextDay);
 
+    console.log({ currentDate, nextDay, nextDate });
+
     try {
       prices = await fetchAllAggregatesUsingAxios(
         ticker,

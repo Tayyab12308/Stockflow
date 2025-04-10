@@ -284,6 +284,7 @@ const StockShow = () => {
             data = await fetchValidPricesForTicker(ticker);
           } else {
             const tq = getTickerQuery(ticker, range);
+            console.log({ tq });
             data = await fetchAllAggregatesUsingAxios(
               ticker,
               Number(tq.timeFrame.split(" ")[0]),

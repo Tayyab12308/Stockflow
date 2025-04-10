@@ -19,6 +19,7 @@ export const getDateRange = (period: Period) => {
   const today = new Date();
   const endDate = formatDate(today);
   const startDate = new Date(today);
+  console.log({ today, startDate, endDate })
 
   if (period !== "1D") {
     const value = parseInt(period, 10);
