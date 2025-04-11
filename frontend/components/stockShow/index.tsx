@@ -90,16 +90,16 @@ const StockShow: React.FC = () => {
     const fetchCompanyData = async () => {
       try {
         const [companyInfo, stats, profileResponse, newsData] = await Promise.all([
-          fetchCompany(ticker),
-          fetchKeyStats(ticker),
-          fetchCompanyProfile(ticker),
-          fetchTickerNews(ticker)
+          fetchCompany(ticker).catch(err => console.log('Failed to fetch Company Data. Error:', err)),
+          fetchKeyStats(ticker).catch(err => console.log('Failed to fetch Key Stats. Error:', err)),
+          fetchCompanyProfile(ticker).catch(err => console.log('Failed to fetch Company Profile. Error:', err)),
+          fetchTickerNews(ticker).catch(err => console.log('Failed to fetch Company News. Error:', err))
         ]);
 
         setCompanyData({
           info: companyInfo,
-          keyStats: stats["Global Quote"] || {},
-          profile: profileResponse[0] || {}
+          keyStats: stats?.["Global Quote"] || {},
+          profile: profileResponse?.[0] || {}
         });
 
         const newsItems = newsData.map((news: any, idx: number) => {
@@ -114,6 +114,7 @@ const StockShow: React.FC = () => {
               url={article_url || ""}
               time={timeSince(published_utc)}
               shouldDisplayTicker={false}
+              injectedClassName="ticker-news"
             />
           );
         });

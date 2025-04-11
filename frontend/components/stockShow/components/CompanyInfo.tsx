@@ -14,35 +14,35 @@ const CompanyInfo: React.FC<CompanyInfoProps> = memo(({ companyProfile, info, ke
       <h2>About</h2>
       <hr />
       <div className="stock-description">
-        {companyProfile.description}
+        {companyProfile?.description}
       </div>
       <div className="info-subsets">
         <div className="info-row">
           <div>
             <div className="info-subheader">CEO</div> <br />
-            {companyProfile.ceo}
+            {companyProfile?.ceo}
           </div>
           <div>
             <div className="info-subheader">Employees</div> <br />
-            {companyProfile.fullTimeEmployees}
+            {companyProfile?.fullTimeEmployees}
           </div>
           <div>
             <div className="info-subheader">Headquarters</div> <br />
-            {companyProfile.city}, {companyProfile.country}
+            {companyProfile?.city}, {companyProfile?.country}
           </div>
           <div>
             <div className="info-subheader">Market Cap</div> <br />
-            {formatNumber(companyProfile.mktCap)}
+            {formatNumber(companyProfile?.mktCap)}
           </div>
         </div>
         <div className="info-row">
           <div>
             <div className="info-subheader">Price-Earnings Ratio</div> <br />
-            {info.PERatio}
+            {info?.PERatio}
           </div>
           <div>
             <div className="info-subheader">Average Volume</div> <br />
-            {formatNumber(companyProfile.volAvg)}
+            {formatNumber(companyProfile?.volAvg)}
           </div>
           <div>
             <div className="info-subheader">High Today</div> <br />
@@ -64,11 +64,11 @@ const CompanyInfo: React.FC<CompanyInfoProps> = memo(({ companyProfile, info, ke
           </div>
           <div>
             <div className="info-subheader">52 Week High</div> <br />
-            ${info["52WeekHigh"]}
+            ${info?.["52WeekHigh"]}
           </div>
           <div>
             <div className="info-subheader">52 Week Low</div> <br />
-            ${info["52WeekLow"]}
+            ${info?.["52WeekLow"]}
           </div>
         </div>
       </div>

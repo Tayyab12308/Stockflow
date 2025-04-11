@@ -38,17 +38,11 @@
 
 .news-item-image {
   width: 125px;
-  height: fit-content;
+  max-height: 85px;
 }
 
 .ticker-info {
   display: flex;
-  flex-direction: row;
-}
-
-@media (max-width: 1190px) {
-  .ticker-info {
-    flex-direction: column;
-    padding: 10px 0px;
-  }
+  flex-flow: row wrap;
+  padding: 20px 0px 10px 0px;
 }

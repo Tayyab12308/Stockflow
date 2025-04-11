@@ -6,4 +6,5 @@ export interface NewsProps {
   tickers: string[];
   shouldDisplayTicker: boolean;
   imageUrl: string;
+  injectedClassName?: string;
 }

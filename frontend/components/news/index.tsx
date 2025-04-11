@@ -11,8 +11,9 @@ const News = ({
   tickers,
   shouldDisplayTicker,
   imageUrl,
+  injectedClassName,
 }: NewsProps): React.JSX.Element => (
-  <div className="news-item-container" onClick={() => window.location.href = url}>
+  <div className={`news-item-container ${injectedClassName}`} onClick={() => window.location.href = url}>
     <div className="header-section">
       <div className="news-item-publisher">{publisher}</div>
       <div className="news-item-time-since">{time}</div>
