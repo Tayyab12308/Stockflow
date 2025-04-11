@@ -68,7 +68,7 @@ export const OptionalFeaturesFormSection: React.FC<SignUpComponentProps> = ({
                       </li>
                       <li>
                         Access to Certain Options Trading. An margin account allows you to trade additional types of
-                        options (subject to approval) on Robinhood that aren't available in a cash account. Certain
+                        options (subject to approval) on Stockflow that aren't available in a cash account. Certain
                         types of options contracts utilize margin, and carry additional risk for losses beyond your
                         initial investment. To learn more about the risks associated with options, please read the
                         Characteristics and Risks of Standardized Options before you begin trading options.
@@ -77,7 +77,7 @@ export const OptionalFeaturesFormSection: React.FC<SignUpComponentProps> = ({
                     <div className="tax-info-body-item">
                       If you do not want a margin account, you may opt out by unchecking the box above and your account
                       will be opened as a cash account instead. Terms and conditions for a margin account can be found
-                      here: Robinhood Margin Account Agreement.
+                      here: Stockflow Margin Account Agreement.
                     </div>
                   </div>
                 </>}
@@ -106,7 +106,7 @@ export const OptionalFeaturesFormSection: React.FC<SignUpComponentProps> = ({
                     How do we share personal data?
                   </div>
                   <div className="tax-info-body-item">
-                    Robinhood shares personal data with certain non-affiliated third-parties for marketing
+                    Stockflow shares personal data with certain non-affiliated third-parties for marketing
                     purposes. We also share personal data with our affiliates for their everyday business
                     purposes and/or marketing. To better understand how we use personal information, be sure
                     to read our Privacy Policy.

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { Store } from 'redux';
 import { RootState } from '../reducers/root_reducer';
+import ThemeManager from './themeManager';
 
 interface RootProps {
   store: Store<RootState>; // Store type with RootState
@@ -11,6 +12,7 @@ interface RootProps {
 
 const Root: React.FC<RootProps> = ({ store }: RootProps): React.JSX.Element => (
   <Provider store={store}>
+    <ThemeManager />
     <BrowserRouter>
       <App />
     </BrowserRouter>

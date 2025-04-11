@@ -82,7 +82,7 @@ export const ContactInfoFormSection: React.FC<SignUpComponentProps> = ({
     <div className="form-section-content shrink-gap">
       <div>
         <div className="form-fields-section">
-          <div className="input-container">
+          <div className="input-container phone">
             <div className="phone-input-container">
               <CountryDropdown
                 selected={selectedCountry}

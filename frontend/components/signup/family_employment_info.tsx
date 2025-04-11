@@ -14,7 +14,7 @@ export const FamilyEmploymentInfo: React.FC = (): React.JSX.Element => (
         Answer a few questions about investing
       </div>
       <div className="information-section-details">
-        To help you open a Robinhood account, we need to ask a few questions about you and your experience with investing.
+        To help you open a Stockflow account, we need to ask a few questions about you and your experience with investing.
       </div>
       <img className="signup-image" src={assetService.getImage('signupInvestingExperienceImage')} />
     </div>

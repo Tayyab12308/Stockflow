@@ -30,6 +30,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           },
           errors: {
             session: [],
+          },
+          ui: {
+            darkTheme: false
           }
         };
 
@@ -52,11 +55,12 @@ document.addEventListener("DOMContentLoaded", async () => {
               entities: {
                 users: { [currentUser.id]: currentUser }
               },
-              session: { id: currentUser.id }
+              session: { id: currentUser.id },
+              ui: {
+                darkTheme: true,
+              }
             };
-            
-            // Set to dark theme if a current user is found
-            document.body.classList.add('dark-theme');
+
           }
         } catch (error) {
           console.error("Error loading user:", error);

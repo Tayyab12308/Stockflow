@@ -1,9 +1,9 @@
 .signup-page-content {
   background-color: black;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .information-section-container {
@@ -80,7 +80,9 @@
 }
 
 .input-container {
-  height: 65px;
+  height: auto;
+  min-height: 65px;
+  margin-bottom: 15px;
 }
 
 .shared-row-field {
@@ -97,6 +99,8 @@
   padding: 16px 12px;
   align-items: center;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .error-field {
@@ -167,7 +171,9 @@
 .phone-input-container {
   display: flex;
   flex-direction: row;
-  gap: 24px;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .phone-nationality-select {
@@ -371,10 +377,6 @@ ol.tax-info-body-item {
   .signup-form-footer {
     margin-top: 14px;
   }
-
-  .experience-form-content {
-    gap: 365px;
-  }
 }
 
 @media (min-width: 767px) {
@@ -384,17 +386,15 @@ ol.tax-info-body-item {
 
   .form-section-container {
     position: relative;
-    height: 100vh; /* or a fixed height that works for your layout */
-    overflow: hidden; /* prevent the footer from being pushed out */
+    height: 100vh;
+    overflow: hidden;
   }
 
-  /* This container scrolls if content is too tall */
   .form-section-scrollable-form-content {
     overflow-y: auto;
-    height: calc(100% - 100px); /* adjust 100px to the actual height of your sticky footer */
+    height: calc(100% - 100px);
   }
 
-  /* Sticky footer stays at the bottom of the form container */
   .form-section-sticky-footer {
     position: sticky;
     bottom: 0;
@@ -437,7 +437,8 @@ ol.tax-info-body-item {
 
   .form-section-container {
     width: 100%;
-    margin-bottom: 150px;
+    margin-bottom: 80px;
+    overflow-x: hidden;
   }
 
   .form-section-info-text {
@@ -449,8 +450,10 @@ ol.tax-info-body-item {
   }
 
   .form-section-content {
-    padding: 24px 24px 0px;
-    gap: 148px
+    padding: 24px 16px 0px;
+    gap: 80px;
+    height: auto;
+    min-height: 450px;
   }
 
   .regional-info-container {
@@ -480,7 +483,7 @@ ol.tax-info-body-item {
   }
 
   .continue-form-container.bottom-sticky-continue-button {
-    padding: 19px 24px;
+    padding: 12px 16px;
     align-self: center;
     width: 100%;
     position: fixed;
@@ -491,6 +494,7 @@ ol.tax-info-body-item {
     z-index: 1000;  /* ensure it sits on top */
     display: flex;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   .signup-form-continue-button {
@@ -504,5 +508,63 @@ ol.tax-info-body-item {
 
   .experience-form-content {
     gap: 330px;
+  }
+
+  .identity-citizenship-dropdown {
+    width: 100%;
+  }
+  
+  .input-container {
+    height: auto;
+    min-height: 65px;
+    width: 100%;
+  }
+  
+  .locale-container {
+    width: 100%;
+    min-width: auto; 
+  }
+  
+  .address-locale-input, 
+  .regional-input {
+    width: 100%; 
+  }
+  
+  .scrollable-tax-info {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .phone-input-container {
+    margin-bottom: 15px;
+  }
+  
+  .phone-input-container + .signup-form-field-error {
+    margin-top: 10px;
+  }
+  
+  .form-fields-section {
+    gap: 30px;
+  }
+  
+  .input-container:has(.phone-input-container) {
+    min-height: 90px;
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 375px) {
+  .information-section-headline {
+    font-size: 32px;
+    line-height: 40px;
+  }
+  
+  .form-fields-section {
+    gap: 16px;
+  }
+  
+  .experience-radio-label {
+    padding: 16px;
+    font-size: 13px;
   }
 }

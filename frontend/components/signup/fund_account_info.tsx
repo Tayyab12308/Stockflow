@@ -9,7 +9,7 @@ export const FundAccountInfo: React.FC = (): React.JSX.Element => (
         Fund your account
       </div>
       <div className="information-section-details">
-        Link your bank account and transfer funds to get more out of Robinhood. It's secure, quick,
+        Link your bank account and transfer funds to get more out of Stockflow. It's secure, quick,
         and easy to start with an amount that works for you.
       </div>
       <img className="signup-image" src={assetService.getImage('signupFundAccountImage')} />
@@ -24,7 +24,7 @@ export const FundAccountInfoFormSection: React.FC = (): React.JSX.Element => (
         Start with as little as $1
       </div>
       <div className="form-section-info-sub-text">
-        Transfer funds to your Robinhood individual account so you can start investing right away.
+        Transfer funds to your Stockflow individual account so you can start investing right away.
       </div>
       <div className="fund-account-details-container">
         <div className="fund-detail-container">
