@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import { addToWatchlist, deleteFromWatchlist } from '../../../actions/session_actions';
 import { WatchlistParams } from '../../../interfaces';
 import { User, WatchListResponse } from '../../../interfaces/user.interface';

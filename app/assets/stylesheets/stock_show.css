@@ -195,8 +195,6 @@
   flex-direction: column;
   height: auto;
   position: fixed;
-  width: 18.5%;
-  margin-left: 25px;
 }
 
 .transaction-form-item {
@@ -320,7 +318,6 @@ hr {
   text-align: center;
   padding-bottom: 10px;
   overflow: hidden;
-  white-space: nowrap;
   font-weight: 700;
 }
 
@@ -349,6 +346,7 @@ hr {
   font-size: 16px;
   font-weight: 700;
   display: unset;
+  padding: 0px 15px;
 }
 
 .transaction-header-false {
@@ -388,4 +386,111 @@ hr {
 
 .transaction-errors {
   line-height: 22px;
+}
+
+.watchlist-button-container {
+  display: inline-flex;
+}
+
+.transaction-container.mobile > .transaction-form{
+  position: unset;
+  width: 100%;
+  margin-left: 0px;
+}
+
+@media (max-width: 1190px) {
+  .transaction-container.wide {
+    display: none;
+  }
+  
+  /* Fix for main content not taking full width */
+  .stock-show-content {
+    flex-direction: column;
+  }
+  
+  .main-content-container.stock-show {
+    flex: 1 1 auto !important; /* Override the flex property */
+    width: 100% !important;
+    max-width: 100%;
+    padding-right: 12px;
+    margin-right: 0;
+  }
+  
+  /* Adjust the chart container for better mobile view */
+  .chart-container {
+    height: 400px; /* Slightly smaller height on mobile */
+  }
+  
+  /* Make transaction form mobile-friendly */
+  .transaction-container.mobile > .transaction-form {
+    position: relative;
+    width: 100%;
+    margin: 0 0 24px 0;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 1191px) {
+  .transaction-container.mobile {
+    display: none;
+  }
+
+  .main-content-container.stock-show {
+    display: unset;
+  }
+}
+
+/* Add more responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .stock-show-content-container {
+    padding: 0px 16px;
+  }
+  
+  .main-content-container.stock-show {
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .chart-container {
+    height: 350px;
+  }
+  
+  .range-buttons {
+    flex-wrap: wrap;
+  }
+  
+  .range-button {
+    margin-bottom: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .controls-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .controls-right {
+    margin-top: 12px;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 700px) {
+  .info-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 300px) {
+  .transaction-type-header {
+    flex-direction: column;
+  }
+
+  .transaction-header-true,
+  .transaction-header-false {
+    margin: 5px;
+  }
 }

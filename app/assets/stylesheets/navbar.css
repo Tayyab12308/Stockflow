@@ -46,8 +46,8 @@
 }
 
 .logged-in-logo-image {
-  width: 150px;
   height: 40px;
+  padding-right: 50px;
 }
 
 .navbar-search-container {
@@ -206,6 +206,19 @@
   .navbar-left-fixed {
     width: auto; /* Overrides 1200px on small screens */
   }
+  
+  .navbar-left-fixed.logged-in {
+    width: 95%; /* Take up most of the navbar space */
+  }
+  
+  .navbar-search-container {
+    width: 85%; /* Take full width of parent */
+    margin-right: 10px; /* Space between search and hamburger */
+  }
+  
+  .logged-in-logo-image {
+    padding-right: 10px; /* Reduce padding between logo and search on mobile */
+  }
 
   .navbar-links {
     display: none; /* Hides links on small screens */
@@ -228,6 +241,18 @@
   }
 }
 
+@media (max-width: 730px) {
+  .navbar-search-container {
+    width: 75%; /* Take full width of parent */
+  }
+}
+
+@media (max-width: 440px) {
+  .navbar-search-container {
+    width: 65%; /* Take full width of parent */
+  }
+}
+
 @media (max-width: 330px) {
   .signup-button {
     padding: 0px, 5px;
@@ -236,5 +261,9 @@
 
   .hamburger-container .signup-button {
     margin-right: 5px; /* Space between signup button and hamburger icon */
+  }
+
+  .navbar-search-container {
+    width: 55%; /* Take full width of parent */
   }
 }

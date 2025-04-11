@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { PolygonWebsocketService } from '../../../websocket/polygonWebsocketService';
-import { convertToUTCSeconds } from '../../../util/chart_util';
-import { Time } from 'lightweight-charts';
 
 interface WebSocketUpdatesProps {
   ticker: string;

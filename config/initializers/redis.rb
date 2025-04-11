@@ -1,4 +1,3 @@
-# config/initializers/redis.rb
 require 'redis'
 require 'redis-namespace'
 require 'connection_pool'

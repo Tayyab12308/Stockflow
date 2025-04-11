@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { createDebugger } from '../util/debug';
 
-// Define interfaces for the asset structure with specific keys
 type ImageKey = 
   | 'whiteWarningIcon'
   | 'grayWarningIcon'
@@ -85,7 +84,6 @@ interface AssetsResponse {
   videos: AssetVideos;
 }
 
-// Asset service to manage loading and caching of assets
 class AssetService {
   private assets: AssetsResponse | null = null;
   private loading: boolean = false;
@@ -104,7 +102,6 @@ class AssetService {
     return token;
   }
 
-  // Load assets and cache them
   public async loadAssets(): Promise<AssetsResponse> {
     this.debug.log('[AssetService] loadAssets called');
     

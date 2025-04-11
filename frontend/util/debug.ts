@@ -1,4 +1,3 @@
-// app/frontend/utils/debug.ts
 interface DebugOptions {
   namespace: string;
   prefix?: string;

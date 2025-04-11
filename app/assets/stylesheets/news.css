@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 180px;
+  min-height: 180px;
   padding: 25px 24px;
   font-size: 14px;
   border-bottom: 1px solid #30363a;
@@ -44,4 +44,11 @@
 .ticker-info {
   display: flex;
   flex-direction: row;
+}
+
+@media (max-width: 1190px) {
+  .ticker-info {
+    flex-direction: column;
+    padding: 10px 0px;
+  }
 }

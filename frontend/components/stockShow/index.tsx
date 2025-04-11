@@ -35,18 +35,18 @@ const StockShow: React.FC = () => {
   const user = useSelector((state: RootState) => convertKeysToCamelCase(Object.values(state.entities.users)[0]) as User);
 
   // Initialize custom hooks
-  const { 
-    stockPrices, 
-    loadingRanges, 
-    selectedRange, 
-    setSelectedRange, 
-    chartType, 
+  const {
+    stockPrices,
+    loadingRanges,
+    selectedRange,
+    setSelectedRange,
+    chartType,
     setChartType,
     latestPrice,
     hoveredPrice,
     setHoveredPrice,
     baselineValuesRef,
-    error 
+    error
   } = useStockData(ticker);
 
   const {
@@ -78,10 +78,10 @@ const StockShow: React.FC = () => {
 
   // News state
   const [tickerNews, setTickerNews] = useState<React.JSX.Element[]>([]);
-  
+
   // Transaction handling
   const transactionHandling = useTransactionHandling(user, ticker, stockPrices["1D"]);
-  
+
   // Watchlist handling
   const watchlistHandling = useWatchlistHandling(user, ticker, dispatch);
 
@@ -133,15 +133,15 @@ const StockShow: React.FC = () => {
   return (
     <div className="stock-show-content-container">
       <div className="stock-show-content">
-        <div className="main-content-container">
+        <div className="main-content-container stock-show">
           {/* Header with ticker and price */}
-          <PriceHeader 
-            ticker={ticker} 
-            price={displayPrice} 
+          <PriceHeader
+            ticker={ticker}
+            price={displayPrice}
           />
 
           {/* Chart controls (range buttons, indicators, chart type) */}
-          <ChartControls 
+          <ChartControls
             ranges={["1D", "1W", "1M", "3M", "1Y", "5Y"]}
             selectedRange={selectedRange}
             onRangeChange={setSelectedRange}
@@ -154,7 +154,7 @@ const StockShow: React.FC = () => {
           />
 
           {/* Main stock chart */}
-          <StockChart 
+          <StockChart
             ticker={ticker}
             selectedRange={selectedRange}
             chartType={chartType}
@@ -168,8 +168,17 @@ const StockShow: React.FC = () => {
             fetchIndicatorData={fetchIndicatorData}
           />
 
+          <TransactionPanel
+            injectedClassName={'mobile'}
+            ticker={ticker}
+            latestPrice={latestPrice.current}
+            user={user}
+            {...transactionHandling}
+            {...watchlistHandling}
+          />
+
           {/* Company information section */}
-          <CompanyInfo 
+          <CompanyInfo
             companyProfile={companyData.profile}
             info={companyData.info}
             keyStats={companyData.keyStats}
@@ -180,7 +189,8 @@ const StockShow: React.FC = () => {
         </div>
 
         {/* Transaction panel (Buy/Sell) */}
-        <TransactionPanel 
+        <TransactionPanel
+          injectedClassName={'wide'}
           ticker={ticker}
           latestPrice={latestPrice.current}
           user={user}

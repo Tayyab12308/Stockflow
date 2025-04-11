@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import News from '../../news';
 
 interface NewsSectionProps {
   news: React.JSX.Element[];

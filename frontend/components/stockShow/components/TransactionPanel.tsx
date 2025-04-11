@@ -14,6 +14,7 @@ interface TransactionPanelProps {
   addedToWatchlist: React.ReactNode;
   inWatchlist: boolean;
   removeWatchlistMessage: React.ReactNode;
+  injectedClassName?: string;
   calculateOrderTotal: () => string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleBuy: () => void;
@@ -33,6 +34,7 @@ const TransactionPanel: React.FC<TransactionPanelProps> = memo(({
   addedToWatchlist,
   inWatchlist,
   removeWatchlistMessage,
+  injectedClassName,
   calculateOrderTotal,
   handleChange,
   handleBuy,
@@ -42,11 +44,25 @@ const TransactionPanel: React.FC<TransactionPanelProps> = memo(({
 }) => {
   const formatOrderType = () => `Place ${orderType[0] + orderType.slice(1).toLowerCase()} Order`;
 
+  console.log({ userFunds: user.funds })
+
   const renderTotalStocks = () => (
     <div className="buying-power">
-      {orderType === "SELL"
-        ? `You have ${<Odometer price={user.totalStockCount[ticker] || 0} digitInjectedClassName="transaction-number" />} shares to sell`
-        : `$ ${<Odometer price={user.funds || 0} digitInjectedClassName="transaction-number" />} Buying Power Available`}
+      {orderType === "SELL" ? (
+        <>
+          You have <Odometer 
+            price={user.totalStockCount[ticker] || 0} 
+            digitInjectedClassName="transaction-number" 
+          /> shares to sell
+        </>
+      ) : (
+        <>
+          $ <Odometer 
+            price={user.funds || 0} 
+            digitInjectedClassName="transaction-number" 
+          /> Buying Power Available
+        </>
+      )}
     </div>
   );
 
@@ -60,7 +76,7 @@ const TransactionPanel: React.FC<TransactionPanelProps> = memo(({
   );
 
   return (
-    <div className="transaction-container">
+    <div className={`transaction-container ${injectedClassName}`}>
       <div className="transaction-form">
         <div className="transaction-type-header">
           <button 

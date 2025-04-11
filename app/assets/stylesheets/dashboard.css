@@ -143,3 +143,9 @@
   border-color: rgb(48, 54, 58);
   padding-bottom: 16px;
 }
+
+@media (max-width: 1190px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+}

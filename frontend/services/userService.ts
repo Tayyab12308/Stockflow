@@ -1,4 +1,3 @@
-// app/frontend/services/userService.ts
 import axios from 'axios';
 import { User } from '../interfaces';
 import { createDebugger } from '../util/debug'

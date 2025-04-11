@@ -40,3 +40,9 @@
   border-top: 10px solid rgb(255, 80, 0);
   margin: 0px 5px;
 }
+
+@media (max-width: 1190px) {
+  .mini-ticker-link {
+    padding-bottom: 10px;
+  }
+}

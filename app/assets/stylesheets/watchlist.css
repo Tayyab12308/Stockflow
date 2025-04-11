@@ -1,4 +1,4 @@
-.watchlist-container {
+.watchlist-list {
   display: initial;
   flex: 0 0 calc(25% - 24px);
   visibility: visible;
@@ -14,8 +14,12 @@
   top: 64px;
 }
 
-.watchlist-container:last-child {
+.watchlist-list:last-child {
   margin-bottom: -64px;
+}
+
+.watchlist-link {
+  text-decoration: none;
 }
 
 .watchlist-item {
@@ -27,16 +31,82 @@
 }
 
 .symbol {
-  width: 100px;
+  padding-right: 20px;
+  font-size: 12px;
   font-weight: bold;
+  color: white;
 }
 
 .watchlist-chart-container {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 100px;
 }
 
 .price {
   width: 100px;
   text-align: right;
+  padding-bottom: 10px;
+  color: white;
 }
+
+.price-change {
+  font-size: 12px;
+  text-align: right;
+  text-decoration: none;
+}
+
+.price-change.positive {
+  color: #4CAF50; /* Green */
+}
+
+.price-change.negative {
+  color: #FF5252; /* Red */
+}
+
+@media (max-width: 1190px) {
+  .watchlist-list {
+    display: none;
+  }
+
+  .watchlist-chart-container {
+    width: 700px;
+  }
+}
+
+@media (max-width: 960px) {
+  .watchlist-chart-container {
+    width: 500px;
+  }
+}
+
+@media (max-width: 740px) {
+  .watchlist-chart-container {
+    width: 250px;
+  }
+}
+
+@media (max-width: 475px) {
+  .watchlist-chart-container {
+    width: 100px;
+  }
+}
+
+@media (max-width: 350px) {
+  .watchlist-chart-container {
+    width: 75px;
+  }
+}
+
+@media (min-width: 1190px) {
+  .watchlist-carousel {
+    display: none;
+  }
+}
+
